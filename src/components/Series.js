@@ -42,7 +42,7 @@ function Series() {
                     <div>
                         by <UserDetail address={artist} isLink={true} />
                     </div>
-                    <div style={{ marginTop: "1vh" }}>
+                    <div style={{ marginTop: "1vh", whiteSpace: "pre-wrap" }}>
                         {metadata.description}
                     </div>
                     {/* <div>{paused ? "paused" : "not paused"}</div> */}
