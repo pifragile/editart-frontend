@@ -16,7 +16,7 @@ if (["dev", "staging"].includes(ENV)) {
         {
             name: "Skull Wiggles",
             address: "KT1FwvmPotvwwU38JH8i7ypRguxRW3xywRCB",
-            author: "EarthTimeline",
+            author: "j4son3099",
         },
     ];
 } else if (ENV === "prod") {
