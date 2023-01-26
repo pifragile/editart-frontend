@@ -18,6 +18,11 @@ if (["dev", "staging"].includes(ENV)) {
             address: "KT1FwvmPotvwwU38JH8i7ypRguxRW3xywRCB",
             author: "j4son3099",
         },
+        {
+            name: "Hybrid",
+            address: "KT1REmbwbsrLUy3Jj8BhEGWCyGm2CSrGijE5",
+            author: "pifragile",
+        },
     ];
 } else if (ENV === "prod") {
     contractList = [
