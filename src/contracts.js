@@ -20,7 +20,7 @@ if (["dev", "staging"].includes(ENV)) {
         },
         {
             name: "Hybrid",
-            address: "KT1QjKuXzNNmKJAGEiNDBV3tcXNWgBdW8EZM",
+            address: "KT1VwK23Bicp8Mr6LAze6WtZchkqSSF2kWaB",
             author: "pifragile",
         },
     ];
