@@ -78,6 +78,9 @@ function TokenDetail() {
                             <UserDetail address={creator} isLink={true} />
                         </div>
                     </div>
+                    <br/>
+                    <Link to={`/series/${contract}`}><button class="btn btn-default">Go to series</button></Link>
+                    <br/>
                     <div
                         className="token-detail-width"
                         style={{ marginTop: "1vh" }}
