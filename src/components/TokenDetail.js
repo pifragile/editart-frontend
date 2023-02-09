@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Layout from "./Layout";
 import TokenActionForm from "./TokenActionForm";
