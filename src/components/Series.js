@@ -19,11 +19,11 @@ function Series() {
     const [numTokens, setNumTokens] = useState(null);
     const [numTokensMinted, setNumTokensMinted] = useState(null);
     const [artist, setArtist] = useState(null);
-    const [isMobile, setIsMobile] = useState(true);
+    const [width, setWidth] = useState(window.innerWidth);
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
 
     function handleWindowSizeChange() {
-        setIsMobile(window.innerWidth <= 768);
+        setWidth(window.innerWidth);
     }
     useEffect(() => {
         window.addEventListener("resize", handleWindowSizeChange);
@@ -76,11 +76,11 @@ function Series() {
                     </div>
                 </div>
 
-                {(!isMobile || !disableMintOnMobile) && (
+                {(width >=768 || !disableMintOnMobile) && (
                     <Mint contract={contract} />
                 )}
 
-                {isMobile && disableMintOnMobile && (
+                {width < 768 && disableMintOnMobile && (
                     <div
                         style={{
                             border: "solid black 1px",
