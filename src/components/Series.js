@@ -20,7 +20,7 @@ function Series() {
     const [numTokensMinted, setNumTokensMinted] = useState(null);
     const [artist, setArtist] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
-    const [disableMintOnMobile, setDisableMintOnMobile] = useState(false);
+    const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
 
     function handleWindowSizeChange() {
         setIsMobile(window.innerWidth <= 768);
