@@ -20,6 +20,7 @@ if (["dev", "staging"].includes(ENV)) {
             name: "Hybrid",
             address: "KT1AgsJw6EEwk56r9XoQHss9yAA7dNPZYvFH",
             author: "pifragile",
+            disableMintOnMobile: true
         },
         {
             name: "Skull Wiggles",

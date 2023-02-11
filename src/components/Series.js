@@ -11,6 +11,7 @@ import Mint from "./Mint";
 import { extractTokensForOverview } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
+import contractList from "../contracts";
 
 function Series() {
     let { contract } = useParams();
@@ -18,6 +19,18 @@ function Series() {
     const [numTokens, setNumTokens] = useState(null);
     const [numTokensMinted, setNumTokensMinted] = useState(null);
     const [artist, setArtist] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [disableMintOnMobile, setDisableMintOnMobile] = useState(false);
+
+    function handleWindowSizeChange() {
+        setIsMobile(window.innerWidth <= 768);
+    }
+    useEffect(() => {
+        window.addEventListener("resize", handleWindowSizeChange);
+        return () => {
+            window.removeEventListener("resize", handleWindowSizeChange);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchStorage = async () => {
@@ -30,6 +43,10 @@ function Series() {
         };
 
         fetchStorage().catch(console.error);
+        setDisableMintOnMobile(
+            contractList.find((e) => e.address === contract)
+                ?.disableMintOnMobile || false
+        );
     }, [contract]);
 
     if (numTokens && metadata) {
@@ -59,7 +76,22 @@ function Series() {
                     </div>
                 </div>
 
-                <Mint contract={contract} />
+                {(!isMobile || !disableMintOnMobile) && (
+                    <Mint contract={contract} />
+                )}
+
+                {isMobile && disableMintOnMobile && (
+                    <div
+                        style={{
+                            border: "solid black 1px",
+                            width: "50%",
+                            padding: "5px",
+                        }}
+                    >
+                        Minting for this token is disabled on mobile
+                    </div>
+                )}
+
                 <div style={{ marginTop: "5vh" }}>
                     <MarketPlace contract={contract}></MarketPlace>
                 </div>
