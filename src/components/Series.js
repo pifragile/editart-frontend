@@ -84,7 +84,7 @@ function Series() {
                     <div
                         style={{
                             border: "solid black 1px",
-                            width: "50%",
+                            width: "min(80vw, 300px)",
                             padding: "5px",
                         }}
                     >
