@@ -12,7 +12,13 @@ if (["dev", "staging"].includes(ENV)) {
             name: "PIXELFACE",
             address: "KT1QcCcnTsZHR19DBQiFiddV2kv8q9fJudav",
             author: "Filter8",
-        }
+        },
+        {
+            name: "Hybrid",
+            address: "KT1VwK23Bicp8Mr6LAze6WtZchkqSSF2kWaB",
+            author: "pifragile",
+            disableMintOnMobile: true
+        },
     ];
 } else if (ENV === "prod") {
     contractList = [
