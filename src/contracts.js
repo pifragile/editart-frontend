@@ -21,7 +21,7 @@ if (["dev", "staging"].includes(ENV)) {
         },
         {
             name: "Brick",
-            address: "KT18xg5kN9uZEBJtU4uVr2jgHu1nGkiz1ZNo",
+            address: "KT1XukBmtNUW1B7mjhNmMNBYQpxZtmxK5Jpo",
             author: "pifragile",
         },
     ];
