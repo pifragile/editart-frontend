@@ -20,16 +20,34 @@ function Home() {
                     </li>
                     <li>
                         is a project by generative artist{" "}
-                        <a href="https://twitter.com/pifragile/" target="_blank" rel="noreferrer"> pifragile</a>
+                        <a
+                            href="https://twitter.com/pifragile/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {" "}
+                            pifragile
+                        </a>
                     </li>
                     <li>
-                        has a twitter page {" "}
-                        <a href="https://twitter.com/editart_xyz" target="_blank" rel="noreferrer"> @editart_xyz</a>
+                        has a twitter page{" "}
+                        <a
+                            href="https://twitter.com/editart_xyz"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            {" "}
+                            @editart_xyz
+                        </a>
                     </li>
                 </ul>
                 <div>
                     For infos{" "}
-                    <a href="https://twitter.com/pifragile/" target="_blank" rel="noreferrer">
+                    <a
+                        href="https://twitter.com/pifragile/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         {" "}
                         DM me on twitter
                     </a>
@@ -39,11 +57,22 @@ function Home() {
                 {/* <TokenOverview query={query}></TokenOverview> */}
             </div>
             <div style={{ marginTop: "5vh" }}>
-                <h1>Featured Series</h1>
-                <SeriesBox
-                    contract={contracts[0].address}
-                    author={contracts[0].author}
-                />
+                <h1>Series</h1>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "left",
+                        flexWrap: "wrap",
+                    }}
+                >
+                    {contracts.map((c) => (
+                        <SeriesBox
+                            contract={c.address}
+                            author={c.author}
+                            key={c.address}
+                        />
+                    ))}
+                </div>
             </div>
         </Layout>
     );
