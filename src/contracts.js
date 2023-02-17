@@ -19,6 +19,11 @@ if (["dev", "staging"].includes(ENV)) {
             author: "pifragile",
             disableMintOnMobile: true
         },
+        {
+            name: "Brick",
+            address: "KT1CeiqQBxxjtsceWiGB2sTnguop9R5TtUfy",
+            author: "pifragile",
+        },
     ];
 } else if (ENV === "prod") {
     contractList = [
