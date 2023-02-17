@@ -52,6 +52,7 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                             name="value0"
                             onMouseUp={handleChange}
                             onTouchEnd={handleChange}
+                            onKeyUp={handleChange}
                         />
                         <input
                             className="mint-slider"
@@ -64,6 +65,7 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                             name="value1"
                             onMouseUp={handleChange}
                             onTouchEnd={handleChange}
+                            onKeyUp={handleChange}
                         />
                         <input
                             className="mint-slider"
@@ -76,6 +78,7 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                             name="value2"
                             onMouseUp={handleChange}
                             onTouchEnd={handleChange}
+                            onKeyUp={handleChange}
                         />
                         <input
                             className="mint-slider"
@@ -88,6 +91,7 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                             name="value3"
                             onMouseUp={handleChange}
                             onTouchEnd={handleChange}
+                            onKeyUp={handleChange}
                         />
                         <input
                             className="mint-slider"
@@ -100,6 +104,7 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                             name="value4"
                             onMouseUp={handleChange}
                             onTouchEnd={handleChange}
+                            onKeyUp={handleChange}
                         />
                     </div>
 
