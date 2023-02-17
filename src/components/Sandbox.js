@@ -31,28 +31,22 @@ function Sandbox() {
             <div
                 style={{
                     display: "flex",
-                    justifyContent: "center",
+                    marginTop: "2vw"
+                    //justifyContent: "center",
                 }}
             >
                 <iframe
                     id="tokenFrame"
                     title="token"
-                    className="standard-width standard-height"
+                    className="token-detail-width token-detail-height"
                     style={{
                         border: "None",
+                        marginRight: "2vw"
                     }}
                     src={sketchSrc}
                 ></iframe>
-            </div>
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "1vh",
-                }}
-            >
-                <div className="standard-width">
+                <div className="token-detail-width">
                     <MintForm
                         onSubmitForm={setSrc}
                         onMint={setSrc}
