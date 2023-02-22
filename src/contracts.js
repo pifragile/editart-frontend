@@ -26,7 +26,7 @@ if (["dev", "staging"].includes(ENV)) {
         },
                 {
             name: "Chroma Rush",
-            address: "KT1MvEQ97NArGpP5A9AzQ8uNk18MdaKhqtvG",
+            address: "KT1TqPpTXSPXEmEEXDf3dyte9R2q47995k5Q",
             author: "WootScoot",
         },
     ];
