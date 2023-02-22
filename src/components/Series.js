@@ -71,7 +71,7 @@ function Series() {
                         flexDirection: "column",
                     }}
                 >
-                    <div style={{ margin: "1vh 0 1vh 0" }}>
+                    <div style={{ margin: "2vh 0 1vh 0" }}>
                         {numTokensMinted} / {numTokens} minted
                     </div>
                 </div>
