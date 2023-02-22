@@ -24,6 +24,11 @@ if (["dev", "staging"].includes(ENV)) {
             address: "KT1XukBmtNUW1B7mjhNmMNBYQpxZtmxK5Jpo",
             author: "pifragile",
         },
+                {
+            name: "Chroma Rush",
+            address: "KT1MvEQ97NArGpP5A9AzQ8uNk18MdaKhqtvG",
+            author: "WootScoot",
+        },
     ];
 } else if (ENV === "prod") {
     contractList = [
