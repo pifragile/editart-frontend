@@ -6,7 +6,7 @@ function About() {
                 <h1>For artists</h1>
                 <p>
                     EditART is open to submissions form all generative artists.
-                    If you would like to create e project on EditART you can
+                    If you would like to create a project on EditArt you can
                     find a template with all the instructions{" "}
                     <a
                         href="https://github.com/pifragile/editartTemplate"
