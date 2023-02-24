@@ -10,13 +10,18 @@ function About() {
                     find a template with all the instructions{" "}
                     <a
                         href="https://github.com/pifragile/editartTemplate"
-                        target="_blank" rel="noreferrer"
+                        target="_blank"
+                        rel="noreferrer"
                     >
                         {" "}
                         here
                     </a>
                     . If you have any questions, reach out on twitter
-                    <a href="https://twitter.com/pifragile/" target="_blank" rel="noreferrer">
+                    <a
+                        href="https://twitter.com/pifragile/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         {" "}
                         @pifragile
                     </a>
@@ -25,14 +30,30 @@ function About() {
                     <br />
                     <a
                         href="https://github.com/pifragile/editartTemplate"
-                        target="_blank" rel="noreferrer"
+                        target="_blank"
+                        rel="noreferrer"
                     >
                         <button
                             className="btn btn-default"
                             name="template"
                             id="template"
                         >
-                            Download template
+                            Download p5.js template
+                        </button>
+                    </a>
+                    <br />
+                    <br />
+                    <a
+                        href="https://github.com/pifragile/editartSimpleTemplate"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <button
+                            className="btn btn-default"
+                            name="template"
+                            id="template"
+                        >
+                            Download unopinionated template
                         </button>
                     </a>
                 </p>
