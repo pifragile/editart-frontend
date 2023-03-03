@@ -2,7 +2,7 @@ import React from "react";
 import MintButton from "./MintButton";
 import RandomizeButton from "./RandomizeButton";
 
-function MintForm({ onSubmitForm, onMint, price, showButton }) {
+function MintForm({ onSubmitForm, onMint, price, showButton, isLoading }) {
     let handleChange = (e) => {
         //e.preventDefault();
         onSubmitForm(
@@ -111,7 +111,11 @@ function MintForm({ onSubmitForm, onMint, price, showButton }) {
                     <div className="form-group">
                         <RandomizeButton handleRandomize={handleRandomize} />
                         {showButton && (
-                            <MintButton price={price} onClick={handleMint} />
+                            <MintButton
+                                price={price}
+                                onClick={handleMint}
+                                isLoading={isLoading}
+                            />
                         )}
                     </div>
                 </fieldset>

@@ -2,23 +2,30 @@ import { useParams } from "react-router-dom";
 
 import Layout from "./Layout";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { getContractStorage, getContractMetadata } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
-import Mint from "./Mint";
-import { extractTokensForOverview } from "../lib/utils";
+import { extractTokensForOverview, resolveIpfs } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
 import contractList from "../contracts";
+import { bytes2Char } from "@taquito/utils";
+import { WalletContext } from "../lib/wallet";
+import Editor from "./Editor";
 
 function Series() {
     let { contract } = useParams();
+    const wallet = useContext(WalletContext);
     const [metadata, setMetadata] = useState(null);
     const [numTokens, setNumTokens] = useState(null);
     const [numTokensMinted, setNumTokensMinted] = useState(null);
     const [artist, setArtist] = useState(null);
+    const [price, setPrice] = useState(null);
+    const [baseUrl, setBaseUrl] = useState(null);
+    const [paused, setPaused] = useState(null);
+    const [activeAccount, setActiveAccount] = useState(null);
     const [width, setWidth] = useState(window.innerWidth);
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
 
@@ -35,11 +42,24 @@ function Series() {
     useEffect(() => {
         const fetchStorage = async () => {
             setNumTokens(await getContractStorage(contract, "num_tokens"));
+            setPrice(await getContractStorage(contract, "price"));
             setNumTokensMinted(
                 await getContractStorage(contract, "last_token_id")
             );
             setArtist(await getContractStorage(contract, "artist_address"));
             setMetadata(await getContractMetadata(contract));
+            setPaused(await getContractStorage(contract, "paused"));
+
+            setBaseUrl(
+                resolveIpfs(
+                    bytes2Char(await getContractStorage(contract, "base_url"))
+                )
+            );
+
+            const account = await wallet.client.getActiveAccount();
+            if (account) {
+                setActiveAccount(account.address);
+            }
         };
 
         fetchStorage().catch(console.error);
@@ -47,7 +67,7 @@ function Series() {
             contractList.find((e) => e.address === contract)
                 ?.disableMintOnMobile || false
         );
-    }, [contract]);
+    }, [contract, wallet]);
 
     if (numTokens && metadata) {
         return (
@@ -76,8 +96,16 @@ function Series() {
                     </div>
                 </div>
 
-                {(width >=768 || !disableMintOnMobile) && (
-                    <Mint contract={contract} />
+                {(width >= 768 || !disableMintOnMobile) && (
+                    <Editor
+                        contract={contract}
+                        price={price}
+                        showButton={
+                            numTokensMinted !== numTokens &&
+                            (activeAccount === artist || !paused)
+                        }
+                        baseUrl={baseUrl}
+                    />
                 )}
 
                 {width < 768 && disableMintOnMobile && (
