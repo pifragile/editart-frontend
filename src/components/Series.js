@@ -16,7 +16,7 @@ import { WalletContext } from "../lib/wallet";
 import Editor from "./Editor";
 
 function Series() {
-    let { contract } = useParams();
+    const { contract } = useParams();
     const wallet = useContext(WalletContext);
     const [metadata, setMetadata] = useState(null);
     const [numTokens, setNumTokens] = useState(null);
@@ -40,33 +40,36 @@ function Series() {
     }, []);
 
     useEffect(() => {
-        const fetchStorage = async () => {
-            setNumTokens(await getContractStorage(contract, "num_tokens"));
-            setPrice(await getContractStorage(contract, "price"));
-            setNumTokensMinted(
-                await getContractStorage(contract, "last_token_id")
+            const fetchStorage = async () => {
+                if(contract === null || contract === 'null') return;
+                setNumTokens(await getContractStorage(contract, "num_tokens"));
+                setPrice(await getContractStorage(contract, "price"));
+                setNumTokensMinted(
+                    await getContractStorage(contract, "last_token_id")
+                );
+                setArtist(await getContractStorage(contract, "artist_address"));
+                setMetadata(await getContractMetadata(contract));
+                setPaused(await getContractStorage(contract, "paused"));
+
+                setBaseUrl(
+                    resolveIpfs(
+                        bytes2Char(
+                            await getContractStorage(contract, "base_url")
+                        )
+                    )
+                );
+
+                const account = await wallet.client.getActiveAccount();
+                if (account) {
+                    setActiveAccount(account.address);
+                }
+            };
+
+            fetchStorage().catch(console.error);
+            setDisableMintOnMobile(
+                contractList.find((e) => e.address === contract)
+                    ?.disableMintOnMobile || false
             );
-            setArtist(await getContractStorage(contract, "artist_address"));
-            setMetadata(await getContractMetadata(contract));
-            setPaused(await getContractStorage(contract, "paused"));
-
-            setBaseUrl(
-                resolveIpfs(
-                    bytes2Char(await getContractStorage(contract, "base_url"))
-                )
-            );
-
-            const account = await wallet.client.getActiveAccount();
-            if (account) {
-                setActiveAccount(account.address);
-            }
-        };
-
-        fetchStorage().catch(console.error);
-        setDisableMintOnMobile(
-            contractList.find((e) => e.address === contract)
-                ?.disableMintOnMobile || false
-        );
     }, [contract, wallet]);
 
     if (numTokens && metadata) {
