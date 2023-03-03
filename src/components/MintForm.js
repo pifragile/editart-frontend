@@ -45,16 +45,20 @@ function MintForm({
 
     const copyUrlToClipBoard = (e) => {
         e.preventDefault();
-        let href = window.location.href
-        href = href.split('?')[0]
-        href = href + '?values=' + btoa(queryString)
-        navigator.clipboard.writeText(href)
-    }
+        let href = window.location.href;
+        href = href.split("?")[0];
+        href = href + "?values=" + btoa(queryString);
+        navigator.clipboard.writeText(href);
+    };
 
     return (
         <div>
             <form>
-                <fieldset>
+                <fieldset style={{position: 'relative'}}>
+                    <div style={{ position: "absolute", top: "0px", right: '15px', margin:"0", padding:"0"}}>
+                        {" "}
+                        {isLoading && <small>loading...</small>}
+                    </div>
                     <legend>Mint Variables</legend>
                     <div
                         className="form-group"
