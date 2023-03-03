@@ -9,14 +9,14 @@ function Editor({ contract, baseUrl, price, showButton }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(1);
     const [templateVersion, setTemplateVersion] = useState(0);
-    const [queryString, setQueryString] = useState(() => {
-        const passedValues = searchParams.get("values");
-        return passedValues
-            ? atob(passedValues)
-            : "m0=0.5&m1=0.5&m2=0.5&m3=0.5&m4=0.5";
-    });
 
-    baseUrl = baseUrl ? baseUrl + '?' + queryString : null;
+    const passedValues = searchParams.get("values");
+    const initialQueryString = passedValues
+        ? atob(passedValues)
+        : "m0=0.5&m1=0.5&m2=0.5&m3=0.5&m4=0.5";
+
+    baseUrl = baseUrl + "?" + initialQueryString;
+    const [queryString, setQueryString] = useState(initialQueryString);
 
     useEffect(() => {
         const handler = (e) => {
@@ -32,7 +32,6 @@ function Editor({ contract, baseUrl, price, showButton }) {
         // Don't forget to remove addEventListener
         return () => window.removeEventListener("message", handler);
     }, [isLoading]);
-
 
     const setSrc = (m0, m1, m2, m3, m4) => {
         let qs = `m0=${m0}&m1=${m1}&m2=${m2}&m3=${m3}&m4=${m4}`;
