@@ -4,6 +4,11 @@ let contractList;
 if (["dev", "staging"].includes(ENV)) {
     contractList = [
         {
+            name: "Interwoven",
+            address: "KT1SSX3W9Dzd1wxL4w99qoXcDwrBns9Cv4M1",
+            author: "MathBird",
+        },
+        {
             name: "EATEST",
             address: "KT1Rq14t5dfUxYkQXw1NGFciBxi9Spjm74mG",
             author: "pifragile",
@@ -17,14 +22,14 @@ if (["dev", "staging"].includes(ENV)) {
             name: "Hybrid",
             address: "KT1VwK23Bicp8Mr6LAze6WtZchkqSSF2kWaB",
             author: "pifragile",
-            disableMintOnMobile: true
+            disableMintOnMobile: true,
         },
         {
             name: "Brick",
             address: "KT1XukBmtNUW1B7mjhNmMNBYQpxZtmxK5Jpo",
             author: "pifragile",
         },
-                {
+        {
             name: "Chroma Rush",
             address: "KT1WmnsefxSqseDkF5vwbNsADgFX5UyuBSrc",
             author: "WootScoot",
@@ -41,7 +46,7 @@ if (["dev", "staging"].includes(ENV)) {
             name: "Hybrid",
             address: "KT1AgsJw6EEwk56r9XoQHss9yAA7dNPZYvFH",
             author: "pifragile",
-            disableMintOnMobile: true
+            disableMintOnMobile: true,
         },
         {
             name: "Skull Wiggles",
@@ -57,7 +62,7 @@ if (["dev", "staging"].includes(ENV)) {
             name: "Genesis",
             address: "KT1D7Ufx21sz9yDyP4Rs1WBCur9XhaZ9JwNE",
             author: "pifragile",
-        }
+        },
     ];
 }
 
