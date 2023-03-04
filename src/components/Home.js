@@ -1,46 +1,29 @@
 import Layout from "./Layout";
 import SeriesBox from "./SeriesBox";
 import contracts from "../contracts";
+import { Link } from "react-router-dom";
 function Home() {
     return (
         <Layout>
             <div className="main">
-                <h1>EditART...</h1>
+                <span>
+                    <b>EditArt</b> is a generative art platform on Tezos, where
+                    collectors can become creators by co-creating a piece of art
+                    with the artist.
+                </span>
+                <br/>
+                <br/>
+                <p>
+                    &gt; Infos for artists{" "}
+                    <Link to={`/about`}>
+                    <a
+                        href="/">
+                        {" "}
+                        here
+                    </a>
+                    </Link>
+                </p>
 
-                <ul>
-                    <li>
-                        is a generative art platform, where collectors can
-                        become creators by co-creating a piece of art with the
-                        artist.
-                    </li>
-                    <li>is currently running in Beta mode!</li>
-                    <li>
-                        is happy to release projects by many artists, please
-                        reach out.
-                    </li>
-                    <li>
-                        is a project by generative artist{" "}
-                        <a
-                            href="https://twitter.com/pifragile/"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            {" "}
-                            pifragile
-                        </a>
-                    </li>
-                    <li>
-                        has a twitter page{" "}
-                        <a
-                            href="https://twitter.com/editart_xyz"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            {" "}
-                            @editart_xyz
-                        </a>
-                    </li>
-                </ul>
                 <div>
                     For infos{" "}
                     <a
