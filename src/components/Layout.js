@@ -19,9 +19,9 @@ function Layout({ children, favicon = "/favicon.png" }) {
     }, [client]);
 
     const triggerDarkMode = () => {
-        document.body.style.setProperty("--background-color", "#222225");
+        document.body.style.setProperty("--background-color", "#1C1B1C");
         document.body.style.setProperty("--font-color", "#e8e9ed");
-        document.body.style.setProperty("--invert-font-color", "#222225");
+        document.body.style.setProperty("--invert-font-color", "#1C1B1C");
         document.body.style.setProperty("--secondary-color", "#a3abba");
         document.body.style.setProperty("--tertiary-color", "#a3abba");
         document.body.style.setProperty("--primary-color", "#62c4ff");
