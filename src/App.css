@@ -3,7 +3,7 @@
     appearance: none;
     width: 80%; /* Full-width */
     height: 1px; /* Specified height */
-    background: black; /* Grey background */
+    background: var(--secondary-color); /* Grey background */
     outline: None; /* Remove outline */
     margin: 20px;
 }
@@ -13,7 +13,7 @@
     appearance: none;
     width: 10px;
     height: 10px;
-    background: black;
+    background: var(--font-color);
     cursor: pointer;
   }
   
@@ -22,7 +22,7 @@
     appearance: none;
     width: 10px;
     height: 10px;
-    background: black;
+    background: var(--font-color);
     cursor: pointer;
   }
 

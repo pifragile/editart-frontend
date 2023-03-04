@@ -2,20 +2,52 @@ import SyncButton from "./SyncButton";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { WalletContext } from "../lib/wallet";
+import { ModeContext } from "../App";
 
 function Layout({ children, favicon = "/favicon.png" }) {
     const client = useContext(WalletContext).client;
     const [activeAccount, setActiveAccount] = useState(null);
+    const { mode, setMode } = useContext(ModeContext);
     useEffect(() => {
         const func = async () => {
             const account = await client.getActiveAccount();
-                if (account) {
-                    setActiveAccount(account.address);
-                }
+            if (account) {
+                setActiveAccount(account.address);
+            }
         };
         func();
     }, [client]);
 
+    const triggerDarkMode = () => {
+        document.body.style.setProperty("--background-color", "#222225");
+        document.body.style.setProperty("--font-color", "#e8e9ed");
+        document.body.style.setProperty("--invert-font-color", "#222225");
+        document.body.style.setProperty("--secondary-color", "#a3abba");
+        document.body.style.setProperty("--tertiary-color", "#a3abba");
+        document.body.style.setProperty("--primary-color", "#62c4ff");
+        document.body.style.setProperty("--error-color", "#ff3c74");
+        document.body.style.setProperty("--progress-bar-background", "#3f3f44");
+        document.body.style.setProperty("--progress-bar-fill", "#62c4ff");
+        document.body.style.setProperty("--code-bg-color", "#3f3f44");
+    };
+
+    const triggerLightMode = () => {
+        document.body.style.setProperty("--background-color", "#fff");
+        document.body.style.setProperty("--font-color", "#151515");
+        document.body.style.setProperty("--invert-font-color", "#fff");
+        document.body.style.setProperty("--secondary-color", "#727578");
+        document.body.style.setProperty("--tertiary-color", "#727578");
+        document.body.style.setProperty("--primary-color", "#1a95e0");
+        document.body.style.setProperty("--error-color", "#d20962");
+        document.body.style.setProperty("--progress-bar-background", "#727578");
+        document.body.style.setProperty("--progress-bar-fill", "#151515");
+        document.body.style.setProperty("--code-bg-color", "#e8eff2");
+    };
+
+    const toggleMode = () => {
+        [triggerDarkMode, triggerLightMode][mode]();
+        setMode((mode + 1) % 2);
+    };
 
     return (
         <div
@@ -57,6 +89,14 @@ function Layout({ children, favicon = "/favicon.png" }) {
                                     <Link to="/about">About</Link>
                                 </span>
                             </li>
+                            <li key="Mode">
+                                <span
+                                    className="menu-item"
+                                    onClick={toggleMode}
+                                >
+                                    <Link>Dark/Light</Link>
+                                </span>
+                            </li>
                         </ul>
                     </nav>
                     <SyncButton />
@@ -72,7 +112,10 @@ function Layout({ children, favicon = "/favicon.png" }) {
             </div>
             <footer>
                 <br />
-                Built with <a href="https://tzkt.io" target="_blank" rel="noreferrer">TzKT API</a>
+                Built with{" "}
+                <a href="https://tzkt.io" target="_blank" rel="noreferrer">
+                    TzKT API
+                </a>
             </footer>
         </div>
     );
