@@ -38,6 +38,11 @@ if (["dev", "staging"].includes(ENV)) {
 } else if (ENV === "prod") {
     contractList = [
         {
+            name: "Interwoven",
+            address: "KT1XHf9VcuXGaKJZ5zWBd3xyyqyaxpKgwQP1",
+            author: "MathBird",
+        },
+        {
             name: "Chroma Rush",
             address: "KT1U8Qko8uQavWWPj4xx3bTGCNUPxrzitXnG",
             author: "WootScoot",
