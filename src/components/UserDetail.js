@@ -30,7 +30,7 @@ function UserDetail({ address, isLink }) {
             if (res.status === 200) {
                 let data = await res.json();
                 let holder = data.data.holder;
-                if (holder.length > 0 && holder[0].alias != null) {
+                if (holder.length > 0) {
                     setTzProfile(holder[0]);
                 }
             }
@@ -44,8 +44,8 @@ function UserDetail({ address, isLink }) {
     if (isLink) {
         return (
             <Link to={`/user/${address}`}>
-                {tzProfile && <span>{tzProfile.alias}</span>}
-                {!tzProfile && <span>{getAddrString(address)}</span>}
+                {tzProfile?.alias && <span>{tzProfile.alias}</span>}
+                {!tzProfile?.alias && <span>{getAddrString(address)}</span>}
             </Link>
         );
     } else {
@@ -60,7 +60,7 @@ function UserDetail({ address, isLink }) {
                             alt="Logo"
                         ></img> */}
                         <div>
-                            <b>{tzProfile.alias}</b>
+                            <b>{tzProfile.alias || address}</b>
                         </div>
                         <div>{tzProfile.description}</div>
 
