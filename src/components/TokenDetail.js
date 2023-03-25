@@ -74,7 +74,7 @@ function TokenDetail() {
                         </div>
 
                         <div>
-                            <b>Creator:</b>
+                            <b>Co-Creator:</b>
                             <UserDetail address={creator} isLink={true} />
                         </div>
                     </div>
