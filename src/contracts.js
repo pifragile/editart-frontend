@@ -4,6 +4,11 @@ let contractList;
 if (["dev", "staging"].includes(ENV)) {
     contractList = [
         {
+            name: "Shadows",
+            address: "KT1Cv9KEmxb2DCgM1Hdp9Fxuaxqz57WGkQrs",
+            author: "loackme",
+        },
+        {
             name: "Interwoven",
             address: "KT1SSX3W9Dzd1wxL4w99qoXcDwrBns9Cv4M1",
             author: "MathBird",
