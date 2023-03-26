@@ -14,6 +14,7 @@ import {
 import UserDetail from "./UserDetail";
 import TokenImage from "./TokenImage";
 import { getTokenMetadata } from "../lib/api";
+import { resolveIpfs } from "../lib/utils";
 
 function TokenDetail() {
     let { contract, tokenId } = useParams();
@@ -78,6 +79,8 @@ function TokenDetail() {
                             <UserDetail address={creator} isLink={true} />
                         </div>
                     </div>
+                    <br/>
+                    <a href={resolveIpfs(token.metadata.artifactUri)} target="_blank"><button class="btn btn-default">Open live view</button></a>
                     <br/>
                     <Link to={`/series/${contract}`}><button class="btn btn-default">Go to series</button></Link>
                     <br/>
