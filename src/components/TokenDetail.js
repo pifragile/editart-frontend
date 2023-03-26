@@ -50,7 +50,7 @@ function TokenDetail() {
             <Layout>
                 <h1>{token.metadata.name}</h1>
                 <div>
-                    <div title="token">
+                    <div title="token" style={{paddingBottom: "1em"}}>
                         <TokenImage
                             url={token.metadata.artifactUri}
                             displayUrl={token.metadata.displayUri}
