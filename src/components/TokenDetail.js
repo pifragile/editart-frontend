@@ -50,7 +50,7 @@ function TokenDetail() {
             <Layout>
                 <h1>{token.metadata.name}</h1>
                 <div>
-                    <div title="token" style={{paddingBottom: "1em"}}>
+                    <div title="token" style={{ paddingBottom: "1em" }}>
                         <TokenImage
                             url={token.metadata.artifactUri}
                             displayUrl={token.metadata.displayUri}
@@ -79,11 +79,18 @@ function TokenDetail() {
                             <UserDetail address={creator} isLink={true} />
                         </div>
                     </div>
-                    <br/>
-                    <a href={resolveIpfs(token.metadata.artifactUri)} target="_blank"><button class="btn btn-default">Open live view</button></a>
-                    <br/>
-                    <Link to={`/series/${contract}`}><button class="btn btn-default">Go to series</button></Link>
-                    <br/>
+                    <br />
+                    <a
+                        href={resolveIpfs(token.metadata.artifactUri)}
+                        target="_blank"
+                    >
+                        <button class="btn btn-default">Open live view</button>
+                    </a>
+                    <br />
+                    <Link to={`/series/${contract}`}>
+                        <button class="btn btn-default">Go to series</button>
+                    </Link>
+                    <br />
                     <div
                         className="token-detail-width"
                         style={{ marginTop: "1vh" }}
