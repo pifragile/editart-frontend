@@ -1,5 +1,11 @@
-import { IPFS_GATEWAY } from "../consts";
+import { IMAGE_CDN, IPFS_GATEWAY } from "../consts";
 import { getTokenMetadata } from "./api";
+
+export function resolveIpfsForImage(address) {
+    if (address) {
+        return address.replace("ipfs://", IMAGE_CDN) + '.png';
+    }
+}
 
 export function resolveIpfs(address) {
     if (address) {
