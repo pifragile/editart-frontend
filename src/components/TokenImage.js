@@ -1,5 +1,5 @@
 import { IPFS_UPLOADER_GATEWAY } from "../consts";
-import { resolveIpfs, resolveIpfsForImage } from "../lib/utils";
+import { resolveIpfs, resolveIpfsCdn } from "../lib/utils";
 function TokenImage({ displayUrl, url, isBig }) {
     return (
         <div
@@ -41,11 +41,11 @@ function TokenImage({ displayUrl, url, isBig }) {
             {displayUrl && (
                 <img
                     alt="token"
-                    src={resolveIpfsForImage(displayUrl)}
+                    src={resolveIpfsCdn('png', displayUrl)}
                     onError={({ currentTarget }) => {
                         console.log('Image not found in CDN')
                         currentTarget.onerror = null; // prevents looping
-                        fetch(IPFS_UPLOADER_GATEWAY + displayUrl.replace("ipfs://", ""))
+                        fetch(IPFS_UPLOADER_GATEWAY + 'png/' + displayUrl.replace("ipfs://", ""))
                         currentTarget.src = resolveIpfs(displayUrl);
                     }}
                 />

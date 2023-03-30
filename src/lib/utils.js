@@ -1,9 +1,25 @@
-import { IMAGE_CDN, IPFS_GATEWAY } from "../consts";
+import {
+    SPACES_CDN_ENDPOINT,
+    IPFS_GATEWAY,
+    SPACES_ORIGIN_ENDPOINT,
+} from "../consts";
 import { getTokenMetadata } from "./api";
 
-export function resolveIpfsForImage(address) {
+export function resolveIpfsCdn(type, address) {
     if (address) {
-        return address.replace("ipfs://", IMAGE_CDN) + '.png';
+        return (
+            address.replace("ipfs://", SPACES_CDN_ENDPOINT + type + "/") +
+            `.${type}`
+        );
+    }
+}
+
+export function resolveIpfsOrigin(type, address) {
+    if (address) {
+        return (
+            address.replace("ipfs://", SPACES_ORIGIN_ENDPOINT + type + "/") +
+            `.${type}`
+        );
     }
 }
 
