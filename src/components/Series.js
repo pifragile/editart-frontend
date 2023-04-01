@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { getContractStorage, getContractMetadata } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
-import { extractTokensForOverview, resolveIpfs } from "../lib/utils";
+import { extractTokensForOverview } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
 import contractList from "../contracts";
@@ -40,36 +40,32 @@ function Series() {
     }, []);
 
     useEffect(() => {
-            const fetchStorage = async () => {
-                if(contract === null || contract === 'null') return;
-                setNumTokens(await getContractStorage(contract, "num_tokens"));
-                setPrice(await getContractStorage(contract, "price"));
-                setNumTokensMinted(
-                    await getContractStorage(contract, "last_token_id")
-                );
-                setArtist(await getContractStorage(contract, "artist_address"));
-                setMetadata(await getContractMetadata(contract));
-                setPaused(await getContractStorage(contract, "paused"));
-
-                setBaseUrl(
-                    resolveIpfs(
-                        bytes2Char(
-                            await getContractStorage(contract, "base_url")
-                        )
-                    )
-                );
-
-                const account = await wallet.client.getActiveAccount();
-                if (account) {
-                    setActiveAccount(account.address);
-                }
-            };
-
-            fetchStorage().catch(console.error);
-            setDisableMintOnMobile(
-                contractList.find((e) => e.address === contract)
-                    ?.disableMintOnMobile || false
+        const fetchStorage = async () => {
+            if (contract === null || contract === "null") return;
+            setNumTokens(await getContractStorage(contract, "num_tokens"));
+            setPrice(await getContractStorage(contract, "price"));
+            setNumTokensMinted(
+                await getContractStorage(contract, "last_token_id")
             );
+            setArtist(await getContractStorage(contract, "artist_address"));
+            setMetadata(await getContractMetadata(contract));
+            setPaused(await getContractStorage(contract, "paused"));
+
+            setBaseUrl(
+                bytes2Char(await getContractStorage(contract, "base_url"))
+            );
+
+            const account = await wallet.client.getActiveAccount();
+            if (account) {
+                setActiveAccount(account.address);
+            }
+        };
+
+        fetchStorage().catch(console.error);
+        setDisableMintOnMobile(
+            contractList.find((e) => e.address === contract)
+                ?.disableMintOnMobile || false
+        );
     }, [contract, wallet]);
 
     if (numTokens && metadata) {

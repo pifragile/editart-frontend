@@ -52,7 +52,7 @@ function TokenDetail() {
                 <div>
                     <div title="token" style={{ paddingBottom: "1em" }}>
                         <TokenImage
-                            url={token.metadata.artifactUri}
+                            url={token.metadata.artifactUri + '/index.html'}
                             displayUrl={token.metadata.displayUri}
                             isBig={true}
                         />
@@ -83,6 +83,7 @@ function TokenDetail() {
                     <a
                         href={resolveIpfs(token.metadata.artifactUri)}
                         target="_blank"
+                        rel="noreferrer"
                     >
                         <button class="btn btn-default">Open live view</button>
                     </a>

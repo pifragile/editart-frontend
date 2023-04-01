@@ -3,6 +3,7 @@ import MintForm from "./MintForm";
 import { useState, useEffect, useContext } from "react";
 import { mint, WalletContext } from "../lib/wallet";
 import { useSearchParams } from "react-router-dom";
+import LiveViewIFrame from "./LiveViewIFrame";
 
 function Editor({ contract, baseUrl, price, showButton }) {
     const wallet = useContext(WalletContext);
@@ -15,7 +16,7 @@ function Editor({ contract, baseUrl, price, showButton }) {
         ? atob(passedValues)
         : "m0=0.5&m1=0.5&m2=0.5&m3=0.5&m4=0.5";
 
-    baseUrl = baseUrl ? baseUrl + "?" + initialQueryString : "";
+    baseUrl = baseUrl ? baseUrl + "/index.html?" + initialQueryString : "";
     const [queryString, setQueryString] = useState(initialQueryString);
 
     useEffect(() => {
@@ -58,16 +59,15 @@ function Editor({ contract, baseUrl, price, showButton }) {
                     padding: 0,
                 }}
             >
-                <iframe
-                    id="tokenFrame"
-                    title="token"
+                <div
                     className="token-detail-width token-detail-height"
                     style={{
                         border: "None",
                         marginRight: "2vw",
                     }}
-                    src={baseUrl}
-                ></iframe>
+                >
+                    <LiveViewIFrame url={baseUrl}/>
+                </div>
 
                 <div
                     style={{

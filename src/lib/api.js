@@ -1,6 +1,6 @@
 import { IPFS_UPLOADER_GATEWAY, TZKT_API } from "../consts";
 import { bytes2Char } from "@taquito/utils";
-import { resolveIpfs, resolveIpfsCdn, resolveIpfsOrigin } from "./utils";
+import { resolveIpfs, resolveIpfsOrigin } from "./utils";
 
 export async function getToken(contract, tokenId) {
     let query = `v1/tokens/?contract=${contract}&tokenId=${tokenId}`;

@@ -23,6 +23,12 @@ export function resolveIpfsOrigin(type, address) {
     }
 }
 
+export function resolveIpfsSketches(address) {
+    if (address) {
+        return address.replace("ipfs://", SPACES_ORIGIN_ENDPOINT + "sketches/");
+    }
+}
+
 export function resolveIpfs(address) {
     if (address) {
         return address.replace("ipfs://", IPFS_GATEWAY);

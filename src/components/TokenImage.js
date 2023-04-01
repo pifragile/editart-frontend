@@ -1,5 +1,6 @@
 import { IPFS_UPLOADER_GATEWAY } from "../consts";
 import { resolveIpfs, resolveIpfsCdn } from "../lib/utils";
+import LiveViewIFrame from "./LiveViewIFrame";
 function TokenImage({ displayUrl, url, isBig }) {
     return (
         <div
@@ -10,17 +11,7 @@ function TokenImage({ displayUrl, url, isBig }) {
             }
             style={{ position: "relative" }}
         >
-            {!displayUrl && (
-                <iframe
-                    title="token"
-                    style={{
-                        border: "None",
-                        height: "100%",
-                        width: "100%",
-                    }}
-                    src={resolveIpfs(url)}
-                />
-            )}
+            {!displayUrl && <LiveViewIFrame url={url} />}
 
             {!displayUrl && (
                 <div
@@ -41,11 +32,15 @@ function TokenImage({ displayUrl, url, isBig }) {
             {displayUrl && (
                 <img
                     alt="token"
-                    src={resolveIpfsCdn('png', displayUrl)}
+                    src={resolveIpfsCdn("png", displayUrl)}
                     onError={({ currentTarget }) => {
-                        console.log('Image not found in CDN')
+                        console.log("Image not found in CDN");
                         currentTarget.onerror = null; // prevents looping
-                        fetch(IPFS_UPLOADER_GATEWAY + 'png/' + displayUrl.replace("ipfs://", ""))
+                        fetch(
+                            IPFS_UPLOADER_GATEWAY +
+                                "png/" +
+                                displayUrl.replace("ipfs://", "")
+                        );
                         currentTarget.src = resolveIpfs(displayUrl);
                     }}
                 />
