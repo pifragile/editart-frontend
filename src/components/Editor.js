@@ -16,7 +16,7 @@ function Editor({ contract, baseUrl, price, showButton }) {
         ? atob(passedValues)
         : "m0=0.5&m1=0.5&m2=0.5&m3=0.5&m4=0.5";
 
-    baseUrl = baseUrl ? baseUrl + "/index.html?" + initialQueryString : "";
+    baseUrl = baseUrl ? baseUrl + "?" + initialQueryString : "";
     const [queryString, setQueryString] = useState(initialQueryString);
 
     useEffect(() => {

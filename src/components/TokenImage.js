@@ -1,7 +1,8 @@
 import { IPFS_UPLOADER_GATEWAY } from "../consts";
 import { resolveIpfs, resolveIpfsCdn } from "../lib/utils";
 import LiveViewIFrame from "./LiveViewIFrame";
-function TokenImage({ displayUrl, url, isBig }) {
+function TokenImage({ displayUrl, url, isBig, showArtifact }) {
+    const displayArtifact = showArtifact || !displayUrl
     return (
         <div
             className={
@@ -11,9 +12,9 @@ function TokenImage({ displayUrl, url, isBig }) {
             }
             style={{ position: "relative" }}
         >
-            {!displayUrl && <LiveViewIFrame url={url} />}
+            {displayArtifact && <LiveViewIFrame url={url} />}
 
-            {!displayUrl && (
+            {displayArtifact && (
                 <div
                     style={{
                         position: "absolute",
@@ -23,13 +24,11 @@ function TokenImage({ displayUrl, url, isBig }) {
                         paddingTop: "50%",
                     }}
                 >
-                    Preview image not yet rendered
-                    <br />
                     Loading live view...
                 </div>
             )}
 
-            {displayUrl && (
+            {!displayArtifact && (
                 <img
                     alt="token"
                     src={resolveIpfsCdn("png", displayUrl)}

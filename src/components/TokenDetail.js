@@ -15,6 +15,7 @@ import UserDetail from "./UserDetail";
 import TokenImage from "./TokenImage";
 import { getTokenMetadata } from "../lib/api";
 import { resolveIpfs } from "../lib/utils";
+import contractList from "../contracts";
 
 function TokenDetail() {
     let { contract, tokenId } = useParams();
@@ -52,9 +53,10 @@ function TokenDetail() {
                 <div>
                     <div title="token" style={{ paddingBottom: "1em" }}>
                         <TokenImage
-                            url={token.metadata.artifactUri + '/index.html'}
+                            url={token.metadata.artifactUri}
                             displayUrl={token.metadata.displayUri}
                             isBig={true}
+                            showArtifact={contractList.find(e => e.address === contract)?.showArtifact || false}
                         />
                     </div>
 

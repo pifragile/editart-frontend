@@ -25,6 +25,7 @@ export function resolveIpfsOrigin(type, address) {
 
 export function resolveIpfsSketches(address) {
     if (address) {
+        address = insertIndexHtml(address);
         return address.replace("ipfs://", SPACES_ORIGIN_ENDPOINT + "sketches/");
     }
 }
@@ -51,4 +52,15 @@ export async function extractTokensForOverview(data) {
         }
     }
     return data;
+}
+
+export function insertIndexHtml(url) {
+    if (url.includes("index.html")) return;
+
+    const idx = url.indexOf("?");
+    let outval;
+    if (idx > -1) outval = url.substr(0, idx) + "/index.html" + url.substr(idx);
+    else outval = url + "/index.html";
+
+    return outval;
 }
