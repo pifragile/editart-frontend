@@ -52,7 +52,6 @@ if (["dev", "staging"].includes(ENV)) {
             name: "Shadows",
             address: "KT1BNAXdkkbjifrjTCM1LUbUvkG1r5AnDT1T",
             author: "loackme",
-            showArtifact: true
         },
         {
             name: "Brick",
