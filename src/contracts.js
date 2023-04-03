@@ -49,6 +49,12 @@ if (["dev", "staging"].includes(ENV)) {
 } else if (ENV === "prod") {
     contractList = [
         {
+            name: "Dash",
+            address: "KT1F8NDkP6Ewu5fv4D7Fy4BXUVWngSCsnqKv",
+            author: "loackme",
+            showArtifact: true
+        },
+        {
             name: "Shadows",
             address: "KT1BNAXdkkbjifrjTCM1LUbUvkG1r5AnDT1T",
             author: "loackme",
