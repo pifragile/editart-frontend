@@ -9,7 +9,7 @@ function About() {
                     If you would like to create a project on EditArt you can
                     find a template with all the instructions{" "}
                     <a
-                        href="https://github.com/pifragile/editartTemplate"
+                        href="https://github.com/pifragile/editartSimpleTemplate"
                         target="_blank"
                         rel="noreferrer"
                     >
