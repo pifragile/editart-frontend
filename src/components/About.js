@@ -29,21 +29,6 @@ function About() {
                     <br />
                     <br />
                     <a
-                        href="https://github.com/pifragile/editartTemplate"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <button
-                            className="btn btn-default"
-                            name="template"
-                            id="template"
-                        >
-                            Download p5.js template
-                        </button>
-                    </a>
-                    <br />
-                    <br />
-                    <a
                         href="https://github.com/pifragile/editartSimpleTemplate"
                         target="_blank"
                         rel="noreferrer"
@@ -53,7 +38,7 @@ function About() {
                             name="template"
                             id="template"
                         >
-                            Download unopinionated template
+                            Download template
                         </button>
                     </a>
                 </p>
