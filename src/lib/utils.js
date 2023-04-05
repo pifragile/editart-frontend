@@ -55,7 +55,7 @@ export async function extractTokensForOverview(data) {
 }
 
 export function insertIndexHtml(url) {
-    if (url.includes("index.html")) return;
+    if (url.includes("index.html")) return url;
 
     const idx = url.indexOf("?");
     let outval;
