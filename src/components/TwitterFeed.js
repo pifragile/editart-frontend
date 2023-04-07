@@ -6,9 +6,14 @@ function TwitterFeed() {
         <div style={{ display: "flex", flexWrap:"wrap"}}>
             {tweetIds.map((t) => (
                 <div
-                    style={{
-                        margin: "5px"
-                    }}
+                    style={
+                    {
+                        flex: "1 0 auto",
+                        display: "flex",
+                        padding: "5px",
+                        flexDirection: "column",
+                        width: "min(300px, 80vw)"
+                      }}
                     key={t}
                 >
                     <TwitterTweetEmbed
