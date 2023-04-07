@@ -2,6 +2,7 @@ import Layout from "./Layout";
 import SeriesBox from "./SeriesBox";
 import contracts from "../contracts";
 import { Link } from "react-router-dom";
+import TwitterFeed from "./TwitterFeed";
 function Home() {
     return (
         <Layout>
@@ -11,16 +12,12 @@ function Home() {
                     collectors can become creators by co-creating a piece of art
                     with the artist.
                 </span>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <p>
                     &gt; Infos for artists{" "}
                     <Link to={`/about`}>
-                    <a
-                        href="/">
-                        {" "}
-                        here
-                    </a>
+                        <a href="/"> here</a>
                     </Link>
                 </p>
 
@@ -56,6 +53,10 @@ function Home() {
                         />
                     ))}
                 </div>
+            </div>
+            <div style={{ marginTop: "5vh" }}>
+                <h1>EditArt on Twitter</h1>
+                <TwitterFeed />
             </div>
         </Layout>
     );

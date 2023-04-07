@@ -5,12 +5,13 @@
   "dependencies": {
     "@taquito/beacon-wallet": "^14.0.0",
     "@taquito/utils": "^14.0.0",
+    "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "^4.0.3",
-    "terminal.css": "^0.7.2",
-    "normalize.css": "^8.0.1"
+    "react-twitter-embed": "^4.0.4",
+    "terminal.css": "^0.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
