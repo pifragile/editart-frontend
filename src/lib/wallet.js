@@ -5,7 +5,7 @@ import { TEZOS_NETWORK, RPC_NODE } from "../consts";
 import { char2Bytes } from "@taquito/utils";
 
 const options = {
-    name: "EditART",
+    name: "EditArt",
     preferredNetwork: TEZOS_NETWORK,
 };
 export const beaconWallet = new BeaconWallet(options);

@@ -65,7 +65,7 @@ function Layout({ children, favicon = "/favicon.png" }) {
                     <div className="terminal-logo">
                         <div className="logo terminal-prompt">
                             <span className="no-style">
-                                <Link to="/">EditART</Link>
+                                <Link to="/">EditArt</Link>
                             </span>
                         </div>
                     </div>

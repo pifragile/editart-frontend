@@ -5,7 +5,7 @@ function About() {
             <div className="main">
                 <h1>For artists</h1>
                 <p>
-                    EditART is open to submissions form all generative artists.
+                    EditArt is open to submissions form all generative artists.
                     If you would like to create a project on EditArt you can
                     find a template with all the instructions{" "}
                     <a
@@ -59,9 +59,9 @@ function About() {
                     </a>
                 </p>
 
-                <h1>About EditART</h1>
+                <h1>About EditArt</h1>
                 <p>
-                    With Editart, collectors can become creators by co-creating
+                    With EditArt, collectors can become creators by co-creating
                     a piece together with the artist. Currently there are 5
                     value sliders available that can be tuned by the collector
                     when minting a piece.
