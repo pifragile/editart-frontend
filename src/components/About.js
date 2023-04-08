@@ -38,7 +38,23 @@ function About() {
                             name="template"
                             id="template"
                         >
-                            Download template
+                            Download vanilla js template
+                        </button>
+                    </a>
+
+                    <br />
+                    <br />
+                    <a
+                        href="https://github.com/pifragile/editArtP5Template"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <button
+                            className="btn btn-default"
+                            name="template"
+                            id="template"
+                        >
+                            Download p5.js template
                         </button>
                     </a>
                 </p>
