@@ -6,6 +6,11 @@ if (["dev", "staging"].includes(ENV)) {
 } else if (ENV === "prod") {
     contractList = [
         {
+            name: "Blöck",
+            address: "KT1JRLJVnSM5JhqByAunX7Ck4FdVfRcKHGyj",
+            author: "Gorilla Sun",
+        },
+        {
             name: "Dash",
             address: "KT1F8NDkP6Ewu5fv4D7Fy4BXUVWngSCsnqKv",
             author: "loackme",
