@@ -17,6 +17,7 @@ function SeriesOverview() {
                         contract={c.address}
                         author={c.author}
                         key={c.address}
+                        name={c.name}
                     />
                 ))}
             </div>
