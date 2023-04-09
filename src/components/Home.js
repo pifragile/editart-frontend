@@ -3,6 +3,7 @@ import SeriesBox from "./SeriesBox";
 import contracts from "../contracts";
 import { Link } from "react-router-dom";
 import TwitterFeed from "./TwitterFeed";
+import Dashboard from "./Dashboard";
 function Home() {
     return (
         <Layout>
@@ -15,10 +16,7 @@ function Home() {
                 <br />
                 <br />
                 <p>
-                    &gt; Infos for artists{" "}
-                    <Link to={`/about`}>
-                        <a href="/"> here</a>
-                    </Link>
+                    &gt; Infos for artists <Link to={`/about`}>here</Link>
                 </p>
 
                 <div>
@@ -36,6 +34,7 @@ function Home() {
                 <div>❤️ , pifragile</div>
                 {/* <TokenOverview query={query}></TokenOverview> */}
             </div>
+            <Dashboard />
             <div style={{ marginTop: "5vh" }}>
                 <h1>Series</h1>
                 <div
@@ -50,6 +49,7 @@ function Home() {
                             contract={c.address}
                             author={c.author}
                             key={c.address}
+                            name={c.name}
                         />
                     ))}
                 </div>

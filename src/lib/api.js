@@ -20,6 +20,13 @@ export async function getContractStorage(contract, key) {
     return data;
 }
 
+export async function getContractStorageFull(contract) {
+    let query = `v1/contracts/${contract}/storage`;
+    let res = await fetch(TZKT_API + query);
+    let data = await res.json();
+    return data;
+}
+
 export async function getContractBigmap(contract, bigmap, key) {
     let query = `v1/contracts/${contract}/bigmaps/${bigmap}/keys/${key}`;
     let res = await fetch(TZKT_API + query);
@@ -28,6 +35,15 @@ export async function getContractBigmap(contract, bigmap, key) {
         if (data && data.active) {
             return data.value;
         }
+    }
+}
+
+export async function listContractBigmap(contract, bigmap) {
+    let query = `v1/contracts/${contract}/bigmaps/${bigmap}/keys?limit=10000`;
+    let res = await fetch(TZKT_API + query);
+    if (res.status === 200) {
+        let data = await res.json();
+        return data.filter(e => e.active)
     }
 }
 
