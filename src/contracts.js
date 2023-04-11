@@ -2,7 +2,14 @@ import { ENV } from "./consts";
 
 let contractList;
 if (["dev", "staging"].includes(ENV)) {
-    contractList = [];
+    contractList = [
+        {
+            name: "Crystal Glitch",
+            address: "KT1JwmJjmqeGdofGwtmst3WaYAvnxErjZqpW",
+            author: "AlexandreRangel",
+            showArtifact: true,
+        },
+    ];
 } else if (ENV === "prod") {
     contractList = [
         {
