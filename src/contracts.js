@@ -5,7 +5,7 @@ if (["dev", "staging"].includes(ENV)) {
     contractList = [
         {
             name: "Crystal Glitch",
-            address: "KT1JwmJjmqeGdofGwtmst3WaYAvnxErjZqpW",
+            address: "KT1UqQiaP1fqsdWHDRZCfcQtwWDR14z2tAB8",
             author: "AlexandreRangel",
             showArtifact: true,
         },
