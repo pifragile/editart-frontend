@@ -4,6 +4,12 @@ let contractList;
 if (["dev", "staging"].includes(ENV)) {
     contractList = [
         {
+            name: "Density",
+            address: "KT1AUkdAYHh8f42XTcP2N4u68UFph87bqf6L",
+            author: "mandybrigwell",
+            showArtifact: true,
+        },
+        {
             name: "Crystal Glitch",
             address: "KT1UqQiaP1fqsdWHDRZCfcQtwWDR14z2tAB8",
             author: "AlexandreRangel",
