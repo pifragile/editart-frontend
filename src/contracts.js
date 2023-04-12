@@ -2,22 +2,21 @@ import { ENV } from "./consts";
 
 let contractList;
 if (["dev", "staging"].includes(ENV)) {
+    contractList = [];
+} else if (ENV === "prod") {
     contractList = [
         {
             name: "Density",
-            address: "KT1JAsnaTzjLH9c8syjpgSpYpFVM7c7JzCvm",
+            address: "KT1PJtZ9EyG2CBwDVvqPnpsFpF4jq1vrGqWB",
             author: "mandybrigwell",
             showArtifact: true,
         },
-        {
-            name: "Crystal Glitch",
-            address: "KT1UqQiaP1fqsdWHDRZCfcQtwWDR14z2tAB8",
-            author: "AlexandreRangel",
-            showArtifact: true,
-        },
-    ];
-} else if (ENV === "prod") {
-    contractList = [
+        // {
+        //     name: "Crystal Glitch",
+        //     address: "KT1RvNzvhAH7vZF7WSKMe3HEZxuK198GYGmV",
+        //     author: "AlexandreRangel",
+        //     showArtifact: true,
+        // },
         {
             name: "aabb",
             address: "KT1AJ5gnH8PrM3YqCDijQjLUrSjdE46Co3tH",
