@@ -5,7 +5,7 @@ if (["dev", "staging"].includes(ENV)) {
     contractList = [
         {
             name: "Density",
-            address: "KT1AUkdAYHh8f42XTcP2N4u68UFph87bqf6L",
+            address: "KT1JAsnaTzjLH9c8syjpgSpYpFVM7c7JzCvm",
             author: "mandybrigwell",
             showArtifact: true,
         },
