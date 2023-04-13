@@ -11,12 +11,12 @@ if (["dev", "staging"].includes(ENV)) {
             author: "mandybrigwell",
             showArtifact: true,
         },
-        // {
-        //     name: "Crystal Glitch",
-        //     address: "KT1RvNzvhAH7vZF7WSKMe3HEZxuK198GYGmV",
-        //     author: "AlexandreRangel",
-        //     showArtifact: true,
-        // },
+        {
+            name: "Crystal Glitch",
+            address: "KT1RvNzvhAH7vZF7WSKMe3HEZxuK198GYGmV",
+            author: "AlexandreRangel",
+            showArtifact: true,
+        },
         {
             name: "aabb",
             address: "KT1AJ5gnH8PrM3YqCDijQjLUrSjdE46Co3tH",

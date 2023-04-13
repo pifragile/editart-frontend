@@ -10,7 +10,7 @@ function Box({ artifactUri, displayUri, link, line1, line2 }) {
                 margin: "10px 30px 20px 0",
             }}
         >
-            <TokenImage url={artifactUri} displayUrl={displayUri} />
+            <TokenImage url={artifactUri} displayUrl={displayUri} strictlyDisplay={true}/>
 
             <div
                 style={{
