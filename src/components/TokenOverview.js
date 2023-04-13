@@ -40,6 +40,7 @@ function TokenOverview({ query, pageLength, extractTokens }) {
                 }
                 setMaybeMore(result.length === pageLength);
             } else {
+                if(page === 0) setTokens([])
                 setPage(Math.max(page - pageLength, 0));
             }
         }
@@ -48,6 +49,7 @@ function TokenOverview({ query, pageLength, extractTokens }) {
     });
 
     if (tokens && update) {
+        if(tokens.length === 0) return "No tokens."
         return <TokenGrid tokens={tokens} loadMore={loadMore} />;
     } else {
         return "Loading...";
