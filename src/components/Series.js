@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { getContractStorage, getContractMetadata } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
-import { extractTokensForOverview } from "../lib/utils";
+import { extractTokensForOverview, formatMutez } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
 import contractList from "../contracts";
@@ -81,19 +81,11 @@ function Series() {
                     <div style={{ marginTop: "1vh", whiteSpace: "pre-wrap" }}>
                         {metadata.description}
                     </div>
-                    {/* <div>{paused ? "paused" : "not paused"}</div> */}
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        flexDirection: "column",
-                    }}
-                >
-                    <div style={{ margin: "2vh 0 1vh 0" }}>
-                        {numTokensMinted} / {numTokens} minted
-                    </div>
-                </div>
+
+                    <p>--</p>
+                        {formatMutez(price)}
+                        <p>{numTokensMinted} / {numTokens}</p>
 
                 {(width >= 768 || !disableMintOnMobile) && (
                     <Editor
