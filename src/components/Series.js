@@ -91,13 +91,13 @@ function Series() {
                 {formatMutez(price)}
                 <br />
                 {numTokensMinted} / {numTokens}
-                {/* {new Date() < releaseDate && (
+                {new Date() < releaseDate && (
                     <span>
                         <br />
                         <br />
                         planned release: {releaseDate.toLocaleString()}
                     </span>
-                )} */}
+                )}
                 {(width >= 768 || !disableMintOnMobile) && (
                     <Editor
                         contract={contract}
