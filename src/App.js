@@ -14,6 +14,7 @@ import ArtistPanel from "./components/ArtistPanel";
 import Sandbox from "./components/Sandbox";
 import SeriesOverview from "./components/SeriesOverview";
 import { useEffect } from "react";
+import { ENV } from "./consts";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -31,7 +32,7 @@ function App() {
 
             const seriesList = await res.json();
             seriesList.forEach((e) => {
-                e.contract = e.mainnetContract;
+                e.contract = ENV === 'prod'? e.mainnetContract: e.testnetContract;
             });
             setSeries(seriesList.reverse());
         }
