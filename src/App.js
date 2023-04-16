@@ -30,7 +30,8 @@ function App() {
                 "https://editart-backend-2gpmj.ondigitalocean.app/series"
             );
 
-            const seriesList = await res.json();
+            let seriesList = await res.json();
+            if(ENV === 'prod') seriesList = seriesList.filter(e => e.showInFrontend)
             seriesList.forEach((e) => {
                 e.contract = ENV === 'prod'? e.mainnetContract: e.testnetContract;
             });
