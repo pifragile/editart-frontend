@@ -1,14 +1,18 @@
 import SeriesBox from "./SeriesBox";
-import contracts from "../contracts";
 import { useState } from "react";
 import LoadMoreButton from "./LoadMoreButton";
+import { useContext } from "react";
+import { SeriesContext } from "../App";
+import { ENV } from "../consts";
 
 function SeriesOverviewComponent() {
+    let series = useContext(SeriesContext);
+    if(ENV !== 'prod') series = [];
     const pageLength = 20;
 
     const [page, setPage] = useState(pageLength);
     const loadMore = () => {
-        if (page < contracts.length) setPage(Math.max(page + pageLength, 0));
+        if (page < series.length) setPage(Math.max(page + pageLength, 0));
     };
 
     return (
@@ -20,16 +24,16 @@ function SeriesOverviewComponent() {
                     flexWrap: "wrap",
                 }}
             >
-                {contracts.slice(0, page).map((c) => (
+                {series.slice(0, page).map((c) => (
                     <SeriesBox
-                        contract={c.address}
-                        author={c.author}
-                        key={c.address}
+                        contract={c.contract}
+                        author={c.artistName}
+                        key={c.contract}
                         name={c.name}
                     />
                 ))}
             </div>
-            {page <= contracts.length && <LoadMoreButton loadMore={loadMore} />}
+            {page <= series.length && <LoadMoreButton loadMore={loadMore} />}
         </div>
     );
 }

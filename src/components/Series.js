@@ -10,13 +10,18 @@ import MarketPlace from "./Marketplace";
 import { extractTokensForOverview, formatMutez } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
-import contractList from "../contracts";
 import { bytes2Char } from "@taquito/utils";
 import { WalletContext } from "../lib/wallet";
 import Editor from "./Editor";
+import { SeriesContext } from "../App";
 
 function Series() {
+    const series = useContext(SeriesContext);
+
     const { contract } = useParams();
+    const releaseDate = new Date(
+        series.find((e) => e.contract === contract)?.plannedRelease
+    );
     const wallet = useContext(WalletContext);
     const [metadata, setMetadata] = useState(null);
     const [numTokens, setNumTokens] = useState(null);
@@ -63,10 +68,10 @@ function Series() {
 
         fetchStorage().catch(console.error);
         setDisableMintOnMobile(
-            contractList.find((e) => e.address === contract)
-                ?.disableMintOnMobile || false
+            series.find((e) => e.contract === contract)
+                ?.disableMintingOnMobile || false
         );
-    }, [contract, wallet]);
+    }, [contract, wallet, series]);
 
     if (numTokens && metadata) {
         return (
@@ -82,11 +87,17 @@ function Series() {
                         {metadata.description}
                     </div>
                 </div>
-
-                    <p>--</p>
-                        {formatMutez(price)}
-                        <p>{numTokensMinted} / {numTokens}</p>
-
+                <p>--</p>
+                {formatMutez(price)}
+                <br />
+                {numTokensMinted} / {numTokens}
+                {/* {new Date() < releaseDate && (
+                    <span>
+                        <br />
+                        <br />
+                        planned release: {releaseDate.toLocaleString()}
+                    </span>
+                )} */}
                 {(width >= 768 || !disableMintOnMobile) && (
                     <Editor
                         contract={contract}
@@ -98,7 +109,6 @@ function Series() {
                         baseUrl={baseUrl}
                     />
                 )}
-
                 {width < 768 && disableMintOnMobile && (
                     <div
                         style={{
@@ -110,11 +120,9 @@ function Series() {
                         Minting for this token is disabled on mobile
                     </div>
                 )}
-
                 <div style={{ marginTop: "5vh" }}>
                     <MarketPlace contract={contract}></MarketPlace>
                 </div>
-
                 <div style={{ marginTop: "5vh" }}>
                     <h1>All tokens</h1>
                     <TokenOverview

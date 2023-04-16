@@ -10,6 +10,7 @@ if (["dev", "staging"].includes(ENV)) {
             address: "KT1PJtZ9EyG2CBwDVvqPnpsFpF4jq1vrGqWB",
             author: "mandybrigwell",
             showArtifact: true,
+            plannedRelease: "2023-04-20T12:00:00.000Z"
         },
         {
             name: "Crystal Glitch",

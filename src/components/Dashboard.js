@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import contractList from "../contracts";
 import { getContractStorageFull, listContractBigmap } from "../lib/api";
+import { useContext } from "react";
+import { SeriesContext } from "../App";
 
 function Dashboard() {
-    const [numSeries, setNumSeries] = useState(contractList.length);
+    const series = useContext(SeriesContext);
+    const [numSeries, setNumSeries] = useState(series.length);
     const [numArtists, setNumArtists] = useState(0);
     const [numCocreators, setNumCocreators] = useState(0);
     const [numTokensSold, setNUmTokensSold] = useState(0);
@@ -11,8 +13,8 @@ function Dashboard() {
 
     useEffect(() => {
         async function action() {
-            setNumSeries(contractList.length);
-            const contracts = contractList.map((e) => e.address);
+            setNumSeries(series.length);
+            const contracts = series.map((e) => e.contract);
             const contractStorages = await Promise.all(
                 contracts.map(async (a) => await getContractStorageFull(a))
             );
@@ -46,7 +48,7 @@ function Dashboard() {
         }
 
         action().catch(console.error);
-    }, []);
+    }, [series]);
 
     return (
         <div style={{ marginTop: "5vh", width: "min(600px, 80vw)" }}>

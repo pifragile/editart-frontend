@@ -15,9 +15,11 @@ import UserDetail from "./UserDetail";
 import TokenImage from "./TokenImage";
 import { getTokenMetadata } from "../lib/api";
 import { resolveIpfs } from "../lib/utils";
-import contractList from "../contracts";
+import { useContext } from "react";
+import { SeriesContext } from "../App";
 
 function TokenDetail() {
+    const series = useContext(SeriesContext);
     let { contract, tokenId } = useParams();
     const [tokenPrice, setTokenPrice] = useState(null);
     const [owner, setOwner] = useState(null);
@@ -56,7 +58,7 @@ function TokenDetail() {
                             url={token.metadata.artifactUri}
                             displayUrl={token.metadata.displayUri}
                             isBig={true}
-                            showArtifact={contractList.find(e => e.address === contract)?.showArtifact || false}
+                            showArtifact={series.find(e => e.contract === contract)?.displayArtifact || false}
                         />
                     </div>
 
