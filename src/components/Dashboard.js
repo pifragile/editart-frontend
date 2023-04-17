@@ -76,7 +76,7 @@ function Dashboard() {
                     </tr>
                     <tr>
                         <td style={{ color: "inherit", fontWeight: "inherit" }}>
-                            Tokens sold
+                            Artworks sold
                         </td>
                         <td>{numTokensSold}</td>
                     </tr>
