@@ -1,4 +1,5 @@
 export const tweets = [
+    'https://twitter.com/shaderism/status/1649855175765508108?s=20',
     'https://twitter.com/vedrrran/status/1645725818813906944?s=20',
     //'https://twitter.com/mariuswatz/status/1643270196231020546?s=20',
     'https://twitter.com/defibeast/status/1644266866783952897?s=20',
