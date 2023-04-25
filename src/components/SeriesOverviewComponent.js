@@ -8,7 +8,7 @@ import { ENV } from "../consts";
 function SeriesOverviewComponent() {
     let series = useContext(SeriesContext);
     if(ENV !== 'prod') series = [];
-    const pageLength = 20;
+    const pageLength = 10;
 
     const [page, setPage] = useState(pageLength);
     const loadMore = () => {
