@@ -34,13 +34,12 @@ function Box({ artifactUri, displayUri, link, line1, line2 }) {
             )}
             <Link to={link}>
                 <div
+                    className ="standard-width standard-height"
                     style={{
                         position: "absolute",
                         top: "0",
                         left: "0",
                         display: "inline-block",
-                        height: "100%",
-                        width: "100%",
                         padding: "20px",
                     }}
                 ></div>

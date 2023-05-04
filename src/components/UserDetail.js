@@ -3,7 +3,7 @@ import { OBJKT_API } from "../consts";
 import { Link } from "react-router-dom";
 
 function UserDetail({ address, isLink }) {
-    const [tzProfile, setTzProfile] = useState(null);
+    const [tzProfile, setTzProfile] = useState({});
     useEffect(() => {
         const fetchTzProfile = async (address) => {
             if (!address) return;
@@ -29,10 +29,8 @@ function UserDetail({ address, isLink }) {
 
             if (res.status === 200) {
                 let data = await res.json();
-                let holder = data.data.holder;
-                if (holder.length > 0) {
-                    setTzProfile(holder[0]);
-                }
+                let holder = data.data.holder?.[0];
+                setTzProfile(holder);
             }
         };
         fetchTzProfile(address).catch(console.error);
@@ -42,12 +40,14 @@ function UserDetail({ address, isLink }) {
         return `${address.slice(0, 4)}...${address.slice(-4)}`;
     }
     if (isLink) {
-        return (
-            <Link to={`/user/${address}`}>
-                {tzProfile?.alias && <span>{tzProfile.alias}</span>}
-                {!tzProfile?.alias && <span>{getAddrString(address)}</span>}
-            </Link>
-        );
+        if (address) {
+            return (
+                <Link to={`/user/${address}`}>
+                    {tzProfile.alias && <span>{tzProfile.alias}</span>}
+                    {!tzProfile.alias && <span>{getAddrString(address)}</span>}
+                </Link>
+            );
+        }
     } else {
         return (
             <div className="standard-width">

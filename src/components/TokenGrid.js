@@ -22,6 +22,7 @@ function TokenGrid({ tokens, loadMore }) {
                                     displayUri={token.metadata.displayUri}
                                     key={token.metadata.name}
                                     price={token.price}
+                                    creator={token.creator}
                                 />
                             );
                         return "";
