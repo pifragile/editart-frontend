@@ -3,7 +3,7 @@ import {
     IPFS_GATEWAY,
     SPACES_ORIGIN_ENDPOINT,
 } from "../consts";
-import { getTokenMetadata, listContractBigmap } from "./api";
+import { getContractMetadata, getTokenMetadata, listContractBigmap } from "./api";
 
 export function resolveIpfsCdn(type, address) {
     if (address) {
@@ -39,11 +39,20 @@ export function resolveIpfs(address) {
 export function formatMutez(mutez) {
     return `${mutez / 1000000} tez`;
 }
-
+ async function addCreators(data) {
+    const creators = {}
+    for(let token of data) {
+        const address = token.contract.address
+        if(!(address in creators)) {
+            creators[address] = await listContractBigmap(address, 'creators');
+        }
+        token.creator = creators[address].find(e => e.key === token.tokenId)?.value
+    }
+    return data
+}
 export async function extractTokensForOverview(data) {
     if ("token" in data[0]) data = data.map((item) => item.token);
-    let creators = await listContractBigmap(data[0].contract.address, 'creators');
-    data.forEach((item) => item.creator = creators.find(e => e.key === item.tokenId)?.value);
+    data = await addCreators(data);
     // use this when metadata is broken in api
     for (let token of data) {
         if (!("metadata" in token)) {
