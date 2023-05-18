@@ -15,6 +15,7 @@ import Sandbox from "./components/Sandbox";
 import SeriesOverview from "./components/SeriesOverview";
 import { useEffect } from "react";
 import { ENV } from "./consts";
+import Feed from "./components/Feed";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -31,9 +32,11 @@ function App() {
             );
 
             let seriesList = await res.json();
-            if(ENV === 'prod') seriesList = seriesList.filter(e => e.showInFrontend)
+            if (ENV === "prod")
+                seriesList = seriesList.filter((e) => e.showInFrontend);
             seriesList.forEach((e) => {
-                e.contract = ENV === 'prod'? e.mainnetContract: e.testnetContract;
+                e.contract =
+                    ENV === "prod" ? e.mainnetContract : e.testnetContract;
             });
             setSeries(seriesList.reverse());
         }
@@ -70,6 +73,7 @@ function App() {
                                 path="/series-overview/"
                                 element={<SeriesOverview />}
                             />
+                            <Route path="/feed/" element={<Feed />} />
                         </Routes>
                     </div>
                 </SeriesContext.Provider>

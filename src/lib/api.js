@@ -76,3 +76,57 @@ export async function getTokenMetadata(contract, tokenId) {
         metadata.thumbnailUri = bytes2Char(raw_metadata.thumbnailUri);
     return metadata;
 }
+
+export async function getFeed(series, limit, offset) {
+    let query = 'v1/operations/transactions?' + new URLSearchParams({
+        'target.in':series.map(e => e.contract).join(','),
+        'entrypoint.in':'mint,buy_item, list_item',
+        'sort.desc':'level',
+        'status':'applied',
+        'select':['storage', 'diffs','entrypoint','sender','target','timestamp', 'parameter'],
+        limit, offset
+
+    })
+
+    const parseMint = e => ({
+        timestamp: e.timestamp,
+        contract: e.target.address,
+        sender: e.sender.address,
+        collectionName: bytes2Char(e.storage.collection_name),
+        price: e.storage.price,
+        tokenId: parseInt(e.storage.last_token_id) - 1,
+        verb: 'minted'
+    })
+
+    const parseListItem = e => ({
+        timestamp: e.timestamp,
+        contract: e.target.address,
+        sender: e.sender.address,
+        collectionName: bytes2Char(e.storage.collection_name),
+        price: e.diffs[0].content.value,
+        tokenId: e.diffs[0].content.key,
+        verb: 'listed'
+    })
+
+    const parseBuyItem = e => ({
+        timestamp: e.timestamp,
+        contract: e.target.address,
+        sender: e.sender.address,
+        collectionName: bytes2Char(e.storage.collection_name),
+        price: e.diffs.find(x => x.path === 'listings').content.value,
+        tokenId: e.diffs.find(x => x.path === 'listings').content.key,
+        verb: 'bought'
+    })
+
+    const functionMapper = {
+        'buy_item': parseBuyItem,
+        'list_item': parseListItem,
+        'mint': parseMint,
+    }
+
+    let res = await fetch(TZKT_API + query);
+    if (res.status === 200) {
+        let data = await res.json();
+        return data.map( e => functionMapper[e.parameter.entrypoint](e))
+    }
+}

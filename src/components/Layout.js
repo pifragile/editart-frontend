@@ -76,6 +76,11 @@ function Layout({ children, favicon = "/favicon.png" }) {
                                     <Link to="/series-overview">Series</Link>
                                 </span>
                             </li>
+                            <li key="Feed">
+                                <span className="menu-item">
+                                    <Link to="/feed">Feed</Link>
+                                </span>
+                            </li>
                             <li key="MyCollection">
                                 <span className="menu-item">
                                     <Link to={`/user/${activeAccount}`}>
