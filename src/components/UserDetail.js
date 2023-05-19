@@ -29,7 +29,7 @@ function UserDetail({ address, isLink }) {
 
             if (res.status === 200) {
                 let data = await res.json();
-                let holder = data.data.holder?.[0];
+                let holder = data.data.holder?.[0] || {};
                 setTzProfile(holder);
             }
         };
