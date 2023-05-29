@@ -1,4 +1,6 @@
 export const tweets = [
+    'https://twitter.com/PawelDudko/status/1659283408097271810?s=20',
+    'https://twitter.com/FluffheadChaser/status/1655568735611265024?s=20',
     'https://twitter.com/VectorZ3R0/status/1654133263965859840?s=20',
     'https://twitter.com/agrshch/status/1654106267667898368?s=20',
     'https://twitter.com/FluffheadChaser/status/1653474796984778755?s=20',
