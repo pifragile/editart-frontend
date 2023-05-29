@@ -4,7 +4,11 @@ import Layout from "./Layout";
 
 import { useContext, useEffect, useState } from "react";
 
-import { getContractStorage, getContractMetadata } from "../lib/api";
+import {
+    getContractStorage,
+    getContractMetadata,
+    getFloorPrice,
+} from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
 import { extractTokensForOverview, formatMutez } from "../lib/utils";
@@ -14,6 +18,7 @@ import { bytes2Char } from "@taquito/utils";
 import { WalletContext } from "../lib/wallet";
 import Editor from "./Editor";
 import { SeriesContext } from "../App";
+import SeriesPrice from "./SeriesPrice";
 
 function Series() {
     const series = useContext(SeriesContext);
@@ -28,6 +33,8 @@ function Series() {
     const [numTokensMinted, setNumTokensMinted] = useState(null);
     const [artist, setArtist] = useState(null);
     const [price, setPrice] = useState(null);
+    const [floorPrice, setFloorPrice] = useState(null);
+    const [soldOut, setSoldOut] = useState(false);
     const [baseUrl, setBaseUrl] = useState(null);
     const [paused, setPaused] = useState(null);
     const [activeAccount, setActiveAccount] = useState(null);
@@ -47,11 +54,18 @@ function Series() {
     useEffect(() => {
         const fetchStorage = async () => {
             if (contract === null || contract === "null") return;
-            setNumTokens(await getContractStorage(contract, "num_tokens"));
-            setPrice(await getContractStorage(contract, "price"));
-            setNumTokensMinted(
-                await getContractStorage(contract, "last_token_id")
+            const numTokensRes = await getContractStorage(
+                contract,
+                "num_tokens"
             );
+            const numTokensMintedRes = await getContractStorage(
+                contract,
+                "last_token_id"
+            );
+            setNumTokens(numTokensRes);
+            setPrice(await getContractStorage(contract, "price"));
+            setNumTokensMinted(numTokensMintedRes);
+            if (numTokensRes === numTokensMintedRes) setSoldOut(true);
             setArtist(await getContractStorage(contract, "artist_address"));
             setMetadata(await getContractMetadata(contract));
             setPaused(await getContractStorage(contract, "paused"));
@@ -64,6 +78,7 @@ function Series() {
             if (account) {
                 setActiveAccount(account.address);
             }
+            setFloorPrice(await getFloorPrice(contract));
         };
 
         fetchStorage().catch(console.error);
@@ -88,9 +103,13 @@ function Series() {
                     </div>
                 </div>
                 <p>--</p>
-                {formatMutez(price)}
-                <br />
                 {numTokensMinted} / {numTokens}
+                <br />
+                <SeriesPrice
+                    soldOut={soldOut}
+                    price={price}
+                    floorPrice={floorPrice}
+                />
                 {new Date() < releaseDate && (
                     <span>
                         <br />

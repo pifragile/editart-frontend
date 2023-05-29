@@ -3,7 +3,7 @@ import {
     IPFS_GATEWAY,
     SPACES_ORIGIN_ENDPOINT,
 } from "../consts";
-import { getContractMetadata, getTokenMetadata, listContractBigmap } from "./api";
+import { getTokenMetadata, listContractBigmap } from "./api";
 
 export function resolveIpfsCdn(type, address) {
     if (address) {
@@ -74,4 +74,21 @@ export function insertIndexHtml(url) {
     else outval = url + "/index.html";
 
     return outval;
+}
+
+
+function wait(delay){
+    return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+export function fetchRetry(url, fetchOptions = {}, tries=1) {
+    function onError(err){
+        const delay = Math.random(500)
+        const triesLeft = tries - 1;
+        if(!triesLeft){
+            throw err;
+        }
+        return wait(delay).then(() => fetchRetry(url, fetchOptions=fetchOptions, tries=triesLeft));
+    }
+    return fetch(url,fetchOptions).catch(onError);
 }

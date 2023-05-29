@@ -39,7 +39,7 @@ export async function getContractBigmap(contract, bigmap, key) {
 }
 
 export async function listContractBigmap(contract, bigmap) {
-    let query = `v1/contracts/${contract}/bigmaps/${bigmap}/keys?limit=10000`;
+    let query = `v1/contracts/${contract}/bigmaps/${bigmap}/keys?limit=10000&active=true`;
     let res = await fetch(TZKT_API + query);
     if (res.status === 200) {
         let data = await res.json();
@@ -129,4 +129,10 @@ export async function getFeed(series, limit, offset) {
         let data = await res.json();
         return data.map( e => functionMapper[e.parameter.entrypoint](e))
     }
+}
+
+export async function getFloorPrice(contract) {
+    let listings = await listContractBigmap(contract, 'listings')
+    let prices = listings.map(e => parseInt(e.value))
+    return Math.min(...prices)
 }

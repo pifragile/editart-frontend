@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { OBJKT_API } from "../consts";
 import { Link } from "react-router-dom";
+import { fetchRetry } from "../lib/utils";
 
 function UserDetail({ address, isLink }) {
     const [tzProfile, setTzProfile] = useState({});
@@ -17,7 +18,7 @@ function UserDetail({ address, isLink }) {
                 }
               }`;
 
-            let res = await fetch(OBJKT_API, {
+            let res = await fetchRetry(OBJKT_API, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,7 +26,7 @@ function UserDetail({ address, isLink }) {
                 body: JSON.stringify({
                     query: query,
                 }),
-            });
+            }, 3);
 
             if (res.status === 200) {
                 let data = await res.json();
