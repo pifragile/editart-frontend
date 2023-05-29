@@ -15,20 +15,27 @@ function Dashboard() {
         async function action() {
             setNumSeries(series.length);
             const contracts = series.map((e) => e.contract);
+
             const contractStorages = await Promise.all(
-                contracts.map(async (a) => await getContractStorageFull(a))
+                contracts.map(async (a, idx) => {
+                    await new Promise((r) => setTimeout(r, 100 * idx));
+                    return await getContractStorageFull(a);
+                })
             );
+
             setNumArtists(
                 new Set(contractStorages.map((e) => e.artist_address)).size
             );
 
             const creators = await Promise.all(
-                contracts.map(async (a) =>
-                    (
-                        await listContractBigmap(a, "creators")
-                    ).map((e) => e.value)
-                )
+                contracts.map(async (a, idx) => {
+                    await new Promise((r) => setTimeout(r, 100 * idx));
+                    return (await listContractBigmap(a, "creators")).map(
+                        (e) => e.value
+                    );
+                })
             );
+
             setNumCocreators(new Set(creators.flat()).size);
             setNUmTokensSold(
                 contractStorages.reduce(
