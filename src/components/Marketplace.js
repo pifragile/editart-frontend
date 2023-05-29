@@ -21,7 +21,7 @@ function MarketPlace({ contract }) {
             <TokenOverview
                 query={query}
                 extractTokens={extractTokensForMarketplace}
-                pageLength={3}
+                pageLength={6}
             />
         </div>
     );
