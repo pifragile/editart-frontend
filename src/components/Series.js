@@ -11,7 +11,7 @@ import {
 } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
-import { extractTokensForOverview, formatMutez } from "../lib/utils";
+import { extractTokensForOverview } from "../lib/utils";
 
 import TokenOverview from "./TokenOverview";
 import { bytes2Char } from "@taquito/utils";

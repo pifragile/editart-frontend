@@ -24,7 +24,7 @@ function Feed() {
                 if (maybeMore) {
                     const result = await getFeed(series, pageLength, page);
                     if (result.length > 0) {
-                        setFeedData(feedData.concat(result));
+                        setFeedData(f => f.concat(result));
                         setMaybeMore(result.length === pageLength);
                     } else {
                         setPage(Math.max(page - pageLength, 0));
