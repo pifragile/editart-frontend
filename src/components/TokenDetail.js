@@ -95,6 +95,14 @@ function TokenDetail() {
                     <Link to={`/series/${contract}`}>
                         <button class="btn btn-default">Go to series</button>
                     </Link>
+                    {/* <br />
+                    <a
+                        href={resolveIpfs(token.metadata.artifactUri)}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <button class="btn btn-default">Add to DIY Frame</button>
+                    </a> */}
                     <br />
                     <div
                         className="token-detail-width"

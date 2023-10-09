@@ -5,9 +5,13 @@ import { useContext } from "react";
 import { SeriesContext } from "../App";
 import { ENV } from "../consts";
 
-function SeriesOverviewComponent() {
+function SeriesOverviewComponent({ artistAddress = null }) {
     let series = useContext(SeriesContext);
-    if(ENV !== 'prod') series = [];
+    console.log(series)
+    if (artistAddress) {
+        series = series.filter((s) => (s.artistAddress === artistAddress));
+    }
+    if (ENV !== "prod") series = [];
     const pageLength = 9;
 
     const [page, setPage] = useState(pageLength);

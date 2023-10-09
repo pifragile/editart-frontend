@@ -5,7 +5,7 @@ import TokenImage from "./TokenImage";
 function Box({ artifactUri, displayUri, link, line1, line2 }) {
     return (
         <div
-            style={{
+        style={{
                 position: "relative",
                 margin: "10px 30px 20px 0",
             }}

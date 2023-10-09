@@ -20,7 +20,6 @@ function Editor({ contract, baseUrl, price, showButton }) {
     const [history, setHistory] = useState([valuesFromQueryString(initialQueryString)]);
     const [historyIndex, setHistoryIndex] = useState(0);
     baseUrl = baseUrl ? baseUrl + "?" + initialQueryString : "";
-
     useEffect(() => {
         const handler = (e) => {
             if (e.data.hasOwnProperty("editArtTemplateVersion")) {

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import UserDetail from "./UserDetail";
 import { SeriesContext } from "../App";
 import { useContext, useEffect, useState } from "react";
+import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function User() {
     const [query, setQuery] = useState(null);
     const series = useContext(SeriesContext);
@@ -33,6 +34,10 @@ function User() {
         return (
             <Layout>
                 <UserDetail address={address} />
+                <h1>Creations</h1>
+                <SeriesOverviewComponent
+                    artistAddress={address}
+                ></SeriesOverviewComponent>
                 <h1>Collection</h1>
                 <TokenOverview
                     query={query}
