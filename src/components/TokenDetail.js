@@ -14,7 +14,7 @@ import {
 import UserDetail from "./UserDetail";
 import TokenImage from "./TokenImage";
 import { getTokenMetadata } from "../lib/api";
-import { resolveIpfs } from "../lib/utils";
+import { resolveIpfs, resolveIpfsGatewaySketches } from "../lib/utils";
 import { useContext } from "react";
 import { SeriesContext } from "../App";
 
@@ -85,7 +85,7 @@ function TokenDetail() {
                     </div>
                     <br />
                     <a
-                        href={resolveIpfs(token.metadata.artifactUri)}
+                        href={resolveIpfsGatewaySketches(token.metadata.artifactUri)}
                         target="_blank"
                         rel="noreferrer"
                     >

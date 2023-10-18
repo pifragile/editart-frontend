@@ -30,6 +30,13 @@ export function resolveIpfsSketches(address) {
     }
 }
 
+export function resolveIpfsGatewaySketches(address) {
+    if (address) {
+        address = insertIndexHtml(address);
+        return address.replace("ipfs://", IPFS_GATEWAY);
+    }
+}
+
 export function resolveIpfs(address) {
     if (address) {
         return address.replace("ipfs://", IPFS_GATEWAY);
