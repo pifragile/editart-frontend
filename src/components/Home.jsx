@@ -1,6 +1,6 @@
 import Layout from "./Layout";
 import { Link } from "react-router-dom";
-import TwitterFeed from "./TwitterFeed";
+// import TwitterFeed from "./TwitterFeed";
 import Dashboard from "./Dashboard";
 import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function Home() {
@@ -40,7 +40,7 @@ function Home() {
             </div>
             <div style={{ marginTop: "5vh" }}>
                 <h1>EditArt on Twitter</h1>
-                <TwitterFeed />
+                {/* <TwitterFeed /> */}
             </div>
         </Layout>
     );
