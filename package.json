@@ -1,37 +1,35 @@
 {
-  "name": "market",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@taquito/beacon-wallet": "^20.1.0",
-    "@taquito/utils": "^20.1.0",
-    "@vitejs/plugin-react": "^4.3.3",
-    "buffer": "^6.0.3",
-    "crypto-browserify": "^3.12.1",
-    "normalize.css": "^8.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.2",
-    "stream-browserify": "^3.0.0",
-    "terminal.css": "^0.7.2",
-    "vite": "^5.4.11",
-    "vite-plugin-node-polyfills": "^0.22.0"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "market",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@taquito/beacon-wallet": "^20.1.0",
+        "@taquito/utils": "^20.1.0",
+        "@vitejs/plugin-react": "^4.3.3",
+        "buffer": "^6.0.3",
+        "normalize.css": "^8.0.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.4.2",
+        "terminal.css": "^0.7.2",
+        "vite": "^5.4.11",
+        "vite-plugin-node-polyfills": "^0.22.0"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

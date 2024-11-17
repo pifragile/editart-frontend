@@ -10,15 +10,10 @@ export default defineConfig({
             protocolImports: true, // Enables polyfills for Node.js built-ins
         }),
     ],
-    resolve: {
-      alias: {
-        stream: 'stream-browserify', // Example alias if needed
-        crypto: 'crypto-browserify',
-        buffer: 'buffer',
-      },
-    },
-    define: {
-      global: 'window', // Ensure `global` is defined
-    },
+    // resolve: {
+    //   alias: {
+    //     buffer: 'buffer',
+    //   },
+    //},
     base: "/",
 });
