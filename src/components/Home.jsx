@@ -30,7 +30,7 @@ function Home() {
                     </a>
                 </div>
 
-                <div>❤️ , pifragile</div>
+                <div>❤️ , Piero</div>
                 {/* <TokenOverview query={query}></TokenOverview> */}
             </div>
             <Dashboard />
