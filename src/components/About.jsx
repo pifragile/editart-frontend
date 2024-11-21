@@ -76,7 +76,7 @@ function About() {
                     well immutably stored on chain. This process ensures full
                     decentralization, but makes it necessary that the token
                     metadata is generated on chain and is the reason why the
-                    minting fees are slightly higher that for example in
+                    minting fees are higher that for example in
                     fx(hash). Editart has special priviliges on the contract to
                     set a displayURI and a thumbnailURI for the user's
                     convenience and for a smooth integration into other

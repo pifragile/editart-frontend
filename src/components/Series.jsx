@@ -8,6 +8,7 @@ import {
     getContractStorage,
     getContractMetadata,
     getFloorPrice,
+    getContract,
 } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
@@ -24,9 +25,6 @@ function Series() {
     const series = useContext(SeriesContext);
 
     const { contract } = useParams();
-    const releaseDate = new Date(
-        series.find((e) => e.contract === contract)?.plannedRelease
-    );
     const wallet = useContext(WalletContext);
     const [metadata, setMetadata] = useState(null);
     const [numTokens, setNumTokens] = useState(null);
@@ -40,6 +38,7 @@ function Series() {
     const [activeAccount, setActiveAccount] = useState(null);
     const [width, setWidth] = useState(window.innerWidth);
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
+    const [releaseDate, setReleaseDate] = useState(true);
 
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
@@ -69,6 +68,13 @@ function Series() {
             setArtist(await getContractStorage(contract, "artist_address"));
             setMetadata(await getContractMetadata(contract));
             setPaused(await getContractStorage(contract, "paused"));
+            const contractData = await getContract(contract);
+            let date =
+                series.find((e) => e.contract === contract)?.plannedRelease ||
+                contractData.firstActivityTime;
+            date = new Date(date)
+
+            setReleaseDate(date < new Date() ? date.toLocaleDateString() : date.toLocaleString())
 
             setBaseUrl(
                 bytes2Char(await getContractStorage(contract, "base_url"))
@@ -88,7 +94,7 @@ function Series() {
         );
     }, [contract, wallet, series]);
 
-    if (numTokens && metadata) {
+    if (numTokens && metadata && releaseDate) {
         return (
             <Layout>
                 <div>
@@ -97,12 +103,21 @@ function Series() {
                     </div>
                     <div>
                         by <UserDetail address={artist} isLink={true} />
+                        {/* <span>
+                    {"    "}|{"    "}
+                    <>{releaseDate}</>
+                </span> */}
                     </div>
                     <div style={{ marginTop: "1vh", whiteSpace: "pre-wrap" }}>
                         {metadata.description}
                     </div>
                 </div>
                 <p>--</p>
+                <span>
+                    <>{releaseDate}</>
+                </span>
+                <br/>
+                <br/>
                 {numTokensMinted} / {numTokens}
                 <br />
                 <SeriesPrice
@@ -110,13 +125,6 @@ function Series() {
                     price={price}
                     floorPrice={floorPrice}
                 />
-                {new Date() < releaseDate && (
-                    <span>
-                        <br />
-                        <br />
-                        planned release: {releaseDate.toLocaleString()}
-                    </span>
-                )}
                 {(width >= 768 || !disableMintOnMobile) && (
                     <Editor
                         contract={contract}
