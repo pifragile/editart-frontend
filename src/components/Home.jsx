@@ -39,7 +39,7 @@ function Home() {
                 <SeriesOverviewComponent />
             </div>
             <div style={{ marginTop: "5vh" }}>
-                <h1>EditArt on Twitter</h1>
+                {/* <h1>EditArt on Twitter</h1> */}
                 {/* <TwitterFeed /> */}
             </div>
         </Layout>
