@@ -1,4 +1,4 @@
-import { resolveIpfsSketches } from "../lib/utils";
+import { resolveIpfsGatewaySketches, resolveIpfsSketches } from "../lib/utils";
 
 function LiveViewIFrame({ url }) {
     return (
@@ -10,7 +10,7 @@ function LiveViewIFrame({ url }) {
                 height: "100%",
                 width: "100%",
             }}
-            src={resolveIpfsSketches(url)}
+            src={resolveIpfsGatewaySketches(url)}
         />
     );
 }
