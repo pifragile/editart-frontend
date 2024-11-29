@@ -10,7 +10,7 @@ function LiveViewIFrame({ url }) {
                 height: "100%",
                 width: "100%",
             }}
-            src={resolveIpfsGatewaySketches(url)}
+            src={resolveIpfsSketches(url)}
         />
     );
 }
