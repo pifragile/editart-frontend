@@ -16,6 +16,7 @@ import SeriesOverview from "./components/SeriesOverview";
 import { useEffect } from "react";
 import { ENV } from "./consts";
 import Feed from "./components/Feed";
+import { CacheProvider } from "./lib/context";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -47,35 +48,40 @@ function App() {
         <WalletContext.Provider value={wallet}>
             <ModeContext.Provider value={{ mode, setMode }}>
                 <SeriesContext.Provider value={series}>
-                    <div className="App">
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/about" element={<About />} />
-                            <Route
-                                path="/token-detail/:contract/:tokenId"
-                                element={<TokenDetail />}
-                            />
-                            <Route path="/user/:address" element={<User />} />
-                            <Route
-                                path="/marketplace"
-                                element={<MarketPlace />}
-                            />
-                            <Route
-                                path="/series/:contract"
-                                element={<Series />}
-                            />
-                            <Route
-                                path="/artist-panel/:contract"
-                                element={<ArtistPanel />}
-                            />
-                            <Route path="/sandbox/" element={<Sandbox />} />
-                            <Route
-                                path="/series-overview/"
-                                element={<SeriesOverview />}
-                            />
-                            <Route path="/feed/" element={<Feed />} />
-                        </Routes>
-                    </div>
+                    <CacheProvider>
+                        <div className="App">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/about" element={<About />} />
+                                <Route
+                                    path="/token-detail/:contract/:tokenId"
+                                    element={<TokenDetail />}
+                                />
+                                <Route
+                                    path="/user/:address"
+                                    element={<User />}
+                                />
+                                <Route
+                                    path="/marketplace"
+                                    element={<MarketPlace />}
+                                />
+                                <Route
+                                    path="/series/:contract"
+                                    element={<Series />}
+                                />
+                                <Route
+                                    path="/artist-panel/:contract"
+                                    element={<ArtistPanel />}
+                                />
+                                <Route path="/sandbox/" element={<Sandbox />} />
+                                <Route
+                                    path="/series-overview/"
+                                    element={<SeriesOverview />}
+                                />
+                                <Route path="/feed/" element={<Feed />} />
+                            </Routes>
+                        </div>
+                    </CacheProvider>
                 </SeriesContext.Provider>
             </ModeContext.Provider>
         </WalletContext.Provider>

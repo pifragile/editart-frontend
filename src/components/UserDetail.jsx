@@ -2,12 +2,20 @@ import { useEffect, useState } from "react";
 import { OBJKT_API } from "../consts";
 import { Link } from "react-router-dom";
 import { fetchRetry } from "../lib/utils";
+import { useCacheContext } from "../lib/context";
 
 function UserDetail({ address, isLink }) {
     const [tzProfile, setTzProfile] = useState({});
+    const { cache, setCache } = useCacheContext();
     useEffect(() => {
         const fetchTzProfile = async (address) => {
             if (!address) return;
+            const cachedData = cache.users[address];
+            if (cache.users[address]) {
+                setTzProfile(cachedData);
+                console.log("cache hit");
+                return;
+            }
             let query = `query MyQuery {
                 holder(where: {address: {_eq: "${address}"}}) {
                   alias
@@ -18,20 +26,33 @@ function UserDetail({ address, isLink }) {
                 }
               }`;
 
-            let res = await fetchRetry(OBJKT_API, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+            let res = await fetchRetry(
+                OBJKT_API,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                    }),
                 },
-                body: JSON.stringify({
-                    query: query,
-                }),
-            }, 3);
+                3
+            );
 
             if (res.status === 200) {
                 let data = await res.json();
                 let holder = data.data.holder?.[0] || {};
                 setTzProfile(holder);
+                cache.users[address] = setTzProfile;
+
+                setCache((prevCache) => ({
+                    ...prevCache,
+                    users: {
+                        ...prevCache.users,
+                        [address]: holder,
+                    },
+                }));
             }
         };
         fetchTzProfile(address).catch(console.error);
