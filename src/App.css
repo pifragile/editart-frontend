@@ -68,3 +68,23 @@
   height: 35vw;
   min-height: 300px;
 }
+
+.spinner {
+  width: 1rem; /* Adjusts to 50% of the parent container */
+  height: 1rem; /* Adjusts to 50% of the parent container */
+  aspect-ratio: 1; /* Ensures it's always a circle */
+  border: 1px solid #f3f3f3; /* Scales relative to the spinner size */
+  border-top: 1px solid black; /* Blue border for animation effect */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-sizing: border-box; /* Ensures borders are included in width/height */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

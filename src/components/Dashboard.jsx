@@ -73,25 +73,31 @@ function Dashboard() {
                         <td style={{ color: "inherit", fontWeight: "inherit" }}>
                             Artists
                         </td>
-                        <td>{numArtists}</td>
+                        <td>{numArtists || <div className="spinner"></div>}</td>
                     </tr>
                     <tr>
                         <td style={{ color: "inherit", fontWeight: "inherit" }}>
                             Co-creators
                         </td>
-                        <td>{numCocreators}</td>
+                        <td>
+                            {numCocreators || <div className="spinner"></div>}
+                        </td>
                     </tr>
                     <tr>
                         <td style={{ color: "inherit", fontWeight: "inherit" }}>
                             Artworks sold
                         </td>
-                        <td>{numTokensSold}</td>
+                        <td>
+                            {numTokensSold || <div className="spinner"></div>}
+                        </td>
                     </tr>
                     <tr>
                         <td style={{ color: "inherit", fontWeight: "inherit" }}>
                             Primary volume (tez)
                         </td>
-                        <td>{primaryVolume}</td>
+                        <td>
+                            {primaryVolume || <div className="spinner"></div>}
+                        </td>
                     </tr>
                 </tbody>
             </table>
