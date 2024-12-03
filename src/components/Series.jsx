@@ -72,9 +72,13 @@ function Series() {
             let date =
                 series.find((e) => e.contract === contract)?.plannedRelease ||
                 contractData.firstActivityTime;
-            date = new Date(date)
+            date = new Date(date);
 
-            setReleaseDate(date < new Date() ? date.toLocaleDateString() : date.toLocaleString())
+            setReleaseDate(
+                date < new Date()
+                    ? date.toLocaleDateString()
+                    : date.toLocaleString()
+            );
 
             setBaseUrl(
                 bytes2Char(await getContractStorage(contract, "base_url"))
@@ -116,8 +120,8 @@ function Series() {
                 <span>
                     <>{releaseDate}</>
                 </span>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 {numTokensMinted} / {numTokens}
                 <br />
                 <SeriesPrice
@@ -153,7 +157,9 @@ function Series() {
                 <div style={{ marginTop: "5vh" }}>
                     <h1>All tokens</h1>
                     <TokenOverview
-                        query={`v1/tokens?contract=${contract}`}
+                        query={`v1/tokens?contract=${contract}&sort.${
+                            numTokens === numTokensMinted ? "asc" : "desc"
+                        }=firstTime`}
                         pageLength={30}
                         extractTokens={extractTokensForOverview}
                     ></TokenOverview>
