@@ -14,9 +14,11 @@ import ArtistPanel from "./components/ArtistPanel";
 import Sandbox from "./components/Sandbox";
 import SeriesOverview from "./components/SeriesOverview";
 import { useEffect } from "react";
-import { ENV } from "./consts";
+import { BACKEND_URL, ENV } from "./consts";
 import Feed from "./components/Feed";
 import { CacheProvider } from "./lib/context";
+import SeriesSubmissionCreate from "./components/SeriesSubmissionCreate";
+import SeriesSubmissionEdit from "./components/SeriesSubmissionEdit";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -29,7 +31,7 @@ function App() {
     useEffect(() => {
         async function action() {
             const res = await fetch(
-                "https://editart-backend-2gpmj.ondigitalocean.app/series"
+                `${BACKEND_URL}series`
             );
 
             let seriesList = await res.json();
@@ -79,6 +81,8 @@ function App() {
                                     element={<SeriesOverview />}
                                 />
                                 <Route path="/feed/" element={<Feed />} />
+                                <Route path="/series-submission/" element={<SeriesSubmissionCreate />} />
+                                <Route path="/series-submission/:seriesId" element={<SeriesSubmissionEdit />} />
                             </Routes>
                         </div>
                     </CacheProvider>
