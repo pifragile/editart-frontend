@@ -37,6 +37,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [loading, setLoading] = useState(false);
     const [isUpdate, setIsUpdate] = useState(!!seriesId);
     const [createdId, setCreatedId] = useState(null);
+    const [previewKey, setPreviewKey] = useState(null);
 
     useEffect(() => {
         if (!seriesId) return; // If no seriesId, no need to fetch
@@ -82,6 +83,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     price: data.price ? data.price.toString() : "",
                     zipfile: null, // never prefilled
                 });
+                setPreviewKey(data.previewKey);
             } catch (e) {
                 setError(e.message);
             } finally {
@@ -192,108 +194,120 @@ function SeriesSubmissionForm({ seriesId }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            {error && (
-                <div style={{ color: "red", marginBottom: "1rem" }}>
-                    {error}
+        <>
+            <form onSubmit={handleSubmit}>
+                {error && (
+                    <div style={{ color: "red", marginBottom: "1rem" }}>
+                        {error}
+                    </div>
+                )}
+
+                <div className="form-element">
+                    <label>Artist Name:</label>
+                    <input
+                        type="text"
+                        name="artistName"
+                        value={formData.artistName}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
                 </div>
+
+                <div className="form-element">
+                    <label>Artist Address:</label>
+                    <input
+                        type="text"
+                        name="artistAddress"
+                        value={formData.artistAddress}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="form-element">
+                    <label>Series Name:</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="form-element">
+                    <label>Description:</label>
+                    <textarea
+                        rows="15"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="form-control"
+                    ></textarea>
+                </div>
+
+                <div className="form-element">
+                    <label>Planned Release (YYYY-MM-DD HH:MM):</label>
+                    <input
+                        type="text"
+                        name="plannedRelease"
+                        value={formData.plannedRelease}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="form-element">
+                    <label>Number of Tokens:</label>
+                    <input
+                        type="number"
+                        name="numEditions"
+                        value={formData.numEditions}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="form-element">
+                    <label>Price:</label>
+                    <input
+                        type="number"
+                        step="0.001"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+                </div>
+
+                <div className="form-element">
+                    <label>ZIP File:</label>
+                    <input
+                        type="file"
+                        name="zipfile"
+                        accept=".zip"
+                        onChange={handleChange}
+                        className="form-control"
+                    />
+
+                    <p>{isUpdate && <span>(Optional for updates)</span>}</p>
+                </div>
+
+                <button type="submit" className="btn btn-default">
+                    {isUpdate ? "Update Series" : "Create Series"}
+                </button>
+            </form>
+            {previewKey && (
+                <>
+                    {" "}
+                    <h1>Test Preview</h1>
+                    <img
+                        className="standard-width standard-height"
+                        src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey}`}
+                    />
+                </>
             )}
-
-            <div className="form-element">
-                <label>Artist Name:</label>
-                <input
-                    type="text"
-                    name="artistName"
-                    value={formData.artistName}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>Artist Address:</label>
-                <input
-                    type="text"
-                    name="artistAddress"
-                    value={formData.artistAddress}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>Series Name:</label>
-                <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>Description:</label>
-                <textarea
-                    rows="15"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="form-control"
-                ></textarea>
-            </div>
-
-            <div className="form-element">
-                <label>Planned Release (YYYY-MM-DD HH:MM):</label>
-                <input
-                    type="text"
-                    name="plannedRelease"
-                    value={formData.plannedRelease}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>Number of Tokens:</label>
-                <input
-                    type="number"
-                    name="numEditions"
-                    value={formData.numEditions}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>Price:</label>
-                <input
-                    type="number"
-                    step="0.001"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-
-            <div className="form-element">
-                <label>ZIP File:</label>
-                <input
-                    type="file"
-                    name="zipfile"
-                    accept=".zip"
-                    onChange={handleChange}
-                    className="form-control"
-                />
-
-                <p>{isUpdate && <span>(Optional for updates)</span>}</p>
-            </div>
-
-            <button type="submit" className="btn btn-default">
-                {isUpdate ? "Update Series" : "Create Series"}
-            </button>
-        </form>
+        </>
     );
 }
 
