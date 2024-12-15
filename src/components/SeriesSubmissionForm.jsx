@@ -1,6 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { APP_URL, BACKEND_URL } from "../consts";
 
+
+function localToUTCString(localDateStr) {
+  // localDateStr format: "YYYY-MM-DD HH:MM"
+  const [datePart, timePart] = localDateStr.split(' ');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hour, minute] = timePart.split(':').map(Number);
+  
+  // Create a Date object in local time
+  const localDate = new Date(year, month - 1, day, hour, minute);
+
+  // Extract the UTC components
+  const utcYear = localDate.getUTCFullYear();
+  const utcMonth = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+  const utcDay = String(localDate.getUTCDate()).padStart(2, '0');
+  const utcHour = String(localDate.getUTCHours()).padStart(2, '0');
+  const utcMinute = String(localDate.getUTCMinutes()).padStart(2, '0');
+
+  // Return in "YYYY-MM-DD HH:MM" format as UTC
+  return `${utcYear}-${utcMonth}-${utcDay} ${utcHour}:${utcMinute}`;
+}
+
 function SeriesSubmissionForm({ seriesId }) {
     const [formData, setFormData] = useState({
         artistName: "",
@@ -34,18 +55,16 @@ function SeriesSubmissionForm({ seriesId }) {
 
                 // Convert ISO datetime to "YYYY-MM-DD HH:MM"
                 if (data.plannedRelease) {
-                    const dt = new Date(data.plannedRelease);
-                    const year = dt
-                        .getUTCFullYear()
-                        .toString()
-                        .padStart(4, "0");
-                    const month = (dt.getUTCMonth() + 1)
-                        .toString()
-                        .padStart(2, "0");
-                    const day = dt.getUTCDate().toString().padStart(2, "0");
-                    const hours = dt.getUTCHours().toString().padStart(2, "0");
-                    const mins = dt.getUTCMinutes().toString().padStart(2, "0");
-                    var formattedRelease = `${year}-${month}-${day} ${hours}:${mins}`;
+                  const dt = new Date(data.plannedRelease);
+
+                  // Extract local date and time components
+                  const year = dt.getFullYear().toString().padStart(4, "0");
+                  const month = (dt.getMonth() + 1).toString().padStart(2, "0");
+                  const day = dt.getDate().toString().padStart(2, "0");
+                  const hours = dt.getHours().toString().padStart(2, "0");
+                  const mins = dt.getMinutes().toString().padStart(2, "0");
+                  
+                  var formattedRelease = `${year}-${month}-${day} ${hours}:${mins}`;
                 } else {
                     var formattedRelease = "";
                 }
@@ -114,7 +133,7 @@ function SeriesSubmissionForm({ seriesId }) {
             form.append("artistAddress", formData.artistAddress);
             form.append("name", formData.name);
             form.append("description", formData.description);
-            form.append("plannedRelease", formData.plannedRelease);
+            form.append("plannedRelease", localToUTCString(formData.plannedRelease));
             form.append("numEditions", formData.numEditions);
             form.append("price", formData.price);
 
@@ -212,6 +231,7 @@ function SeriesSubmissionForm({ seriesId }) {
             <div className="form-element">
                 <label>Description:</label>
                 <textarea
+                    rows="15"
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
