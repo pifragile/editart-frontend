@@ -170,68 +170,78 @@ function SeriesSubmissionForm({ seriesId }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            {error && <div style={{ color: "red" }}>{error}</div>}
+            {error && (
+                <div style={{ color: "red", marginBottom: "1rem" }}>
+                    {error}
+                </div>
+            )}
 
-            <div>
+            <div className="form-element">
                 <label>Artist Name:</label>
                 <input
                     type="text"
                     name="artistName"
                     value={formData.artistName}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Artist Address:</label>
                 <input
                     type="text"
                     name="artistAddress"
                     value={formData.artistAddress}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Series Name:</label>
                 <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Description:</label>
                 <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
+                    className="form-control"
                 ></textarea>
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Planned Release (YYYY-MM-DD HH:MM):</label>
                 <input
                     type="text"
                     name="plannedRelease"
                     value={formData.plannedRelease}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Number of Tokens:</label>
                 <input
                     type="number"
                     name="numEditions"
                     value={formData.numEditions}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>Price:</label>
                 <input
                     type="number"
@@ -239,21 +249,27 @@ function SeriesSubmissionForm({ seriesId }) {
                     name="price"
                     value={formData.price}
                     onChange={handleChange}
+                    className="form-control"
                 />
             </div>
 
-            <div>
+            <div className="form-element">
                 <label>ZIP File:</label>
                 <input
                     type="file"
                     name="zipfile"
                     accept=".zip"
                     onChange={handleChange}
+                    className="form-control"
                 />
-                {isUpdate && <p>(Optional for updates)</p>}
+                {isUpdate && (
+                    <p>
+                        (Optional for updates)
+                    </p>
+                )}
             </div>
 
-            <button type="submit">
+            <button type="submit" className="btn btn-default">
                 {isUpdate ? "Update Series" : "Create Series"}
             </button>
         </form>

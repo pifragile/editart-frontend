@@ -88,3 +88,7 @@
     transform: rotate(360deg);
   }
 }
+
+.form-element{
+  margin-bottom: 4px;
+}
