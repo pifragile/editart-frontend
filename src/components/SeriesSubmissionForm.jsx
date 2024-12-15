@@ -300,7 +300,7 @@ function SeriesSubmissionForm({ seriesId }) {
             {previewKey && (
                 <>
                     {" "}
-                    <h1>Test Preview</h1>
+                    <h1>Test Preview (Beta)</h1>
                     <img
                         className="standard-width standard-height"
                         src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey}`}
