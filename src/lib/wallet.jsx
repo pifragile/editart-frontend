@@ -41,7 +41,7 @@ export const mint = async (wallet, contractAddress, queryString, price) => {
         const operation = await contract.methods.mint(char2Bytes(queryString)).send({
             amount: price,
             mutez: true,
-            gasLimit: 20000,
+            gasLimit: 200000,
             fee: 3000
         });
         const result = await operation.confirmation();
