@@ -88,7 +88,7 @@ function ArtistDocs() {
                     </a>
                 </h1>
                 When you sumit your project, we will deploy it to testnet in
-                order to check if everthing works well in the actual environment
+                order to check if everything works well in the actual environment
                 of the platform.
                 <br />
                 <br />

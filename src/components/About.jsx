@@ -49,21 +49,13 @@ function About() {
                     </a>
                 </p>
                 <p>
-                    When your project is ready, please submit it{" "}
+                    For details about the process, see the{" "}
                     <a
-                        href="https://editart.xyz/series-submission"
+                        href="https://editart.xyz/artist-docs"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        here
-                    </a>{" "}
-                    and then DM{" "}
-                    <a
-                        href="https://twitter.com/pifragile/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        @pifragile
+                        artist docs
                     </a>
                 </p>
                 <p>
