@@ -161,6 +161,9 @@ function ArtistDocs() {
                         the project, then the series will be open for minting
                         for everyone.
                     </li>
+                    <li>
+                    On objkt.com you can now go to profile - collaborations - creator verifications and click accept for the the collection, then you will appear properly as the artist.
+                    </li>
                 </ol>
                 <h1 id="the-artist-panel">
                     <a className="simple-link" href="#the-artist-panel">
