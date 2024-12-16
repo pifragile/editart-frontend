@@ -14,29 +14,17 @@ function Dashboard() {
     useEffect(() => {
         async function action() {
             setNumSeries(series.length);
-            const contracts = series.map((e) => e.contract);
+            const contracts = series.map((e) => e.contract)
+            setNumArtists(
+                new Set(series.map((e) => e.artistAddress)).size
+            );
 
             const contractStorages = await Promise.all(
                 contracts.map(async (a, idx) => {
-                    await new Promise((r) => setTimeout(r, 100 * idx));
+                    await new Promise((r) => setTimeout(r, 300 * idx));
                     return await getContractStorageFull(a);
                 })
             );
-
-            setNumArtists(
-                new Set(contractStorages.map((e) => e.artist_address)).size
-            );
-
-            const creators = await Promise.all(
-                contracts.map(async (a, idx) => {
-                    await new Promise((r) => setTimeout(r, 100 * idx));
-                    return (await listContractBigmap(a, "creators")).map(
-                        (e) => e.value
-                    );
-                })
-            );
-
-            setNumCocreators(new Set(creators.flat()).size);
             setNUmTokensSold(
                 contractStorages.reduce(
                     (a, c) => a + parseInt(c["last_token_id"]),
@@ -52,6 +40,17 @@ function Dashboard() {
                     0
                 )
             );
+
+            const creators = await Promise.all(
+                contracts.map(async (a, idx) => {
+                    await new Promise((r) => setTimeout(r, 110 * idx));
+                    return (await listContractBigmap(a, "creators")).map(
+                        (e) => e.value
+                    );
+                })
+            );
+
+            setNumCocreators(new Set(creators.flat()).size);
         }
 
         action().catch(console.error);

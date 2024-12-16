@@ -40,7 +40,7 @@ function Home() {
             </div>
             <div style={{ marginTop: "5vh" }}>
                 <h1>EditArt on X</h1>
-                <TwitterFeed />
+                {/* <TwitterFeed /> */}
             </div>
         </Layout>
     );
