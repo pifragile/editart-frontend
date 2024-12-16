@@ -41,7 +41,13 @@ function SeriesSubmissionForm({ seriesId }) {
     const [testDirKey, setTestDirKey] = useState(null);
 
     useEffect(() => {
-        if (!seriesId) return; // If no seriesId, no need to fetch
+        if (!seriesId) {
+            setFormData({
+                price: "0",
+                numEditions: "1000",
+            });
+            return;
+        }
 
         const fetchData = async () => {
             try {
@@ -81,7 +87,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     numEditions: data.numEditions
                         ? data.numEditions.toString()
                         : "",
-                    price: data.price ? data.price.toString() : "",
+                    price: data.price !== null ? data.price.toString() : "",
                     zipfile: null, // never prefilled
                 });
                 setPreviewKey(data.previewKey);
@@ -299,14 +305,16 @@ function SeriesSubmissionForm({ seriesId }) {
                     {isUpdate ? "Update Series" : "Create Series"}
                 </button>
             </form>
-            <br/>
+            <br />
             {testDirKey && (
                 <>
                     {" "}
                     <h1>Series Validation</h1>
                     Use{" "}
                     <a
-                        href={`${APP_URL}series-validation/${testDirKey.split("/")[1]}`}
+                        href={`${APP_URL}series-validation/${
+                            testDirKey.split("/")[1]
+                        }`}
                         target="_blank"
                         rel="noreferrer"
                     >
