@@ -3,29 +3,20 @@ function About() {
     return (
         <Layout>
             <div className="main">
+                <h1>About EditArt</h1>
+                <p>
+                    EditArt is an NFT-Platform for generative art, where
+                    collectors can co-create a piece of art with the artist
+                    using 5 sliders. We focus on minimalistic design, smooth and
+                    simple user experience and a no-bullshit, no-scam, high
+                    quality space in the crypto jungle.
+                </p>
                 <h1>For artists</h1>
                 <p>
                     EditArt is open to submissions form all generative artists.
                     If you would like to create a project on EditArt you can
-                    find a template with all the instructions{" "}
-                    <a
-                        href="https://github.com/pifragile/editartSimpleTemplate"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {" "}
-                        here
-                    </a>
-                    . If you have any questions, reach out on twitter
-                    <a
-                        href="https://twitter.com/pifragile/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        {" "}
-                        @pifragile
-                    </a>
-                    .
+                    find a template with all the instructions for development,
+                    testing and submission below.
                     <br />
                     <br />
                     <a
@@ -38,10 +29,9 @@ function About() {
                             name="template"
                             id="template"
                         >
-                            Download vanilla js template
+                            Vanilla js template
                         </button>
                     </a>
-
                     <br />
                     <br />
                     <a
@@ -54,18 +44,49 @@ function About() {
                             name="template"
                             id="template"
                         >
-                            Download p5.js template
+                            p5.js template
                         </button>
                     </a>
                 </p>
-
-                <h1>About EditArt</h1>
                 <p>
-                    With EditArt, collectors can become creators by co-creating
-                    a piece together with the artist. Currently there are 5
-                    value sliders available that can be tuned by the collector
-                    when minting a piece.
+                    When your project is ready, please submit it{" "}
+                    <a
+                        href="https://editart.xyz/series-submission"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        here
+                    </a>{" "}
+                    and then DM{" "}
+                    <a
+                        href="https://twitter.com/pifragile/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        @pifragile
+                    </a>
                 </p>
+                <p>
+                    <p>
+                        If you have any questions, reach out on{" "}
+                        <a
+                            href="https://twitter.com/pifragile/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            X
+                        </a>
+                    </p>
+                </p>
+
+                <h1>FAQ</h1>
+
+                <ol>
+                    <li>
+                        <b>How to set username, thumbnail etc..?</b>
+                        <br></br>User data is imported from objkt.com
+                    </li>
+                </ol>
                 <h1>Fully on-chain metadata.</h1>
                 <p>
                     First an artist creates a parameterized artwork. This
@@ -76,12 +97,12 @@ function About() {
                     well immutably stored on chain. This process ensures full
                     decentralization, but makes it necessary that the token
                     metadata is generated on chain and is the reason why the
-                    minting fees are higher that for example in
-                    fx(hash). Editart has special priviliges on the contract to
-                    set a displayURI and a thumbnailURI for the user's
-                    convenience and for a smooth integration into other
-                    platforms. The artifactURI on the other hand, which
-                    represents the actual NFT, is totally immutable after mint.
+                    minting fees are higher that for example in fx(hash).
+                    Editart has special priviliges on the contract to set a
+                    displayURI and a thumbnailURI for the user's convenience and
+                    for a smooth integration into other platforms. The
+                    artifactURI on the other hand, which represents the actual
+                    NFT, is totally immutable after mint.
                 </p>
                 <h1>Earn royalties as a collector</h1>
                 <p>
@@ -100,7 +121,6 @@ function About() {
                     Minting fee: 5%, Artist Royalties: 5%, Creator Royalties:
                     5%, Platform Royalties: 5%
                 </p>
-
                 <h1>Disclaimer</h1>
                 <b>TL;DR USE AT YOUR OWN RISK.</b>
                 <p>
