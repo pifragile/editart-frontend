@@ -187,6 +187,7 @@ function ArtistDocs() {
                     </p>
                 </p>
             </div>
+            <div style={{height:"100vh"}}/>
         </Layout>
     );
 }
