@@ -1,11 +1,26 @@
-import { WalletContext, togglePaused, setPrice, setNumTokens } from "../lib/wallet";
-import { useContext } from "react";
+import {
+    WalletContext,
+    togglePaused,
+    setPrice,
+    setNumTokens,
+} from "../lib/wallet";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Layout from "./Layout";
+import { getContractStorage } from "../lib/api";
 
 function ArtistPanel() {
     const wallet = useContext(WalletContext);
     let { contract } = useParams();
+
+    const [paused, setPaused] = useState(null);
+
+    useEffect(() => {
+        async function action() {
+            setPaused(await getContractStorage(contract, "paused"));
+        }
+        action();
+    }, []);
 
     const handleTogglePaused = async (e) => {
         e.preventDefault();
@@ -44,7 +59,7 @@ function ArtistPanel() {
                                 name="submit"
                                 id="submit"
                             >
-                                Set price
+                                Set Price
                             </button>
                         </div>
                     </fieldset>
@@ -60,7 +75,7 @@ function ArtistPanel() {
                                 name="submit"
                                 id="submit"
                             >
-                                Toggle paused
+                                {paused ? "Unpause" : "Pause"}
                             </button>
                         </div>
                     </fieldset>
@@ -68,13 +83,13 @@ function ArtistPanel() {
 
                 <form onSubmit={handleSetNumTokens}>
                     <fieldset>
-                        <legend>Set num_tokens</legend>
+                        <legend>Set Number of Editions</legend>
                         <div className="form-group">
                             <input
                                 id="price"
                                 type="number"
                                 required={true}
-                                placeholder="num_tokens"
+                                placeholder="Number of Editions"
                                 step="1"
                             />
                             <button
@@ -83,12 +98,11 @@ function ArtistPanel() {
                                 name="submit"
                                 id="submit"
                             >
-                                Set num_tokens
+                                Set Number of Editions
                             </button>
                         </div>
                     </fieldset>
                 </form>
-
             </div>
         </Layout>
     );
