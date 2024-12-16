@@ -4,7 +4,10 @@ function ArtistDocs() {
         <Layout>
             <div className="main">
                 <h1 id="development-and-sandbox-testing">
-                    <a className="simple-link" href="#development-and-sandbox-testing">
+                    <a
+                        className="simple-link"
+                        href="#development-and-sandbox-testing"
+                    >
                         1. Development and Sandbox Testing
                     </a>
                 </h1>
@@ -57,7 +60,9 @@ function ArtistDocs() {
                     and you can start playing around with the sliders.
                 </p>
                 <h1 id="project-submission">
-                    <a className="simple-link" href="#project-submission">2. Project Submission</a>
+                    <a className="simple-link" href="#project-submission">
+                        2. Project Submission
+                    </a>
                 </h1>
                 <p>
                     When your project is ready, please submit it{" "}
@@ -78,7 +83,9 @@ function ArtistDocs() {
                     </a>
                 </p>
                 <h1 id="testing-on-testnet">
-                    <a className="simple-link" href="#testing-on-testnet">3. Testing on Testnet</a>
+                    <a className="simple-link" href="#testing-on-testnet">
+                        3. Testing on Testnet
+                    </a>
                 </h1>
                 When you sumit your project, we will deploy it to testnet in
                 order to check if everthing works well in the actual environment
@@ -109,11 +116,16 @@ function ArtistDocs() {
                             <li className="about-list-item">
                                 Is the series name and description correct?
                             </li>
-                            <li className="about-list-item">Does minting work?</li>
                             <li className="about-list-item">
-                                Do i receive the tez from the mints in my wallet?
+                                Does minting work?
                             </li>
-                            <li className="about-list-item">Are the previews rendered?</li>
+                            <li className="about-list-item">
+                                Do i receive the tez from the mints in my
+                                wallet?
+                            </li>
+                            <li className="about-list-item">
+                                Are the previews rendered?
+                            </li>
                             <li className="about-list-item">
                                 Are the previews exactly as expected? (there can
                                 be discrepancies if your code is not platform
@@ -124,7 +136,9 @@ function ArtistDocs() {
                     </li>
                 </ol>
                 <h1 id="deployment-to-mainnet">
-                    <a className="simple-link" href="#deployment-to-mainnet">4. Deployment to Mainnet</a>
+                    <a className="simple-link" href="#deployment-to-mainnet">
+                        4. Deployment to Mainnet
+                    </a>
                 </h1>
                 After successful testing on testnet, we will deploy your
                 contract to mainnet. After deployment the contract is paused and
@@ -135,7 +149,8 @@ function ArtistDocs() {
                 <ol>
                     <li className="about-list-item">
                         Mint the first token, this will also be the display
-                        image of the series.
+                        image of the series. You do not need to unpause the
+                        project for that because you are the artist.
                     </li>
                     <li className="about-list-item">
                         Once you minted the first token, contact Piero and he
@@ -148,7 +163,9 @@ function ArtistDocs() {
                     </li>
                 </ol>
                 <h1 id="the-artist-panel">
-                    <a className="simple-link" href="#the-artist-panel">The Artist Panel</a>
+                    <a className="simple-link" href="#the-artist-panel">
+                        The Artist Panel
+                    </a>
                 </h1>
                 The artist panel can be found at
                 editart.xyz/artist-panel/CONTRACT_ADDRESS
@@ -172,7 +189,9 @@ function ArtistDocs() {
                     </li>
                 </ol>
                 <h1 id="need-help">
-                    <a className="simple-link" href="#need-help">Need help?</a>
+                    <a className="simple-link" href="#need-help">
+                        Need help?
+                    </a>
                 </h1>
                 <p>
                     <p>
@@ -187,7 +206,7 @@ function ArtistDocs() {
                     </p>
                 </p>
             </div>
-            <div style={{height:"100vh"}}/>
+            <div style={{ height: "100vh" }} />
         </Layout>
     );
 }
