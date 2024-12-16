@@ -19,6 +19,7 @@ import Feed from "./components/Feed";
 import { CacheProvider } from "./lib/context";
 import SeriesSubmissionCreate from "./components/SeriesSubmissionCreate";
 import SeriesSubmissionEdit from "./components/SeriesSubmissionEdit";
+import ArtistDocs from "./components/ArtistDocs";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -83,6 +84,7 @@ function App() {
                                 <Route path="/feed/" element={<Feed />} />
                                 <Route path="/series-submission/" element={<SeriesSubmissionCreate />} />
                                 <Route path="/series-submission/:seriesId" element={<SeriesSubmissionEdit />} />
+                                <Route path="/artist-docs" element={<ArtistDocs />} />
                             </Routes>
                         </div>
                     </CacheProvider>
