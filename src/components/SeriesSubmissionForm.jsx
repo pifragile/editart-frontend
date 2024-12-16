@@ -38,6 +38,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [isUpdate, setIsUpdate] = useState(!!seriesId);
     const [createdId, setCreatedId] = useState(null);
     const [previewKey, setPreviewKey] = useState(null);
+    const [testDirKey, setTestDirKey] = useState(null);
 
     useEffect(() => {
         if (!seriesId) return; // If no seriesId, no need to fetch
@@ -84,6 +85,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     zipfile: null, // never prefilled
                 });
                 setPreviewKey(data.previewKey);
+                setTestDirKey(data.testDirKey);
             } catch (e) {
                 setError(e.message);
             } finally {
@@ -297,6 +299,23 @@ function SeriesSubmissionForm({ seriesId }) {
                     {isUpdate ? "Update Series" : "Create Series"}
                 </button>
             </form>
+            <br/>
+            {testDirKey && (
+                <>
+                    {" "}
+                    <h1>Series Validation</h1>
+                    Use{" "}
+                    <a
+                        href={`${APP_URL}series-validation/${testDirKey.split("/")[1]}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        this tool
+                    </a>{" "}
+                    tool to check if your series produces consistent outputs.
+                </>
+            )}
+
             {previewKey && (
                 <>
                     {" "}
