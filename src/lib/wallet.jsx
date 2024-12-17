@@ -42,7 +42,6 @@ export const mint = async (wallet, contractAddress, queryString, price) => {
             amount: price,
             mutez: true,
             gasLimit: 200000,
-            fee: 3000
         });
         const result = await operation.confirmation();
         console.log(result);
