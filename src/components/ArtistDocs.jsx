@@ -180,6 +180,11 @@ function ArtistDocs() {
                         - creator verifications and click accept for the the
                         collection, then you will appear properly as the artist.
                     </li>
+                    <li>
+                        Your username, avatar etc. is also pulled from
+                        objkt.com, so you can adjust your profile there if
+                        needed.
+                    </li>
                 </ol>
                 <h1 id="the-artist-panel">
                     <a className="simple-link" href="#the-artist-panel">
