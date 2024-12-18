@@ -1,5 +1,19 @@
+import { useLocation } from "react-router-dom";
 import Layout from "./Layout";
+import { useEffect } from "react";
 function ArtistDocs() {
+    const { hash } = useLocation(); // Get the current hash fragment from URL
+
+    useEffect(() => {
+        if (hash) {
+            const id = hash.replace("#", ""); // Remove the "#" to get the ID
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" }); // Scroll smoothly to the section
+            }
+        }
+    }, [hash]); // Re-run the effect when the hash changes
+
     return (
         <Layout>
             <div className="main">
@@ -88,8 +102,8 @@ function ArtistDocs() {
                     </a>
                 </h1>
                 When you sumit your project, we will deploy it to testnet in
-                order to check if everything works well in the actual environment
-                of the platform.
+                order to check if everything works well in the actual
+                environment of the platform.
                 <br />
                 <br />
                 Once the project is live on testnet, you will need some Tez
@@ -162,7 +176,9 @@ function ArtistDocs() {
                         for everyone.
                     </li>
                     <li>
-                    On objkt.com you can now go to profile - collaborations - creator verifications and click accept for the the collection, then you will appear properly as the artist.
+                        On objkt.com you can now go to profile - collaborations
+                        - creator verifications and click accept for the the
+                        collection, then you will appear properly as the artist.
                     </li>
                 </ol>
                 <h1 id="the-artist-panel">
