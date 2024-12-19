@@ -1,8 +1,10 @@
 import Layout from "./Layout";
 import { useState } from "react";
 import Editor from "./Editor";
+
 function Sandbox() {
     const [sketchSrc, setSketchSrc] = useState("");
+    const [refreshCount, setRefreshCount] = useState(0);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -17,9 +19,15 @@ function Sandbox() {
                     Sketch URL:
                     <input type="url" id="sketchUrl" />
                 </label>
-                <input type="submit" value="Submit" />
+                <br/>
+                <input className="btn btn-default" type="submit" value="Submit" />
+                {sketchSrc && (
+                <button className="btn btn-default" onClick={() => setRefreshCount(prev => prev + 1)}>
+                    Refresh
+                </button>
+            )}
             </form>
-            <Editor price={0} baseUrl={sketchSrc} showButton={true} />
+            <Editor price={0} baseUrl={sketchSrc} showButton={false} key={refreshCount} />
         </Layout>
     );
 }
