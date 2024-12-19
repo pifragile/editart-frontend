@@ -43,7 +43,7 @@ function Sandbox() {
             </form>
             {sketchSrc && (
                 <>
-                    <Editor price={0} baseUrl={sketchSrc} showButton={true} />
+                    <Editor price={0} baseUrl={sketchSrc} showButton={false} />
                 </>
             )}
         </Layout>
