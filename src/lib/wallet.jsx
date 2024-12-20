@@ -38,11 +38,29 @@ export const mint = async (wallet, contractAddress, queryString, price) => {
 
     if (response.success) {
         const contract = await tezos.wallet.at(contractAddress);
-        const operation = await contract.methods.mint(char2Bytes(queryString)).send({
-            amount: price,
-            mutez: true,
-            gasLimit: 200000,
-        });
+
+        // Prepare the contract call parameters
+        const opParams = contract.methods
+            .mint(char2Bytes(queryString))
+            .toTransferParams({
+                amount: price,
+                mutez: true,
+            });
+
+        // Estimate the operation costs
+        const estimates = await tezos.estimate.transfer(opParams);
+
+        // Send the operation using the estimated values
+        const operation = await contract.methods
+            .mint(char2Bytes(queryString))
+            .send({
+                amount: price,
+                mutez: true,
+                fee: estimates.suggestedFeeMutez,
+                gasLimit: estimates.gasLimit,
+                storageLimit: estimates.storageLimit,
+            });
+
         const result = await operation.confirmation();
         console.log(result);
     }
@@ -125,9 +143,7 @@ export const setPrice = async (wallet, contractAddress, price) => {
 
     if (response.success) {
         const contract = await tezos.wallet.at(contractAddress);
-        const operation = await contract.methods
-            .set_price(price)
-            .send({});
+        const operation = await contract.methods.set_price(price).send({});
         const result = await operation.confirmation();
         console.log(result);
     }
@@ -138,9 +154,7 @@ export const togglePaused = async (wallet, contractAddress) => {
 
     if (response.success) {
         const contract = await tezos.wallet.at(contractAddress);
-        const operation = await contract.methods
-            .toggle_paused()
-            .send({});
+        const operation = await contract.methods.toggle_paused().send({});
         const result = await operation.confirmation();
         console.log(result);
     }
