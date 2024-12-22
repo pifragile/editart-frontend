@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getContractStorageFull, listContractBigmap } from "../lib/api";
+import {
+    fetchAllContractData,
+    getContractStorageFull,
+    listContractBigmap,
+} from "../lib/api";
 import { useContext } from "react";
 import { SeriesContext } from "../App";
 import { TZKT_API } from "../consts";
@@ -14,45 +18,34 @@ function Dashboard() {
 
     useEffect(() => {
         async function action() {
-            if (!series) return
+            if (series.length === 0) return;
             setNumSeries(series.length);
-            const contracts = series.map((e) => e.contract)
-            if(contracts.length ===0) return
-            setNumArtists(
-                new Set(series.map((e) => e.artistAddress)).size
-            );
 
-
-            
-
-            let query = `v1/contracts?address.in=${contracts.join(',')}&includeStorage=true`;
-            let res = await fetch(TZKT_API + query);
-            let contractData = await res.json();
-
+            setNumArtists(new Set(series.map((e) => e.artistAddress)).size);
 
             setNUmTokensSold(
-                contractData.reduce(
-                    (a, c) => a + parseInt(c.storage["last_token_id"]),
+                series.reduce(
+                    (a, s) =>
+                        a + parseInt(s.contractData.storage["last_token_id"]),
                     0
                 )
             );
             setPrimaryVolume(
-                contractData.reduce(
-                    (a, c) =>
+                series.reduce(
+                    (a, s) =>
                         a +
-                        (parseInt(c.storage["last_token_id"]) * parseInt(c.storage.price)) /
+                        (parseInt(s.contractData.storage["last_token_id"]) *
+                            parseInt(s.contractData.storage.price)) /
                             1000000,
                     0
                 )
             );
 
-
-            const creatorsBigMapKeys = contractData.map(c => c.storage.creators)
-            query = `v1/bigmaps/keys?bigmap.in=${creatorsBigMapKeys.join(',')}&limit=10000&active=true`;
-            res = await fetch(TZKT_API + query);
-            let creators = await res.json();
-            console.log(creators)
-            creators = creators.map(c => c.value)
+            const creators = series.map((s) =>
+                Object.values(s.contractData.storage.creators).map(
+                    (e) => e.value
+                )
+            );
             setNumCocreators(new Set(creators.flat()).size);
         }
 

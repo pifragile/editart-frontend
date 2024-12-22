@@ -21,6 +21,7 @@ import SeriesSubmissionCreate from "./components/SeriesSubmissionCreate";
 import SeriesSubmissionEdit from "./components/SeriesSubmissionEdit";
 import ArtistDocs from "./components/ArtistDocs";
 import SeriesValidation from "./components/SeriesValidation";
+import { fetchAllContractData } from "./lib/api";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -32,9 +33,7 @@ function App() {
 
     useEffect(() => {
         async function action() {
-            const res = await fetch(
-                `${BACKEND_URL}series`
-            );
+            const res = await fetch(`${BACKEND_URL}series`);
 
             let seriesList = await res.json();
             if (ENV === "prod")
@@ -43,6 +42,16 @@ function App() {
                 e.contract =
                     ENV === "prod" ? e.mainnetContract : e.testnetContract;
             });
+
+
+            const contracts = seriesList.map((e) => e.contract);
+            const allContracts = await fetchAllContractData(contracts);
+            seriesList.forEach(
+                (s) =>
+                    (s.contractData = allContracts.find(
+                        (c) => c.address == s.contract
+                    ))
+            );
             setSeries(seriesList.reverse());
         }
         action().catch(console.error);
@@ -83,10 +92,22 @@ function App() {
                                     element={<SeriesOverview />}
                                 />
                                 <Route path="/feed/" element={<Feed />} />
-                                <Route path="/series-submission/" element={<SeriesSubmissionCreate />} />
-                                <Route path="/series-submission/:seriesId" element={<SeriesSubmissionEdit />} />
-                                <Route path="/artist-docs" element={<ArtistDocs />} />
-                                <Route path="/series-validation/:key" element={<SeriesValidation />} />
+                                <Route
+                                    path="/series-submission/"
+                                    element={<SeriesSubmissionCreate />}
+                                />
+                                <Route
+                                    path="/series-submission/:seriesId"
+                                    element={<SeriesSubmissionEdit />}
+                                />
+                                <Route
+                                    path="/artist-docs"
+                                    element={<ArtistDocs />}
+                                />
+                                <Route
+                                    path="/series-validation/:key"
+                                    element={<SeriesValidation />}
+                                />
                             </Routes>
                         </div>
                     </CacheProvider>
