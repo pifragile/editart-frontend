@@ -51,6 +51,7 @@ function Dashboard() {
             query = `v1/bigmaps/keys?bigmap.in=${creatorsBigMapKeys.join(',')}&limit=10000&active=true`;
             res = await fetch(TZKT_API + query);
             let creators = await res.json();
+            console.log(creators)
             creators = creators.map(c => c.value)
             setNumCocreators(new Set(creators.flat()).size);
         }
