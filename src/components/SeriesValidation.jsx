@@ -1,17 +1,39 @@
 import { useParams } from "react-router-dom";
 import Layout from "./Layout";
 import { useState } from "react";
+import { queryStringFromValues } from "../lib/utils";
 
-function IFrameView({ url }) {
+function IFrameView({ testDirKey, params, idx }) {
     const [error, setError] = useState(false);
+    const url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html${params}&cacheBust=${Date.now()}-${idx}`;
+    const handleIframeLoad = async () => {
+        const iframe = document.getElementById(`validationTokenFrame${idx}`);
+        if (iframe && iframe.contentWindow) {
+            for (let i = 0; i < 5; i++) {
+                const r = () => Math.random().toFixed(3);
+                let qs = queryStringFromValues(r(), r(), r(), r(), r());
+                iframe.contentWindow.postMessage(
+                    { editartQueryString: qs },
+                    "*"
+                );
+                await new Promise((resolve) => setTimeout(resolve, 200));
+            }
+            iframe.contentWindow.postMessage(
+                { editartQueryString: params.split("?")[1] },
+                "*"
+            );
+        }
+    };
+
     return (
         <iframe
             title="token"
-            id="tokenFrame"
+            id={`validationTokenFrame${idx}`}
             className="standard-width standard-height"
             sandbox="allow-scripts allow-same-origin"
             src={error ? `${url}&retry=${Date.now()}` : url}
             onError={() => setError(true)}
+            onLoad={handleIframeLoad}
             style={{
                 border: "None",
                 margin: "0px 5px 0px 0px",
@@ -60,7 +82,7 @@ function SeriesValidation() {
                     <h1>Series Validation</h1>
                     <p>
                         Step through the different configurations and make sure
-                        that all the outputs look identical for each config.
+                        that all the outputs end up looking identical for each config.
                     </p>
                     <button
                         className="btn btn-default"
@@ -84,8 +106,10 @@ function SeriesValidation() {
                 <div className="flex">
                     {Array.from({ length: 8 }).map((_, idx) => (
                         <IFrameView
+                            testDirKey={key}
                             key={idx}
-                            url={`https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${key}/index.html${currentParam}&cacheBust=${Date.now()}-${idx}`}
+                            idx={idx}
+                            params={currentParam}
                         />
                     ))}
                 </div>
