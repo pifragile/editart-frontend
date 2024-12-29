@@ -156,7 +156,7 @@ export async function getFloorPrice(contract) {
 }
 
 export async function fetchAllContractData(contractAddresses) {
-    const bigMapNames = ["creators", "listings", "ledger"];
+    const bigMapNames = ["creators"];
     const allContracts = await fetchAllItemsWithSplitParams(
         TZKT_API,
         "v1/contracts",
