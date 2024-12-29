@@ -167,7 +167,7 @@ function ArtistDocs() {
                         project for that because you are the artist.
                     </li>
                     <li className="about-list-item">
-                        At the release date, go to the artist panel and unpause
+                        <b>Important:</b> At the release date, go to the artist panel and unpause
                         the project, then the series will be open for minting
                         for everyone.
                     </li>
