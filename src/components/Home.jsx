@@ -34,10 +34,16 @@ function Home() {
                 {/* <TokenOverview query={query}></TokenOverview> */}
             </div>
             <Dashboard />
+
             <div style={{ marginTop: "5vh" }}>
+                <h1>Genuary 2025</h1>
+                <SeriesOverviewComponent seriesFilter={s => s.genuary2025} />
+            </div>
+
+            {/* <div style={{ marginTop: "5vh" }}>
                 <h1>Series</h1>
                 <SeriesOverviewComponent />
-            </div>
+            </div> */}
             <div style={{ marginTop: "5vh" }}>
                 <h1>EditArt on X</h1>
                 <TwitterFeed />

@@ -5,13 +5,14 @@ import { useContext } from "react";
 import { SeriesContext } from "../App";
 import { ENV } from "../consts";
 
-function SeriesOverviewComponent({ artistAddress = null }) {
+function SeriesOverviewComponent({ seriesFilter=null }) {
     let series = useContext(SeriesContext);
 
     series = series.filter((e) => e.contractData.tokensCount > 0)
-    if (artistAddress) {
-        series = series.filter((s) => (s.artistAddress === artistAddress));
+    if (seriesFilter) {
+        series = series.filter((s) => seriesFilter(s));
     }
+
     if (ENV !== "prod") series = [];
     const pageLength = 9;
 
@@ -34,7 +35,7 @@ function SeriesOverviewComponent({ artistAddress = null }) {
                         contract={c.contract}
                         author={c.artistName}
                         key={c.contract}
-                        name={c.name}
+                        name={c.genuary2025 ? `Genuary ${c.genuary2025}: ${c.name}` : c.name}
                     />
                 ))}
             </div>

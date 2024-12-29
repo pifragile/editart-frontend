@@ -36,7 +36,7 @@ function User() {
                 <UserDetail address={address} />
                 <h1>Creations</h1>
                 <SeriesOverviewComponent
-                    artistAddress={address}
+                    seriesFilter={s => s.artistAddress === address}
                 ></SeriesOverviewComponent>
                 <h1>Collection</h1>
                 <TokenOverview
