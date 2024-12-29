@@ -9,7 +9,7 @@ import { SeriesContext } from "../App";
 import { TZKT_API } from "../consts";
 
 function Dashboard() {
-    const series = useContext(SeriesContext);
+    let series = useContext(SeriesContext);
     const [numSeries, setNumSeries] = useState(series.length);
     const [numArtists, setNumArtists] = useState(0);
     const [numCocreators, setNumCocreators] = useState(0);
@@ -19,6 +19,7 @@ function Dashboard() {
     useEffect(() => {
         async function action() {
             if (series.length === 0) return;
+            series = series.filter((e) => e.contractData.tokensCount > 0)
             setNumSeries(series.length);
 
             setNumArtists(new Set(series.map((e) => e.artistAddress)).size);
