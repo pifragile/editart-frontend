@@ -53,7 +53,6 @@ function App() {
                         (c) => c.address == s.contract
                     ))
             );
-            seriesList = seriesList.filter((e) => e.contractData.tokensCount > 0)
             setSeries(seriesList.reverse());
         }
         action().catch(console.error);

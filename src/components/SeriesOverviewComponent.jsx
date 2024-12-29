@@ -7,6 +7,8 @@ import { ENV } from "../consts";
 
 function SeriesOverviewComponent({ artistAddress = null }) {
     let series = useContext(SeriesContext);
+
+    series = series.filter((e) => e.contractData.tokensCount > 0)
     if (artistAddress) {
         series = series.filter((s) => (s.artistAddress === artistAddress));
     }
