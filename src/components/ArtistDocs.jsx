@@ -167,10 +167,6 @@ function ArtistDocs() {
                         project for that because you are the artist.
                     </li>
                     <li className="about-list-item">
-                        Once you minted the first token, contact Piero and he
-                        will publish your project to the front page.
-                    </li>
-                    <li className="about-list-item">
                         At the release date, go to the artist panel and unpause
                         the project, then the series will be open for minting
                         for everyone.

@@ -10,14 +10,18 @@ function SeriesBox({ contract, author, name }) {
 
     useEffect(() => {
         const fetchToken = async () => {
-            let token = await getToken(contract, 0);
-            setArtifactUri(token.metadata.artifactUri);
-            setDisplayUri(token.metadata.displayUri);
+            try {
+                let token = await getToken(contract, 0);
+                setArtifactUri(token.metadata.artifactUri);
+                setDisplayUri(token.metadata.displayUri);
+            } catch {
+                console.log('token 0 not found for contract ' + contract)
+            }
         };
 
         fetchToken().catch(console.error);
     }, [contract]);
-    if (artifactUri) {
+    if (artifactUri && artifactUri !== "") {
         return (
             <Box
                 artifactUri={artifactUri}

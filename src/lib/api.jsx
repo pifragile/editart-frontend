@@ -170,7 +170,8 @@ export async function fetchAllContractData(contractAddresses) {
         TZKT_API,
         "v1/bigmaps/keys",
         {
-            "bigmap.in": allContracts.map((c) =>
+            // do not load bigmaps of contracts with 0 tokens
+            "bigmap.in": allContracts.filter(c => c.tokensCount > 0).map((c) =>
                 bigMapNames.map((e) => c.storage[e])
             ),
             active: true,

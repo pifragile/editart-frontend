@@ -37,7 +37,8 @@ function App() {
 
             let seriesList = await res.json();
             if (ENV === "prod")
-                seriesList = seriesList.filter((e) => e.showInFrontend);
+                seriesList = seriesList.filter((e) => e.mainnetContract !== "");
+
             seriesList.forEach((e) => {
                 e.contract =
                     ENV === "prod" ? e.mainnetContract : e.testnetContract;
@@ -52,6 +53,7 @@ function App() {
                         (c) => c.address == s.contract
                     ))
             );
+            seriesList = seriesList.filter((e) => e.contractData.tokensCount > 0)
             setSeries(seriesList.reverse());
         }
         action().catch(console.error);
