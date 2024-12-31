@@ -87,7 +87,7 @@ function ArtistDocs() {
                     >
                         here
                     </a>{" "}
-                    and then DM{" "}
+                    and follow the steps to check the preview rendering and wether your series creates consistent outputs. When everything works, DM{" "}
                     <a
                         href="https://twitter.com/pifragile/"
                         target="_blank"

@@ -188,7 +188,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 <p> Your series was submitted!</p>
                 <br></br>
                 <p>
-                    Please save the following link and use it to edit the series
+                    Follow this link in order to check if the preview is rendered correcly and if your series creates consistent outputs. Save the link and use it to edit the series
                     in the future:
                 </p>
                 <p>
