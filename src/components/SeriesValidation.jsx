@@ -81,8 +81,13 @@ function SeriesValidation() {
                 <div className="controls">
                     <h1>Series Validation</h1>
                     <p>
+                        This tool simulates slider movements in your sketch, all
+                        ending up in the same configuration.
+                    </p>
+                    <p>
                         Step through the different configurations and make sure
-                        that all the outputs end up looking identical for each config.
+                        that all the outputs end up looking identical for each
+                        config.
                     </p>
                     <button
                         className="btn btn-default"

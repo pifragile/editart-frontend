@@ -181,15 +181,33 @@ function SeriesSubmissionForm({ seriesId }) {
         }
     };
 
-    if (createdId) {
+    if (createdId || true) {
         const seriesLink = `${APP_URL}series-submission/${createdId}`;
         return (
             <div>
                 <p> Your series was submitted!</p>
                 <br></br>
                 <p>
-                    Follow this link in order to check if the preview is rendered correcly and if your series creates consistent outputs. Save the link and use it to edit the series
-                    in the future:
+                    Below you can find your personal link for editing your
+                    series. Please follow the link to:
+                    <br />
+                    <ol>
+                        <li className="about-list-item">
+                            Check if the preview is rendered correctly. Below
+                            the form you should see a preview render of your
+                            project.
+                        </li>
+                        <li className="about-list-item">
+                            Use the series validation tool linked below the form
+                            the validate if your series creates consistent
+                            outputs.
+                        </li>
+
+                        <li className="about-list-item">
+                            Make changes to your submission in the future.
+                            Please save the link for this.
+                        </li>
+                    </ol>
                 </p>
                 <p>
                     <a href={seriesLink}>{seriesLink}</a>
