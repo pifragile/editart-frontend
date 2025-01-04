@@ -181,7 +181,7 @@ function SeriesSubmissionForm({ seriesId }) {
         }
     };
 
-    if (createdId || true) {
+    if (createdId) {
         const seriesLink = `${APP_URL}series-submission/${createdId}`;
         return (
             <div>
