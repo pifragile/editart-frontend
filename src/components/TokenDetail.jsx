@@ -17,8 +17,10 @@ import { getTokenMetadata } from "../lib/api";
 import { resolveIpfs, resolveIpfsGatewaySketches } from "../lib/utils";
 import { useContext } from "react";
 import { SeriesContext } from "../App";
+import { WalletContext } from "../lib/wallet";
 
 function TokenDetail() {
+    const wallet = useContext(WalletContext);
     const series = useContext(SeriesContext);
     let { contract, tokenId } = useParams();
     const [tokenPrice, setTokenPrice] = useState(null);
@@ -27,6 +29,17 @@ function TokenDetail() {
     const [artist, setArtist] = useState(null);
     const [creator, setCreator] = useState(null);
     const [metadata, setMetadata] = useState(null);
+    const [activeAccount, setActiveAccount] = useState(null);
+
+    useEffect(() => {
+        const func = async () => {
+            const account = await wallet.client.getActiveAccount();
+            if (account) {
+                setActiveAccount(account.address);
+            }
+        };
+        func();
+    }, [wallet]);
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -58,7 +71,10 @@ function TokenDetail() {
                             url={token.metadata.artifactUri}
                             displayUrl={token.metadata.displayUri}
                             isBig={true}
-                            showArtifact={series.find(e => e.contract === contract)?.displayArtifact || false}
+                            showArtifact={
+                                series.find((e) => e.contract === contract)
+                                    ?.displayArtifact || false
+                            }
                         />
                     </div>
 
@@ -85,24 +101,38 @@ function TokenDetail() {
                     </div>
                     <br />
                     <a
-                        href={resolveIpfsGatewaySketches(token.metadata.artifactUri)}
+                        href={resolveIpfsGatewaySketches(
+                            token.metadata.artifactUri
+                        )}
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <button class="btn btn-default">Open live view</button>
+                        <button className="btn btn-default">Open live view</button>
                     </a>
                     <br />
                     <Link to={`/series/${contract}`}>
-                        <button class="btn btn-default">Go to series</button>
+                        <button className="btn btn-default">Go to series</button>
                     </Link>
-                    {/* <br />
-                    <a
-                        href={resolveIpfs(token.metadata.artifactUri)}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <button class="btn btn-default">Add to DIY Frame</button>
-                    </a> */}
+
+                    <br />
+                    {activeAccount === owner &&
+                        series.find((s) => s.contract === contract)
+                            .enablePrint && (
+                            <a
+                                href={`https://prints.pifragile.com/?url=${encodeURIComponent(
+                                    resolveIpfsGatewaySketches(
+                                        token.metadata.artifactUri
+                                    )
+                                )}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <button className="btn btn-default">
+                                    Order Print
+                                </button>
+                            </a>
+                        )}
+
                     <br />
                     <div
                         className="token-detail-width"
