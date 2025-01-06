@@ -8,5 +8,5 @@ export const IPFS_UPLOADER_GATEWAY = 'https://editartipfsgateway-yj23z.ondigital
 export const SPACES_CDN_ENDPOINT = 'https://editart.fra1.cdn.digitaloceanspaces.com/'
 export const SPACES_ORIGIN_ENDPOINT = 'https://editart.fra1.digitaloceanspaces.com/'
 export const ENV = import.meta.env.VITE_ENV || 'dev';
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080/';
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://api.editart.xyz/';
 export const APP_URL = import.meta.env.VITE_APP_URL || 'http://localhost:5173/';
