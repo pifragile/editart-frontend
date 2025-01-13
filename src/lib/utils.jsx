@@ -62,7 +62,7 @@ async function addCreators(data) {
 export async function extractTokensForOverview(data) {
     if ("token" in data[0]) data = data.map((item) => item.token);
     data = await addCreators(data);
-    // use this when metadata is broken in api
+    // use this when metadata is broken in tzkt  api
     for (let token of data) {
         if (!("metadata" in token)) {
             token.metadata = await getTokenMetadata(

@@ -117,7 +117,7 @@ function TokenDetail() {
                     <br />
                     {activeAccount === owner &&
                         series.find((s) => s.contract === contract)
-                            .enablePrint && (
+                            ?.enablePrint && (
                             <a
                                 href={`https://prints.pifragile.com/?url=${encodeURIComponent(
                                     resolveIpfsGatewaySketches(
