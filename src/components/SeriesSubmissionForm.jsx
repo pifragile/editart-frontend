@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { APP_URL, BACKEND_URL } from "../consts";
+import ReloadIframe from "./ReloadIframe";
 
 function localToUTCString(localDateStr) {
     // localDateStr format: "YYYY-MM-DD HH:MM"
@@ -37,6 +38,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [loading, setLoading] = useState(false);
     const [isUpdate, setIsUpdate] = useState(!!seriesId);
     const [createdId, setCreatedId] = useState(null);
+    const [previewKeys, setPreviewKeys] = useState(null);
     const [previewKey, setPreviewKey] = useState(null);
     const [testDirKey, setTestDirKey] = useState(null);
 
@@ -90,6 +92,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     price: data.price !== null ? data.price.toString() : "",
                     zipfile: null, // never prefilled
                 });
+                setPreviewKeys(data.previewKeys);
                 setPreviewKey(data.previewKey);
                 setTestDirKey(data.testDirKey);
             } catch (e) {
@@ -339,6 +342,52 @@ function SeriesSubmissionForm({ seriesId }) {
                         this tool
                     </a>{" "}
                     tool to check if your series produces consistent outputs.
+                </>
+            )}
+
+            {previewKeys && (
+                <>
+                    {" "}
+                    <br/>
+                    <br/>
+                    <h1>Test Previews (Beta)</h1>
+                    {previewKeys.map((previewKey, idx) => (
+                        <div>
+                            <p>
+                                <b>
+                                    {previewKey.query_string
+                                        .split("?")[1]
+                                        .replaceAll("&", " ")}
+                                </b>
+                            </p>
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    marginBottom: "50px",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        marginRight: "20px",
+                                    }}
+                                >
+                                    <p>Live View</p>
+                                    <ReloadIframe
+                                        idx={idx}
+                                        url={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html${previewKey.query_string}`}
+                                    />
+                                </div>
+                                <div>
+                                    <p>Preview Image</p>
+                                    <img
+                                        className="standard-width standard-height"
+                                        src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey.key}`}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </>
             )}
 

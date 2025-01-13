@@ -117,3 +117,14 @@ export function valuesFromQueryString(queryString) {
 
     return [m0, m1, m2, m3, m4];
 }
+
+export function addUrlParam(url, paramName, paramValue) {
+    // Create a URL object to easily manipulate the URL
+    const urlObj = new URL(url);
+
+    // Update or add the parameter
+    urlObj.searchParams.set(paramName, paramValue);
+
+    // Return the updated URL as a string
+    return urlObj.toString();
+}
