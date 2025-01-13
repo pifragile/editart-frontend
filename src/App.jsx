@@ -31,32 +31,32 @@ function App() {
     const [mode, setMode] = useState(0);
     const [series, setSeries] = useState([]);
 
-    // useEffect(() => {
-    //     async function action() {
-    //         const res = await fetch(`${BACKEND_URL}series`);
+    useEffect(() => {
+        async function action() {
+            const res = await fetch(`${BACKEND_URL}series`);
 
-    //         let seriesList = await res.json();
-    //         if (ENV === "prod")
-    //             seriesList = seriesList.filter((e) => e.mainnetContract !== "");
+            let seriesList = await res.json();
+            if (ENV === "prod")
+                seriesList = seriesList.filter((e) => e.mainnetContract !== "");
 
-    //         seriesList.forEach((e) => {
-    //             e.contract =
-    //                 ENV === "prod" ? e.mainnetContract : e.testnetContract;
-    //         });
+            seriesList.forEach((e) => {
+                e.contract =
+                    ENV === "prod" ? e.mainnetContract : e.testnetContract;
+            });
 
 
-    //         const contracts = seriesList.map((e) => e.contract);
-    //         const allContracts = await fetchAllContractData(contracts);
-    //         seriesList.forEach(
-    //             (s) =>
-    //                 (s.contractData = allContracts.find(
-    //                     (c) => c.address == s.contract
-    //                 ))
-    //         );
-    //         setSeries(seriesList.reverse());
-    //     }
-    //     action().catch(console.error);
-    // }, []);
+            const contracts = seriesList.map((e) => e.contract);
+            const allContracts = await fetchAllContractData(contracts);
+            seriesList.forEach(
+                (s) =>
+                    (s.contractData = allContracts.find(
+                        (c) => c.address == s.contract
+                    ))
+            );
+            setSeries(seriesList.reverse());
+        }
+        action().catch(console.error);
+    }, []);
 
     return (
         <WalletContext.Provider value={wallet}>
