@@ -344,12 +344,11 @@ function SeriesSubmissionForm({ seriesId }) {
                     tool to check if your series produces consistent outputs.
                 </>
             )}
-
             {previewKeys && (
                 <>
                     {" "}
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <h1>Test Previews (Beta)</h1>
                     {previewKeys.map((previewKey, idx) => (
                         <div>
@@ -390,8 +389,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     ))}
                 </>
             )}
-
-            {previewKey && (
+            {!previewKeys && previewKey && (
                 <>
                     {" "}
                     <h1>Test Preview (Beta)</h1>
@@ -401,6 +399,13 @@ function SeriesSubmissionForm({ seriesId }) {
                     />
                 </>
             )}
+            <a
+                href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
+                target="_blank"
+                rel="noreferrer"
+            >
+                Open Sketch
+            </a>{" "}
         </>
     );
 }
