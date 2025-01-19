@@ -101,34 +101,6 @@ function Series() {
     if (numTokens && metadata && releaseDate) {
         return (
             <Layout>
-                <div>
-                    <div>
-                        <b>{metadata.name}</b>
-                    </div>
-                    <div>
-                        by <UserDetail address={artist} isLink={true} />
-                        {/* <span>
-                    {"    "}|{"    "}
-                    <>{releaseDate}</>
-                </span> */}
-                    </div>
-                    <div style={{ marginTop: "1vh", whiteSpace: "pre-wrap" }}>
-                        {metadata.description}
-                    </div>
-                </div>
-                <p>--</p>
-                <span>
-                    <>{releaseDate}</>
-                </span>
-                <br />
-                <br />
-                {numTokensMinted} / {numTokens}
-                <br />
-                <SeriesPrice
-                    soldOut={soldOut}
-                    price={price}
-                    floorPrice={floorPrice}
-                />
                 {(width >= 768 || !disableMintOnMobile) && (
                     <Editor
                         contract={contract}
@@ -138,6 +110,16 @@ function Series() {
                             (activeAccount === artist || !paused)
                         }
                         baseUrl={baseUrl}
+                        seriesData={{
+                            numTokensMinted,
+                            numTokens,
+                            artist,
+                            metadata,
+                            floorPrice,
+                            soldOut,
+                            price,
+                            releaseDate
+                        }}
                     />
                 )}
                 {width < 768 && disableMintOnMobile && (

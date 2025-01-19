@@ -3,13 +3,19 @@ import { useState, useEffect } from "react";
 import Editor from "./Editor";
 
 function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    const match = document.cookie.match(
+        new RegExp("(^| )" + name + "=([^;]+)")
+    );
     return match ? decodeURIComponent(match[2]) : "";
 }
 
 function setCookie(name, value, days = 7) {
-    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    const expires = new Date(
+        Date.now() + days * 24 * 60 * 60 * 1000
+    ).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(
+        value
+    )}; expires=${expires}; path=/`;
 }
 
 function Sandbox() {
@@ -38,12 +44,30 @@ function Sandbox() {
                     Sketch URL:
                     <input type="url" id="sketchUrl" defaultValue={sketchSrc} />
                 </label>
-                <br/>
-                <input className="btn btn-default" type="submit" value="Submit" />
+                <br />
+                <input
+                    className="btn btn-default"
+                    type="submit"
+                    value="Submit"
+                />
             </form>
             {sketchSrc && (
                 <>
-                    <Editor price={0} baseUrl={sketchSrc} showButton={false} />
+                    <Editor
+                        price={0}
+                        baseUrl={sketchSrc}
+                        showButton={false}
+                        seriesData={{
+                            numTokensMinted:0,
+                            numTokens:1000,
+                            artist:"xxx",
+                            metadata:{name: "Sandbox Test Token", description: ""},
+                            floorPrice: 0,
+                            soldOut: false,
+                            price: 0,
+                            releaseDate: "01.01.1970",
+                        }}
+                    />
                 </>
             )}
         </Layout>

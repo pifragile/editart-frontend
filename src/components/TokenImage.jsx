@@ -8,7 +8,7 @@ function TokenImage({ displayUrl, url, isBig, showArtifact, strictlyDisplay }) {
             <div
                 className={
                     isBig
-                        ? "token-detail-width token-detail-height"
+                        ? "full-size"
                         : "standard-width standard-height"
                 }
                 style={{ position: "relative" }}
@@ -32,7 +32,7 @@ function TokenImage({ displayUrl, url, isBig, showArtifact, strictlyDisplay }) {
         <div
             className={
                 isBig
-                    ? "token-detail-width token-detail-height"
+                    ? "full-size"
                     : "standard-width standard-height"
             }
             style={{ position: "relative" }}

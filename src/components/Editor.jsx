@@ -5,8 +5,10 @@ import { mint, WalletContext } from "../lib/wallet";
 import { useSearchParams } from "react-router-dom";
 import LiveViewIFrame from "./LiveViewIFrame";
 import { queryStringFromValues, valuesFromQueryString } from "../lib/utils";
+import UserDetail from "./UserDetail";
+import SeriesPrice from "./SeriesPrice";
 
-function Editor({ contract, baseUrl, price, showButton }) {
+function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const wallet = useContext(WalletContext);
     const [searchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(1);
@@ -17,9 +19,12 @@ function Editor({ contract, baseUrl, price, showButton }) {
         ? atob(passedValues)
         : queryStringFromValues(0.5, 0.5, 0.5, 0.5, 0.5);
 
-    const [history, setHistory] = useState([valuesFromQueryString(initialQueryString)]);
+    const [history, setHistory] = useState([
+        valuesFromQueryString(initialQueryString),
+    ]);
     const [historyIndex, setHistoryIndex] = useState(0);
     baseUrl = baseUrl ? baseUrl + "?" + initialQueryString : "";
+
     useEffect(() => {
         const handler = (e) => {
             if (e.data.hasOwnProperty("editArtTemplateVersion")) {
@@ -37,7 +42,7 @@ function Editor({ contract, baseUrl, price, showButton }) {
 
     const onMintFormSubmit = (m0, m1, m2, m3, m4) => {
         let newHistory = history.slice(0, historyIndex + 1);
-        newHistory = newHistory.slice(-100) // history max length is 100
+        newHistory = newHistory.slice(-100); // history max length is 100
         newHistory.push([m0, m1, m2, m3, m4]);
         setHistory(newHistory);
         setHistoryIndex(Math.min(historyIndex + 1, newHistory.length - 1));
@@ -53,7 +58,12 @@ function Editor({ contract, baseUrl, price, showButton }) {
     };
 
     let handleMint = async () => {
-        await mint(wallet, contract, queryStringFromValues(...history[historyIndex]), price);
+        await mint(
+            wallet,
+            contract,
+            queryStringFromValues(...history[historyIndex]),
+            price
+        );
     };
 
     function handleBack() {
@@ -74,7 +84,7 @@ function Editor({ contract, baseUrl, price, showButton }) {
         else if (e.keyCode === 90 && e.ctrlKey) handleBack();
         else if (e.keyCode === 90 && e.metaKey) handleBack();
     }
-    
+
     useEffect(() => {
         window.addEventListener("keydown", keyPress);
         return () => {
@@ -84,32 +94,45 @@ function Editor({ contract, baseUrl, price, showButton }) {
 
     return (
         <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "left",
-                    maxWidth: "100vw",
-                    flexWrap: "wrap",
-                    marginTop: "2vw",
-                    padding: 0,
-                }}
-            >
-                <div
-                    className="token-detail-width token-detail-height"
-                    style={{
-                        border: "None",
-                        marginRight: "2vw",
-                    }}
-                >
+            <div className="editor-container">
+                <div className="editor-iframe-container">
                     <LiveViewIFrame url={baseUrl} />
                 </div>
-
-                <div
-                    style={{
-                        marginRight: "2vw",
-                    }}
-                    className="token-detail-width"
-                >
+                <div className="editor-mint-form-container">
+                    <table style={{padding: "0px", margin: "0px"}}>
+                        <tr className="no-border">
+                            <td className="no-border">
+                                <b>{seriesData.metadata.name}</b>
+                            </td>
+                            <td className="no-border">
+                                by{" "}
+                                <UserDetail
+                                    address={seriesData.artist}
+                                    isLink={true}
+                                />
+                            </td>
+                            {/* <td className="no-border"></td> */}
+                        </tr>
+                        <tr className="no-border">
+                            <td className="no-border">
+                                {" "}
+                                <SeriesPrice
+                                    soldOut={seriesData.soldOut}
+                                    price={seriesData.price}
+                                    floorPrice={seriesData.floorPrice}
+                                />
+                            </td>
+                            <td className="no-border">
+                                {seriesData.numTokensMinted} /{" "}
+                                {seriesData.numTokens}
+                            </td>
+                            {/* <td className="no-border">
+                                {seriesData.releaseDate}
+                            </td> */}
+                        </tr>
+                    </table>
+                    <br/>
+                    <br/>
                     <MintForm
                         onSubmitForm={onMintFormSubmit}
                         onMint={
@@ -126,6 +149,10 @@ function Editor({ contract, baseUrl, price, showButton }) {
                         values={history[historyIndex]}
                     />
                 </div>
+            </div>
+            <div style={{ marginTop: "3vh", whiteSpace: "pre-wrap" }}>
+            {seriesData.releaseDate}<br/><br/>
+                {seriesData.metadata.description}
             </div>
         </div>
     );

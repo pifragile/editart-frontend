@@ -169,15 +169,8 @@ function MintForm({
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group" style={{flex:"row", display: "flex", flexWrap: "wrap"}}>
                         <RandomizeButton handleRandomize={handleRandomize} />
-                        {showButton && (
-                            <MintButton
-                                price={price}
-                                onClick={handleMint}
-                                isLoading={isLoading}
-                            />
-                        )}
                         <button
                             className="btn btn-default"
                             name="copyUrl"
@@ -186,6 +179,13 @@ function MintForm({
                         >
                             Copy
                         </button>
+                        {showButton && (
+                            <MintButton
+                                price={price}
+                                onClick={handleMint}
+                                isLoading={isLoading}
+                            />
+                        )}
                     </div>
                 </fieldset>
             </form>

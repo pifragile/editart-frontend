@@ -64,75 +64,92 @@ function TokenDetail() {
     if (token && metadata) {
         return (
             <Layout>
-                <h1>{token.metadata.name}</h1>
                 <div>
-                    <div title="token" style={{ paddingBottom: "1em" }}>
-                        <TokenImage
-                            url={token.metadata.artifactUri}
-                            displayUrl={token.metadata.displayUri}
-                            isBig={true}
-                            showArtifact={
-                                series.find((e) => e.contract === contract)
-                                    ?.displayArtifact || false
-                            }
-                        />
-                    </div>
-
-                    <div
-                        className="standard-width"
-                        style={{
-                            border: "None",
-                            marginTop: "1vh",
-                        }}
-                    >
-                        <div>
-                            <b>Artist:</b>
-                            <UserDetail address={artist} isLink={true} />
+                    <div className="editor-container">
+                        <div className="editor-iframe-container">
+                            <TokenImage
+                                url={token.metadata.artifactUri}
+                                displayUrl={token.metadata.displayUri}
+                                isBig={true}
+                                showArtifact={
+                                    series.find((e) => e.contract === contract)
+                                        ?.displayArtifact || false
+                                }
+                            />
                         </div>
-                        <div>
-                            <b>Owner:</b>
-                            <UserDetail address={owner} isLink={true} />
-                        </div>
+                        <div className="editor-mint-form-container">
+                        <b>{token.metadata.name}</b>
+                        <br/>
+                        <br/>
+                            <div
+                                className="standard-width"
+                                style={{
+                                    border: "None",
+                                    marginTop: "1vh",
+                                }}
+                            >
+                                <div>
+                                    <b>Artist:</b>
+                                    <UserDetail
+                                        address={artist}
+                                        isLink={true}
+                                    />
+                                </div>
+                                <div>
+                                    <b>Owner:</b>
+                                    <UserDetail address={owner} isLink={true} />
+                                </div>
 
-                        <div>
-                            <b>Co-Creator:</b>
-                            <UserDetail address={creator} isLink={true} />
-                        </div>
-                    </div>
-                    <br />
-                    <a
-                        href={resolveIpfsGatewaySketches(
-                            token.metadata.artifactUri
-                        )}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <button className="btn btn-default">Open live view</button>
-                    </a>
-                    <br />
-                    <Link to={`/series/${contract}`}>
-                        <button className="btn btn-default">Go to series</button>
-                    </Link>
-
-                    <br />
-                    {activeAccount === owner &&
-                        series.find((s) => s.contract === contract)
-                            ?.enablePrint && (
+                                <div>
+                                    <b>Co-Creator:</b>
+                                    <UserDetail
+                                        address={creator}
+                                        isLink={true}
+                                    />
+                                </div>
+                            </div>
+                            <br />
                             <a
-                                href={`https://prints.pifragile.com/?url=${encodeURIComponent(
-                                    resolveIpfsGatewaySketches(
-                                        token.metadata.artifactUri
-                                    )
-                                )}`}
+                                href={resolveIpfsGatewaySketches(
+                                    token.metadata.artifactUri
+                                )}
                                 target="_blank"
                                 rel="noreferrer"
                             >
                                 <button className="btn btn-default">
-                                    Order Print
+                                    Open live view
                                 </button>
                             </a>
-                        )}
+                            <br />
+                            <Link to={`/series/${contract}`}>
+                                <button className="btn btn-default">
+                                    Go to series
+                                </button>
+                            </Link>
 
+                            <br />
+                            {activeAccount === owner &&
+                                series.find((s) => s.contract === contract)
+                                    ?.enablePrint && (
+                                    <a
+                                        href={`https://prints.pifragile.com/?url=${encodeURIComponent(
+                                            resolveIpfsGatewaySketches(
+                                                token.metadata.artifactUri
+                                            )
+                                        )}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <button className="btn btn-default">
+                                            Order Print
+                                        </button>
+                                    </a>
+                                )}
+                        </div>
+                    </div>
+                </div>
+
+                <div>
                     <br />
                     <div
                         className="token-detail-width"
