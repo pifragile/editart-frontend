@@ -9,7 +9,8 @@ function IFrameView({ testDirKey, params, idx }) {
     const handleIframeLoad = async () => {
         const iframe = document.getElementById(`validationTokenFrame${idx}`);
         if (iframe && iframe.contentWindow) {
-            for (let i = 0; i < 5; i++) {
+            let numChanges = Math.ceil(Math.random() * 5)
+            for (let i = 0; i < numChanges; i++) {
                 const r = () => Math.random().toFixed(3);
                 let qs = queryStringFromValues(r(), r(), r(), r(), r());
                 iframe.contentWindow.postMessage(
