@@ -20,7 +20,7 @@ function IFrameView({ testDirKey, params, idx }) {
                     { editartQueryString: qs },
                     "*"
                 );
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+                await new Promise((resolve) => setTimeout(resolve, 200));
             }
             iframe.contentWindow.postMessage(
                 { editartQueryString: params.split("?")[1] },
