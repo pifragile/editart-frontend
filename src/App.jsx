@@ -38,6 +38,9 @@ function App() {
             let seriesList = await res.json();
             if (ENV === "prod")
                 seriesList = seriesList.filter((e) => e.mainnetContract !== "");
+            else seriesList = seriesList.filter((e) => e.testnetContract !== "");
+
+
 
             seriesList.forEach((e) => {
                 e.contract =
