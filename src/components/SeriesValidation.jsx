@@ -5,11 +5,14 @@ import { queryStringFromValues } from "../lib/utils";
 
 function IFrameView({ testDirKey, params, idx }) {
     const [error, setError] = useState(false);
-    const url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html${params}&cacheBust=${Date.now()}-${idx}`;
+    let url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html?m0=0.5&m1=0.5&m2=0.5&m3=0.5&m4=0.5&cacheBust=${Date.now()}-${idx}`;
+    if (idx === 0)
+        url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html${params}&cacheBust=${Date.now()}-${idx}`;
     const handleIframeLoad = async () => {
+        if (idx === 0) return;
         const iframe = document.getElementById(`validationTokenFrame${idx}`);
         if (iframe && iframe.contentWindow) {
-            let numChanges = Math.ceil(Math.random() * 5)
+            let numChanges = Math.ceil(Math.random() * 5);
             for (let i = 0; i < numChanges; i++) {
                 const r = () => Math.random().toFixed(3);
                 let qs = queryStringFromValues(r(), r(), r(), r(), r());
@@ -17,7 +20,7 @@ function IFrameView({ testDirKey, params, idx }) {
                     { editartQueryString: qs },
                     "*"
                 );
-                await new Promise((resolve) => setTimeout(resolve, 200));
+                await new Promise((resolve) => setTimeout(resolve, 1000));
             }
             iframe.contentWindow.postMessage(
                 { editartQueryString: params.split("?")[1] },
@@ -110,7 +113,7 @@ function SeriesValidation() {
                 </div>
                 <h1>{paramsList[currentIndex]}</h1>
                 <div className="flex">
-                    {Array.from({ length: 8 }).map((_, idx) => (
+                    {Array.from({ length: 4 }).map((_, idx) => (
                         <IFrameView
                             testDirKey={key}
                             key={idx}
