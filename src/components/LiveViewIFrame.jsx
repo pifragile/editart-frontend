@@ -7,8 +7,8 @@ function LiveViewIFrame({ url }) {
             id="tokenFrame"
             style={{
                 border: "None",
-                height: "100%",
                 width: "100%",
+                aspectRatio: "1/1"
             }}
             src={resolveIpfsSketches(url)}
         />
