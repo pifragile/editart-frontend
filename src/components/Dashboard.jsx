@@ -26,8 +26,8 @@ function Dashboard() {
 
             setNUmTokensSold(
                 series.reduce(
-                    (a, s) =>
-                        a + parseInt(s.contractData.storage["last_token_id"]),
+                    (a, s) =>   
+                        a + Object.keys(s.contractData.storage.creators).length,
                     0
                 )
             );

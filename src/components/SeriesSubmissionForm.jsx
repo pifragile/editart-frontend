@@ -3,6 +3,11 @@ import { APP_URL, BACKEND_URL } from "../consts";
 import ReloadIframe from "./ReloadIframe";
 
 function localToUTCString(localDateStr) {
+    const formatRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+    if (!formatRegex.test(localDateStr)) {
+        throw new Error("Invalid format. Expected format: 'YYYY-MM-DD HH:MM'");
+    }
+    
     // localDateStr format: "YYYY-MM-DD HH:MM"
     const [datePart, timePart] = localDateStr.split(" ");
     const [year, month, day] = datePart.split("-").map(Number);
