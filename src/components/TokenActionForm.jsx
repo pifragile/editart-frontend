@@ -45,10 +45,8 @@ function TokenActionForm({ contract, tokenId, price, owner }) {
     };
     return (
         <div>
-            {price && (
+            {price && (activeAccount !== owner) && (
                 <form onSubmit={handleBuy}>
-                    <fieldset>
-                        <legend>Buy</legend>
                         <div className="form-group">
                             <button
                                 className="btn btn-default"
@@ -58,9 +56,8 @@ function TokenActionForm({ contract, tokenId, price, owner }) {
                                 Buy for {formatMutez(price)}
                             </button>
                         </div>
-                    </fieldset>
                 </form>
-            )}
+            )}<br/><br/><br/>
             {activeAccount === owner && (
                 <div>
                     <form onSubmit={handleList}>
@@ -82,19 +79,10 @@ function TokenActionForm({ contract, tokenId, price, owner }) {
                                 >
                                     List
                                 </button>
-                            </div>
-                        </fieldset>
-                    </form>
-
-                    <form onSubmit={handleCancelListing}>
-                        <fieldset>
-                            <legend>Cancel Listing</legend>
-                            <div className="form-group">
                                 <button
                                     className="btn btn-default"
-                                    type="submit"
-                                    name="submit"
-                                    id="submit"
+                                    id="cancel"
+                                    onClick={handleCancelListing}
                                 >
                                     Cancel Listing
                                 </button>

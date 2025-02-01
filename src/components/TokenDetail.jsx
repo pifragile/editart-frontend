@@ -78,9 +78,9 @@ function TokenDetail() {
                             />
                         </div>
                         <div className="editor-mint-form-container">
-                        <b>{token.metadata.name}</b>
-                        <br/>
-                        <br/>
+                            <b>{token.metadata.name}</b>
+                            <br />
+                            <br />
                             <div
                                 className="standard-width"
                                 style={{
@@ -145,22 +145,13 @@ function TokenDetail() {
                                         </button>
                                     </a>
                                 )}
+                            <TokenActionForm
+                                price={tokenPrice}
+                                contract={contract}
+                                tokenId={tokenId}
+                                owner={owner}
+                            />
                         </div>
-                    </div>
-                </div>
-
-                <div>
-                    <br />
-                    <div
-                        className="token-detail-width"
-                        style={{ marginTop: "1vh" }}
-                    >
-                        <TokenActionForm
-                            price={tokenPrice}
-                            contract={contract}
-                            tokenId={tokenId}
-                            owner={owner}
-                        />
                     </div>
                 </div>
             </Layout>
