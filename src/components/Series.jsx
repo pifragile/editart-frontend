@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Layout from "./Layout";
 
@@ -118,7 +118,7 @@ function Series() {
                             floorPrice,
                             soldOut,
                             price,
-                            releaseDate
+                            releaseDate,
                         }}
                     />
                 )}
@@ -132,6 +132,17 @@ function Series() {
                     >
                         Minting for this token is disabled on mobile
                     </div>
+                )}
+                {activeAccount === artist && (
+
+                    <Link to={`/artist-panel/${contract}`}>
+                    <button
+                        className="btn btn-default"
+                        style={{ marginTop: "5vh" }}
+                    >
+                        Artist Panel
+                    </button>
+                    </Link>
                 )}
                 <div style={{ marginTop: "5vh" }}>
                     <MarketPlace contract={contract}></MarketPlace>
