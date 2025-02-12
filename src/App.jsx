@@ -22,6 +22,7 @@ import SeriesSubmissionEdit from "./components/SeriesSubmissionEdit";
 import ArtistDocs from "./components/ArtistDocs";
 import SeriesValidation from "./components/SeriesValidation";
 import { fetchAllContractData } from "./lib/api";
+import Analytics from "./components/Analytics";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -38,15 +39,13 @@ function App() {
             let seriesList = await res.json();
             if (ENV === "prod")
                 seriesList = seriesList.filter((e) => e.mainnetContract !== "");
-            else seriesList = seriesList.filter((e) => e.testnetContract !== "");
-
-
+            else
+                seriesList = seriesList.filter((e) => e.testnetContract !== "");
 
             seriesList.forEach((e) => {
                 e.contract =
                     ENV === "prod" ? e.mainnetContract : e.testnetContract;
             });
-
 
             const contracts = seriesList.map((e) => e.contract);
             const allContracts = await fetchAllContractData(contracts);
@@ -85,6 +84,11 @@ function App() {
                                 <Route
                                     path="/series/:contract"
                                     element={<Series />}
+                                />
+
+                                <Route
+                                    path="/analytics"
+                                    element={<Analytics />}
                                 />
                                 <Route
                                     path="/artist-panel/:contract"
