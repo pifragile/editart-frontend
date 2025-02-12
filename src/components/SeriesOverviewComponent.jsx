@@ -35,7 +35,8 @@ function SeriesOverviewComponent({ seriesFilter=null }) {
                         contract={c.contract}
                         author={c.artistName}
                         key={c.contract}
-                        name={c.genuary2025 ? `Genuary ${c.genuary2025}: ${c.name}` : c.name}
+                        //name={c.genuary2025 ? `Genuary ${c.genuary2025}: ${c.name}` : c.name}
+                        name={c.name}
                     />
                 ))}
             </div>

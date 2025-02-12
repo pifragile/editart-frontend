@@ -36,8 +36,8 @@ function Home() {
             <Dashboard />
 
             <div style={{ marginTop: "5vh" }}>
-                <h1>Genuary 2025</h1>
-                <SeriesOverviewComponent seriesFilter={s => s.genuary2025} />
+                <h1>Featured Series</h1>
+                <SeriesOverviewComponent seriesFilter={s => s.featured} />
             </div>
 
             {/* <div style={{ marginTop: "5vh" }}>
