@@ -87,27 +87,21 @@ function ArtistDocs() {
                     >
                         here
                     </a>{" "}
-                    and follow the steps to check the preview rendering and wether your series creates consistent outputs. When everything works, DM{" "}
-                    <a
-                        href="https://twitter.com/pifragile/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        @pifragile
-                    </a>
+                    and follow the steps to check the preview rendering and
+                    wether your series creates consistent outputs. When
+                    everything works, you can deploy the series to testnet and
+                    play around with it. Should you require to make changes,
+                    please update the series in the submission tool and redeploy
+                    to testnet.
                 </p>
                 <h1 id="testing-on-testnet">
                     <a className="simple-link" href="#testing-on-testnet">
                         3. Testing on Testnet
                     </a>
                 </h1>
-                When you sumit your project, we will deploy it to testnet in
-                order to check if everything works well in the actual
-                environment of the platform.
+                Once deployed to testnet, check if everything works well in the
+                actual environment of the platform.
                 <br />
-                <br />
-                Once the project is live on testnet, you will need some Tez
-                there, we will happily send you some.
                 <br />
                 In order for everything to work, you have to change the RPC node
                 in your wallet to Ghostnet.
@@ -167,9 +161,9 @@ function ArtistDocs() {
                         project for that because you are the artist.
                     </li>
                     <li className="about-list-item">
-                        <b>Important:</b> At the release date, go to the artist panel and unpause
-                        the project, then the series will be open for minting
-                        for everyone.
+                        <b>Important:</b> At the release date, go to the artist
+                        panel and unpause the project, then the series will be
+                        open for minting for everyone.
                     </li>
                     <li>
                         On objkt.com you can now go to profile - collaborations

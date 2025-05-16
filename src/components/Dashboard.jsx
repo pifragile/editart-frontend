@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-    fetchAllContractData,
-    getContractStorageFull,
-    listContractBigmap,
-} from "../lib/api";
 import { useContext } from "react";
 import { SeriesContext } from "../App";
-import { TZKT_API } from "../consts";
+import { BACKEND_URL } from "../consts";
 
 function Dashboard() {
     let series = useContext(SeriesContext);
@@ -18,36 +13,14 @@ function Dashboard() {
 
     useEffect(() => {
         async function action() {
-            if (series.length === 0) return;
-            series = series.filter((e) => e.contractData.tokensCount > 0)
-            setNumSeries(series.length);
+            const response = await fetch(`${BACKEND_URL}stats`);
+            const stats = await response.json();
 
-            setNumArtists(new Set(series.map((e) => e.artistAddress)).size);
-
-            setNUmTokensSold(
-                series.reduce(
-                    (a, s) =>   
-                        a + Object.keys(s.contractData.storage.creators).length,
-                    0
-                )
-            );
-            setPrimaryVolume(
-                series.reduce(
-                    (a, s) =>
-                        a +
-                        (parseInt(s.contractData.storage["last_token_id"]) *
-                            parseInt(s.contractData.storage.price)) /
-                            1000000,
-                    0
-                )
-            );
-
-            const creators = series.map((s) =>
-                Object.values(s.contractData.storage.creators).map(
-                    (e) => e.value
-                )
-            );
-            setNumCocreators(new Set(creators.flat()).size);
+            setNumSeries(stats.numSeries);
+            setNumArtists(stats.numArtists);
+            setNumCocreators(stats.numCocreators);
+            setNUmTokensSold(stats.numTokensSold);
+            setPrimaryVolume(stats.primaryVolume);
         }
 
         action().catch(console.error);

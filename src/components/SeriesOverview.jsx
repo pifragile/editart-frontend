@@ -4,7 +4,7 @@ import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function SeriesOverview() {
     return (
         <Layout>
-            <SeriesOverviewComponent/>
+            <SeriesOverviewComponent showSearch={true}/>
         </Layout>
     );
 }

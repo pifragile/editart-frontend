@@ -7,7 +7,7 @@ function localToUTCString(localDateStr) {
     if (!formatRegex.test(localDateStr)) {
         throw new Error("Invalid format. Expected format: 'YYYY-MM-DD HH:MM'");
     }
-    
+
     // localDateStr format: "YYYY-MM-DD HH:MM"
     const [datePart, timePart] = localDateStr.split(" ");
     const [year, month, day] = datePart.split("-").map(Number);
@@ -31,6 +31,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [formData, setFormData] = useState({
         artistName: "",
         artistAddress: "",
+        artistAddressTestnet: "",
         name: "",
         description: "",
         plannedRelease: "", // "YYYY-MM-DD HH:MM" format
@@ -44,8 +45,9 @@ function SeriesSubmissionForm({ seriesId }) {
     const [isUpdate, setIsUpdate] = useState(!!seriesId);
     const [createdId, setCreatedId] = useState(null);
     const [previewKeys, setPreviewKeys] = useState(null);
-    const [previewKey, setPreviewKey] = useState(null);
     const [testDirKey, setTestDirKey] = useState(null);
+    const [testnetContract, setTestnetContract] = useState(null);
+    const [showTestnetAddress, setShowTestnetAddress] = useState(false);
 
     useEffect(() => {
         if (!seriesId) {
@@ -88,6 +90,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 setFormData({
                     artistName: data.artistName || "",
                     artistAddress: data.artistAddress || "",
+                    artistAddressTestnet: data.artistAddressTestnet || "",
                     name: data.name || "",
                     description: data.description || "",
                     plannedRelease: formattedRelease,
@@ -98,8 +101,9 @@ function SeriesSubmissionForm({ seriesId }) {
                     zipfile: null, // never prefilled
                 });
                 setPreviewKeys(data.previewKeys);
-                setPreviewKey(data.previewKey);
                 setTestDirKey(data.testDirKey);
+                setTestnetContract(data.testnetContract);
+                setShowTestnetAddress(data.artistAddressTestnet !== "");
             } catch (e) {
                 setError(e.message);
             } finally {
@@ -150,6 +154,7 @@ function SeriesSubmissionForm({ seriesId }) {
             const form = new FormData();
             form.append("artistName", formData.artistName);
             form.append("artistAddress", formData.artistAddress);
+            form.append("artistAddressTestnet", formData.artistAddressTestnet);
             form.append("name", formData.name);
             form.append("description", formData.description);
             form.append(
@@ -183,6 +188,22 @@ function SeriesSubmissionForm({ seriesId }) {
             setCreatedId(data.id);
             // handle success, maybe redirect or show a success message
         } catch (e) {
+            setError(e.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeployTestnet = async () => {
+        try {
+            setLoading(true);
+            let res = await fetch(`${BACKEND_URL}series/${seriesId}/deploy-testnet`);
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || "Operation failed.");
+            }
+        } catch (e) {
+            console.log(e.message)
             setError(e.message);
         } finally {
             setLoading(false);
@@ -257,6 +278,30 @@ function SeriesSubmissionForm({ seriesId }) {
                         className="form-control"
                     />
                 </div>
+                {!showTestnetAddress && (
+                    <a
+                        style={{
+                            cursor: "pointer",
+                        }}
+                        onClick={() =>
+                            setShowTestnetAddress(!showTestnetAddress)
+                        }
+                    >
+                        I have a different address on testnet
+                    </a>
+                )}
+                {showTestnetAddress && (
+                    <div className="form-element">
+                        <label>Artist Address Testnet:</label>
+                        <input
+                            type="text"
+                            name="artistAddressTestnet"
+                            value={formData.artistAddressTestnet}
+                            onChange={handleChange}
+                            className="form-control"
+                        />
+                    </div>
+                )}
 
                 <div className="form-element">
                     <label>Series Name:</label>
@@ -332,7 +377,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 </button>
             </form>
             <br />
-            {testDirKey && (
+            {testDirKey && !testnetContract && (
                 <>
                     {" "}
                     <h1>Series Validation</h1>
@@ -349,14 +394,18 @@ function SeriesSubmissionForm({ seriesId }) {
                     tool to check if your series produces consistent outputs.
                 </>
             )}
-            {previewKeys && (
+            {previewKeys && !testnetContract && (
                 <>
                     {" "}
                     <br />
                     <br />
                     <h1>Test Previews</h1>
+                    <p>
+                        Please make sure that the test previews match the
+                        sketch.
+                    </p>
                     {previewKeys.map((previewKey, idx) => (
-                        <div>
+                        <div key={idx}>
                             <p>
                                 <b>
                                     {previewKey.query_string
@@ -382,11 +431,39 @@ function SeriesSubmissionForm({ seriesId }) {
                                         url={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html${previewKey.query_string}`}
                                     />
                                 </div>
-                                <div>
+                                <div
+                                    style={{
+                                        position: "relative",
+                                    }}
+                                >
                                     <p>Preview Image</p>
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            top: 0,
+                                            left: 0,
+                                            width: "100%",
+                                            height: "100%",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            zIndex: -1,
+                                        }}
+                                    >
+                                        Preview Loading...
+                                    </div>
                                     <img
                                         className="standard-width standard-height"
                                         src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey.key}`}
+                                        style={{
+                                            opacity: 0,
+                                        }}
+                                        onLoad={(e) =>
+                                            (e.target.style.opacity = 1)
+                                        }
+                                        onError={(e) =>
+                                            (e.target.style.display = "none")
+                                        }
                                     />
                                 </div>
                             </div>
@@ -394,23 +471,49 @@ function SeriesSubmissionForm({ seriesId }) {
                     ))}
                 </>
             )}
-            {!previewKeys && previewKey && (
+            {testDirKey && !testnetContract && (
                 <>
-                    {" "}
-                    <h1>Test Preview</h1>
-                    <img
-                        className="standard-width standard-height"
-                        src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey}`}
-                    />
+                    <a
+                        href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Open Sketch
+                    </a>
+                    <br />
+                    <br />
                 </>
             )}
-            <a
-                href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
-                target="_blank"
-                rel="noreferrer"
-            >
-                Open Sketch
-            </a>{" "}
+
+            {previewKeys && !testnetContract && (
+                <button
+                    type="submit"
+                    className="btn btn-default"
+                    onClick={handleDeployTestnet}
+                >
+                    Deploy to Testnet
+                </button>
+            )}
+            <br />
+            {testnetContract && (
+                <>
+                    <a
+                        href={`https://staging.editart.xyz/series/${testnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Open Testnet Series
+                    </a>
+                    <br />
+                    <a
+                        href={`https://staging.editart.xyz/artist-panel/${testnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Open Artist Panel
+                    </a>
+                </>
+            )}
         </>
     );
 }

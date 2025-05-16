@@ -47,14 +47,14 @@ function App() {
                     ENV === "prod" ? e.mainnetContract : e.testnetContract;
             });
 
-            const contracts = seriesList.map((e) => e.contract);
-            const allContracts = await fetchAllContractData(contracts);
-            seriesList.forEach(
-                (s) =>
-                    (s.contractData = allContracts.find(
-                        (c) => c.address == s.contract
-                    ))
-            );
+            // const contracts = seriesList.map((e) => e.contract);
+            // const allContracts = await fetchAllContractData(contracts);
+            // seriesList.forEach(
+            //     (s) =>
+            //         (s.contractData = allContracts.find(
+            //             (c) => c.address == s.contract
+            //         ))
+            // );
             setSeries(seriesList.reverse());
         }
         action().catch(console.error);

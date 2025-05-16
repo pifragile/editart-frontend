@@ -6,13 +6,11 @@ import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function Home() {
     return (
         <Layout>
-            <div className="main">
-                <span>
-                    <b>EditArt</b> is a generative art platform on Tezos, where
-                    collectors can become creators by co-creating a piece of art
-                    with the artist.
+            <div className="main" >
+                <span style={{ marginTop: "5vh" }}>
+                    Welcome to <b>EditArt</b>! Co-create a piece of generative art using 5 sliders.
                 </span>
-                <br />
+                {/* <br />
                 <br />
                 <p>
                     &gt; Infos for artists <Link to={`/about`}>here</Link>
@@ -31,7 +29,7 @@ function Home() {
                 </div>
 
                 <div>❤️ , Piero</div>
-                {/* <TokenOverview query={query}></TokenOverview> */}
+                <TokenOverview query={query}></TokenOverview> */}
             </div>
             <Dashboard />
 

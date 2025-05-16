@@ -13,6 +13,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const [searchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(1);
     const [templateVersion, setTemplateVersion] = useState(0);
+    const [error, setError] = useState(null);
 
     const passedValues = searchParams.get("values");
     const initialQueryString = passedValues
@@ -58,12 +59,19 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     };
 
     let handleMint = async () => {
-        await mint(
-            wallet,
-            contract,
-            queryStringFromValues(...history[historyIndex]),
-            price
-        );
+        setError(null);
+        try {
+            await mint(
+                wallet,
+                contract,
+                queryStringFromValues(...history[historyIndex]),
+                price
+            );
+        } catch (e) {
+            if (e.message.includes("DUPLICATE_MINT")) {
+                setError("Duplicate mint not allowed.");
+            }
+        }
     };
 
     function handleBack() {
@@ -99,7 +107,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                     <LiveViewIFrame url={baseUrl} />
                 </div>
                 <div className="editor-mint-form-container">
-                    <table style={{padding: "0px", margin: "0px"}}>
+                    <table style={{ padding: "0px", margin: "0px" }}>
                         <tr className="no-border">
                             <td className="no-border">
                                 <b>{seriesData.metadata.name}</b>
@@ -131,8 +139,8 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                             </td> */}
                         </tr>
                     </table>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <MintForm
                         onSubmitForm={onMintFormSubmit}
                         onMint={
@@ -147,11 +155,14 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                         // isLoading={templateVersion > 0 ? isLoading > 0 : false}
                         isLoading={false}
                         values={history[historyIndex]}
+                        error={error}
                     />
                 </div>
             </div>
             <div style={{ marginTop: "3vh", whiteSpace: "pre-wrap" }}>
-            {seriesData.releaseDate}<br/><br/>
+                {seriesData.releaseDate}
+                <br />
+                <br />
                 {seriesData.metadata.description}
             </div>
         </div>

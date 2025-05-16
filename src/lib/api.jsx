@@ -90,7 +90,7 @@ export async function getFeed(series, limit, offset) {
         "v1/operations/transactions?" +
         new URLSearchParams({
             "target.in": series.map((e) => e.contract).join(","),
-            "entrypoint.in": "mint,buy_item, list_item",
+            "entrypoint.in": "mint,buy_item,list_item",
             "sort.desc": "level",
             status: "applied",
             select: [

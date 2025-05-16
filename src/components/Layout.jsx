@@ -18,6 +18,27 @@ function Layout({ children, favicon = "/favicon.png" }) {
         func();
     }, [client]);
 
+    const tiggerMode = i => [triggerLightMode, triggerDarkMode][i]();
+
+    useEffect(() => {
+        const savedMode = parseInt(document.cookie.replace(/(?:(?:^|.*;\s*)mode\s*=\s*([^;]*).*$)|^.*$/, "$1"), 10);
+        if (!isNaN(savedMode)) {
+            setMode(savedMode);
+            tiggerMode(savedMode);
+        }
+    }, []);
+
+    useEffect(() => {
+        document.cookie = `mode=${mode}; path=/; max-age=31536000`; // Store mode in a cookie for 1 year
+    }, [mode]);
+    
+
+    const toggleMode = () => {
+        const newMode = (mode + 1) % 2;
+        setMode(newMode);
+        tiggerMode(newMode);
+    };
+    
     const triggerDarkMode = () => {
         document.body.style.setProperty("--background-color", "#1C1B1C");
         document.body.style.setProperty("--font-color", "#e8e9ed");
@@ -42,11 +63,6 @@ function Layout({ children, favicon = "/favicon.png" }) {
         document.body.style.setProperty("--progress-bar-background", "#727578");
         document.body.style.setProperty("--progress-bar-fill", "#151515");
         document.body.style.setProperty("--code-bg-color", "#e8eff2");
-    };
-
-    const toggleMode = () => {
-        [triggerDarkMode, triggerLightMode][mode]();
-        setMode((mode + 1) % 2);
     };
 
     return (

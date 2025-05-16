@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function User() {
     const [query, setQuery] = useState(null);
+    const [filter, setFilter] = useState(null);
     const series = useContext(SeriesContext);
     let { address } = useParams();
 
@@ -26,24 +27,60 @@ function User() {
                     "balance.gt": 0,
                     "sort.desc": "firstTime",
                 });
+            if (filter) {
+                q +=
+                    "&" +
+                    new URLSearchParams({
+                        "token.metadata.name.as": `*${filter}*`,
+                    });
+            }
             setQuery(q);
         }
-    }, [series, address]);
+    }, [series, address, filter]);
 
-    if (address) {
+    if (address !== "null") {
+        const [inputValue, setInputValue] = useState("");
+
         return (
             <Layout>
-                <UserDetail address={address} />
-                <h1>Creations</h1>
-                <SeriesOverviewComponent
-                    seriesFilter={s => s.artistAddress === address}
-                ></SeriesOverviewComponent>
-                <h1>Collection</h1>
-                <TokenOverview
-                    query={query}
-                    pageLength={6}
-                    extractTokens={extractTokensForOverview}
-                ></TokenOverview>
+            <UserDetail address={address} />
+            <h1>Creations</h1>
+            <SeriesOverviewComponent
+                seriesFilter={(s) => s.artistAddress === address}
+            ></SeriesOverviewComponent>
+            <h1>Collection</h1>
+            <div
+                style={{
+                width: "min(400px, 80vw)",
+                display: "flex",
+                gap: "6px",
+                marginBottom: "3px",
+                }}
+            >
+                <input
+                type="text"
+                placeholder="Search tokens..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                style={{
+                    boxSizing: "border-box",
+                    width: "100%",
+                    padding: "4px",
+                }}
+                />
+                <button
+                className="btn btn-default"
+                onClick={() => setFilter(inputValue.toLowerCase())}
+                >
+                Search
+                </button>
+            </div>
+            <TokenOverview
+                query={query}
+                pageLength={6}
+                extractTokens={extractTokensForOverview}
+                key={query}
+            ></TokenOverview>
             </Layout>
         );
     } else {

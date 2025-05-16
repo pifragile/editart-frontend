@@ -10,6 +10,7 @@ function MintForm({
     showButton,
     isLoading,
     values,
+    error=null,
 }) {
     const [m0, setM0] = useState(values[0]);
     const [m1, setM1] = useState(values[1]);
@@ -95,6 +96,7 @@ function MintForm({
                             display: "flex",
                             flexWrap: "wrap",
                             justifyContent: "center",
+                            overflow: "hidden"
                         }}
                     >
                         <input
@@ -187,8 +189,11 @@ function MintForm({
                             />
                         )}
                     </div>
+                    {error && <span style={{ color: "red" }}>{error}</span>}
                 </fieldset>
+               
             </form>
+            
         </div>
     );
 }

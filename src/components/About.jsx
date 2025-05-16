@@ -122,6 +122,141 @@ function About() {
                     damage created by the use of the platform.
                 </p>
             </div>
+
+            <hr />
+            <h1>Terms of Use</h1>
+            <p>
+                <strong>EditArt</strong> (editart.xyz) is a service operated by{" "}
+                <strong>Solidbit GmbH</strong>, a company incorporated in
+                Switzerland under company number CHE-267.620.734 (“we,” “us,” or
+                “our”). These Terms of Use govern your access to and use of the
+                EditArt website and services (the “Service”).
+            </p>
+
+            <h1>1. Acceptance of Terms</h1>
+            <p>
+                By accessing or using the Service, you agree to be bound by
+                these Terms. If you do not agree, do not use the Service.
+            </p>
+
+            <h1>2. Eligibility</h1>
+            <p>
+                You must be at least 13 years old to use EditArt. If you are
+                under the age of majority in your jurisdiction, you may only use
+                the Service under the supervision of a parent or legal guardian.
+            </p>
+
+            <h1>3. Use of the Service</h1>
+            <p>
+                You agree to use the Service only for lawful purposes. You must
+                not:
+            </p>
+            <ul>
+                <li>Violate any laws or regulations;</li>
+                <li>Infringe the intellectual property rights of others;</li>
+                <li>
+                    Use the Service to distribute harmful or malicious content;
+                </li>
+                <li>
+                    Attempt to gain unauthorized access to the Service or
+                    interfere with its operation.
+                </li>
+            </ul>
+
+            <h1>4. User Content</h1>
+            <p>If you submit, upload, or display any content via EditArt:</p>
+            <ul>
+                <li>You retain all rights in your content;</li>
+                <li>
+                    You grant us a non-exclusive, worldwide, royalty-free
+                    license to use, display, and distribute your content in
+                    connection with providing the Service.
+                </li>
+            </ul>
+            <p>
+                You are responsible for ensuring that your content complies with
+                applicable laws and does not infringe the rights of any third
+                party.
+            </p>
+
+            <h1>5. Intellectual Property</h1>
+            <p>
+                All content on EditArt, excluding user submissions, is the
+                property of Solidbit GmbH or its licensors and is protected by
+                intellectual property laws.
+            </p>
+
+            <h1>6. Termination</h1>
+            <p>
+                We reserve the right to suspend or terminate your access to the
+                Service at our discretion, with or without notice, if we believe
+                you have violated these Terms.
+            </p>
+
+            <h1>7. Disclaimers and Limitation of Liability</h1>
+            <p>
+                The Service is provided "as is" without warranties of any kind.
+                To the extent permitted by law, we disclaim all warranties,
+                express or implied, and will not be liable for any damages
+                arising from your use of the Service.
+            </p>
+
+            <h1>8. Changes to the Terms</h1>
+            <p>
+                We may update these Terms from time to time. We will notify you
+                of changes by posting the new Terms on this page. Your continued
+                use of the Service after changes are posted constitutes your
+                acceptance.
+            </p>
+
+            <h1>9. Governing Law</h1>
+            <p>
+                These Terms are governed by the laws of Switzerland. Any
+                disputes arising shall be subject to the exclusive jurisdiction
+                of the courts in Zürich, Switzerland.
+            </p>
+            <hr />
+            <h1>Privacy Policy</h1>
+
+            <p>
+                We aim to collect as little personal information as possible,
+                and we respect your right to privacy and decentralization.
+            </p>
+
+            <h1>1. Minimal Data Collection</h1>
+            <p>
+                Currently, EditArt does not collect any personally identifiable
+                information (such as your name or email address) and does not
+                use any cookies or trackers. All activity is handled via
+                decentralized systems and stored on-chain, where applicable.
+            </p>
+
+            <h1>2. On-Chain Interactions</h1>
+            <p>
+                Any data associated with your use of EditArt is typically stored
+                on public blockchains. This means that while we do not store or
+                control that data ourselves, it may be visible to anyone
+                inspecting the chain. You are responsible for managing your own
+                wallet and associated activity.
+            </p>
+
+            <h1>4. Third-Party Services</h1>
+            <p>
+                EditArt may use third-party infrastructure (e.g., hosting,
+                analytics, or wallet connectors). These providers may handle
+                some limited technical information like IP addresses or browser
+                metadata for the purpose of delivering the service. We do not
+                sell or rent any user data to third parties.
+            </p>
+
+            <h1>5. Your Rights</h1>
+            <p>
+                Even though we do not collect personal data directly, you have
+                rights under Swiss and EU data protection laws. If you ever
+                choose to provide personal information through future features,
+                you will have the right to access, correct, delete, or object to
+                its processing.
+            </p>
         </Layout>
     );
 }
