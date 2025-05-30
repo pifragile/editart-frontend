@@ -154,7 +154,7 @@ function SeriesSubmissionForm({ seriesId }) {
             const form = new FormData();
             form.append("artistName", formData.artistName);
             form.append("artistAddress", formData.artistAddress);
-            form.append("artistAddressTestnet", formData.artistAddressTestnet);
+            form.append("artistAddressTestnet", formData.artistAddressTestnet || "");
             form.append("name", formData.name);
             form.append("description", formData.description);
             form.append(
