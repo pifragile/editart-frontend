@@ -498,7 +498,7 @@ function SeriesSubmissionForm({ seriesId }) {
             {testnetContract && (
                 <>
                     <a
-                        href={`https://staging.editart.xyz/series/${testnetContract}`}
+                        href={`https://testnet.editart.xyz/series/${testnetContract}`}
                         target="_blank"
                         rel="noreferrer"
                     >
@@ -506,7 +506,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     </a>
                     <br />
                     <a
-                        href={`https://staging.editart.xyz/artist-panel/${testnetContract}`}
+                        href={`https://testnet.editart.xyz/artist-panel/${testnetContract}`}
                         target="_blank"
                         rel="noreferrer"
                     >
