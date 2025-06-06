@@ -496,7 +496,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     ))}
                 </>
             )}
-            {testDirKey(
+            {testDirKey && (
                 <>
                     <a
                         href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
