@@ -154,7 +154,10 @@ function SeriesSubmissionForm({ seriesId }) {
             const form = new FormData();
             form.append("artistName", formData.artistName);
             form.append("artistAddress", formData.artistAddress);
-            form.append("artistAddressTestnet", formData.artistAddressTestnet || "");
+            form.append(
+                "artistAddressTestnet",
+                formData.artistAddressTestnet || ""
+            );
             form.append("name", formData.name);
             form.append("description", formData.description);
             form.append(
@@ -197,13 +200,15 @@ function SeriesSubmissionForm({ seriesId }) {
     const handleDeployTestnet = async () => {
         try {
             setLoading(true);
-            let res = await fetch(`${BACKEND_URL}series/${seriesId}/deploy-testnet`);
+            let res = await fetch(
+                `${BACKEND_URL}series/${seriesId}/deploy-testnet`
+            );
             if (!res.ok) {
                 const data = await res.json();
                 throw new Error(data.error || "Operation failed.");
             }
         } catch (e) {
-            console.log(e.message)
+            console.log(e.message);
             setError(e.message);
         } finally {
             setLoading(false);
@@ -377,7 +382,27 @@ function SeriesSubmissionForm({ seriesId }) {
                 </button>
             </form>
             <br />
-            {testDirKey && !testnetContract && (
+            {testnetContract && (
+                <>
+                    <a
+                        href={`https://testnet.editart.xyz/series/${testnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Open Testnet Series
+                    </a>
+                    <br />
+                    <a
+                        href={`https://testnet.editart.xyz/artist-panel/${testnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Open Artist Panel
+                    </a>
+                </>
+            )}
+            <br />
+            {testDirKey && (
                 <>
                     {" "}
                     <h1>Series Validation</h1>
@@ -394,7 +419,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     tool to check if your series produces consistent outputs.
                 </>
             )}
-            {previewKeys && !testnetContract && (
+            {previewKeys && (
                 <>
                     {" "}
                     <br />
@@ -471,7 +496,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     ))}
                 </>
             )}
-            {testDirKey && !testnetContract && (
+            {testDirKey(
                 <>
                     <a
                         href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
@@ -493,26 +518,6 @@ function SeriesSubmissionForm({ seriesId }) {
                 >
                     Deploy to Testnet
                 </button>
-            )}
-            <br />
-            {testnetContract && (
-                <>
-                    <a
-                        href={`https://testnet.editart.xyz/series/${testnetContract}`}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Open Testnet Series
-                    </a>
-                    <br />
-                    <a
-                        href={`https://testnet.editart.xyz/artist-panel/${testnetContract}`}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Open Artist Panel
-                    </a>
-                </>
             )}
         </>
     );
