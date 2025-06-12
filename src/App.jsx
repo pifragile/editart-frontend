@@ -23,6 +23,7 @@ import ArtistDocs from "./components/ArtistDocs";
 import SeriesValidation from "./components/SeriesValidation";
 import { fetchAllContractData } from "./lib/api";
 import Analytics from "./components/Analytics";
+import IframeGrid from "./components/IFrameGrid";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -87,6 +88,10 @@ function App() {
                                 />
 
                                 <Route
+                                    path="/series/:contract/grid"
+                                    element={<IframeGrid />}
+                                />
+                                <Route
                                     path="/analytics"
                                     element={<Analytics />}
                                 />
@@ -116,6 +121,7 @@ function App() {
                                     path="/series-validation/:key"
                                     element={<SeriesValidation />}
                                 />
+                                <Route path="/grid/" element={<IframeGrid />} />
                             </Routes>
                         </div>
                     </CacheProvider>

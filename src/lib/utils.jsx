@@ -96,15 +96,23 @@ export function fetchRetry(url, fetchOptions = {}, tries = 1) {
         if (!triesLeft) {
             throw err;
         }
-        return wait(delay).then(() =>
-            fetchRetry(url, fetchOptions, triesLeft)
-        );
+        return wait(delay).then(() => fetchRetry(url, fetchOptions, triesLeft));
     }
     return fetch(url, fetchOptions).catch(onError);
 }
 
 export function queryStringFromValues(m0, m1, m2, m3, m4) {
     return `m0=${m0}&m1=${m1}&m2=${m2}&m3=${m3}&m4=${m4}`;
+}
+
+export function randomValueQueryString() {
+    return queryStringFromValues(
+        Math.random().toFixed(3),
+        Math.random().toFixed(3),
+        Math.random().toFixed(3),
+        Math.random().toFixed(3),
+        Math.random().toFixed(3)
+    );
 }
 
 export function valuesFromQueryString(queryString) {
