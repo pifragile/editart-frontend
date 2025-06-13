@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { APP_URL, BACKEND_URL } from "../consts";
 import ReloadIframe from "./ReloadIframe";
+import { Link } from "react-router-dom";
 
 function localToUTCString(localDateStr) {
     const formatRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
@@ -417,6 +418,22 @@ function SeriesSubmissionForm({ seriesId }) {
                         this tool
                     </a>{" "}
                     tool to check if your series produces consistent outputs.
+                </>
+            )}
+
+            {testDirKey && (
+                <>
+                    <br />
+                    <br /> Make sure that the Grid view works:{" "}
+                    <Link
+                        to={`/grid/${testDirKey.split("project_tests/")[1]}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Grid View
+                    </Link>
+                    <br />
+                    <br />
                 </>
             )}
             {previewKeys && (

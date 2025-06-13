@@ -8,26 +8,31 @@ import "./IFrameGrid.css"; // Import external CSS
 
 const batchSize = 8;
 
-export default function IframeGrid() {
-    const { contract } = useParams();
+export default function IframeGrid({ path }) {
+    const { contract, projecttest } = useParams();
     const [url, setUrl] = useState(null);
     const [elements, setElements] = useState([]);
     const elementsRef = useRef([]); // Ref to store the current state of elements
-
     useEffect(() => {
         async function fetchBaseUrl() {
-            if (!contract) return;
-            const baseUrl = bytes2Char(
-                await getContractStorage(contract, "base_url")
-            );
-            let url = `${APP_URL}cdn/sketches/${
-                baseUrl.split("ipfs://")[1]
-            }/index.html`;
+            if (!contract && !projecttest) return;
+            let url;
+            if (projecttest) {
+                url = `${APP_URL}cdn/project_tests/${projecttest}/index.html`;
+            } else {
+                const baseUrl = bytes2Char(
+                    await getContractStorage(contract, "base_url")
+                );
+                url = `${APP_URL}cdn/sketches/${
+                    baseUrl.split("ipfs://")[1]
+                }/index.html`;
+            }
+            console.log(url);
             //url = "http://localhost:5174/iframe/index.html";
             setUrl(url);
         }
         fetchBaseUrl();
-    }, [contract]);
+    }, [contract, projecttest]);
 
     useEffect(() => {
         if (!url) return;

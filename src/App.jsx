@@ -121,7 +121,7 @@ function App() {
                                     path="/series-validation/:key"
                                     element={<SeriesValidation />}
                                 />
-                                <Route path="/grid/" element={<IframeGrid />} />
+                                <Route path="/grid/:projecttest" element={<IframeGrid />} />
                             </Routes>
                         </div>
                     </CacheProvider>
