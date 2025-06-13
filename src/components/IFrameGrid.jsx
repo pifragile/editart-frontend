@@ -6,9 +6,10 @@ import { getContractStorage } from "../lib/api";
 import { bytes2Char } from "@taquito/utils";
 import "./IFrameGrid.css"; // Import external CSS
 
-const batchSize = 8;
 
-export default function IframeGrid({ path }) {
+export default function IframeGrid() {
+    const isMobile = window.innerWidth <= 768;
+    const batchSize = isMobile ? 2 : 8;
     const { contract, projecttest } = useParams();
     const [url, setUrl] = useState(null);
     const [elements, setElements] = useState([]);
@@ -27,8 +28,9 @@ export default function IframeGrid({ path }) {
                     baseUrl.split("ipfs://")[1]
                 }/index.html`;
             }
-            console.log(url);
-            //url = "http://localhost:5174/iframe/index.html";
+            // url = "http://localhost:5174/iframe/index.html";
+            // url =
+            //     "https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/1748600479-8e3ad8f5-41d0-4efc-9ee9-23f29e30c152/index.html";
             setUrl(url);
         }
         fetchBaseUrl();
@@ -75,57 +77,54 @@ export default function IframeGrid({ path }) {
                 return;
             }
 
-            if (event.data?.type === "sketch-loaded") {
-                try {
-                    const canvas =
-                        iframe.contentDocument?.querySelector("canvas");
-                    if (canvas) {
-                        const dataUrl = canvas.toDataURL();
-                        elementsRef.current = elementsRef.current.map((el) =>
-                            el.id === iframeElement.id
-                                ? { ...el, type: "image", src: dataUrl }
-                                : el
-                        ); // Update the ref
-                        setElements([...elementsRef.current]); // Update the state from the ref
+            // if (event.data?.type === "sketch-loaded") {
+            //     try {
+            //         const canvas =
+            //             iframe.contentDocument?.querySelector("canvas");
+            //         if (canvas) {
+            //             const dataUrl = canvas.toDataURL();
+            //             elementsRef.current = elementsRef.current.map((el) =>
+            //                 el.id === iframeElement.id
+            //                     ? { ...el, type: "image", src: dataUrl }
+            //                     : el
+            //             ); // Update the ref
+            //             setElements([...elementsRef.current]); // Update the state from the ref
 
-                        // Check if all elements are images
+            //             // Check if all elements are images
 
-                        addBatch();
-                    }
-                } catch (err) {
-                    console.error("Error accessing canvas", err);
-                }
+            //             addBatch();
+            //         }
+            //     } catch (err) {
+            //         console.error("Error accessing canvas", err);
+            //     }
+            // }
+
+            if (
+                event.data &&
+                event.data.type === "preview-image" &&
+                event.data.dataUrl
+            ) {
+                elementsRef.current = elementsRef.current.map((el) =>
+                    el.id === iframeElement.id
+                        ? { ...el, type: "image", src: event.data.dataUrl }
+                        : el
+                ); // Update the ref
+                setElements([...elementsRef.current]); // Update the state from the ref
+
+                // Check if all elements are images
+
+                addBatch();
+                return;
             }
-            // if (
-            //     event.data &&
-            //     event.data.type === "preview-image" &&
-            //     event.data.dataUrl
-            // ) {
-            //     // Remove iframe and overlay
-            //     wrapper.innerHTML = "";
-            //     // Create image element
-            //     const img = document.createElement("img");
-            //     img.src = event.data.dataUrl;
-            //     img.style.width = `${size}px`;
-            //     img.style.height = `${size}px`;
-            //     img.style.display = "block";
-            //     wrapper.appendChild(img);
-            //     // Mark as loaded so batch logic still works
-            //     wrapper.setAttribute("data-loaded", "true");
-            //     // Clean up message listener
-            //     window.removeEventListener("message", handleMessage);
-            //     checkAndAddBatch();
-            //     return;
-            // }
 
-            // if (event.data && event.data.type === "sketch-loaded") {
-            //     iframe.contentWindow.postMessage(
-            //         {
-            //             type: "send-preview",
-            //         },
-            //         "*"
-            //     );
-            // }
+            if (event.data && event.data.type === "sketch-loaded") {
+                iframe.contentWindow.postMessage(
+                    {
+                        type: "send-preview",
+                    },
+                    "*"
+                );
+            }
         }
 
         window.addEventListener("message", handleMessage);
