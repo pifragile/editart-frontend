@@ -3,6 +3,7 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit } from "@taquito/taquito";
 import { TEZOS_NETWORK, RPC_NODE } from "../consts";
 import { char2Bytes } from "@taquito/utils";
+import { BeaconEvent } from "@airgap/beacon-sdk";
 
 const options = {
     name: "EditArt",
@@ -13,6 +14,12 @@ export const WalletContext = React.createContext(undefined);
 
 const tezos = new TezosToolkit(RPC_NODE);
 tezos.setWalletProvider(beaconWallet);
+
+// Subscribe to ACTIVE_ACCOUNT_SET event
+beaconWallet.client.subscribeToEvent(BeaconEvent.ACTIVE_ACCOUNT_SET, (account) => {
+    console.log(`${BeaconEvent.ACTIVE_ACCOUNT_SET} triggered: `, account);
+    // Handle the active account update logic here
+});
 
 const checkIfWalletConnected = async (wallet) => {
     try {
