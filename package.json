@@ -3,18 +3,21 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@taquito/beacon-wallet": "^20.1.0",
-        "@taquito/utils": "^20.1.0",
+        "@taquito/beacon-wallet": "^22.0.0",
+        "@taquito/utils": "^22.0.0",
         "@vitejs/plugin-react": "^4.3.3",
         "buffer": "^6.0.3",
+        "crypto-browserify": "^3.12.1",
         "normalize.css": "^8.0.1",
+        "process": "^0.11.10",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.4.2",
         "react-tweet-embed": "^2.0.0",
+        "stream-browserify": "^3.0.0",
         "terminal.css": "^0.7.2",
-        "vite": "^5.4.11",
-        "vite-plugin-node-polyfills": "^0.22.0"
+        "util": "^0.12.5",
+        "vite": "^5.4.11"
     },
     "scripts": {
         "dev": "vite",

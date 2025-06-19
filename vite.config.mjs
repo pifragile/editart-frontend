@@ -1,19 +1,30 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import {nodePolyfills} from "vite-plugin-node-polyfills";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        react(),
-        nodePolyfills({
-            protocolImports: true, // Enables polyfills for Node.js built-ins
-        }),
+  define: {
+    global: "globalThis", // Required for many polyfills
+    "process.env": {},    // Needed for libraries like react-tweet-embed
+  },
+  resolve: {
+    alias: {
+      buffer: "buffer",
+      process: "process/browser",
+      stream: "stream-browserify",
+      crypto: "crypto-browserify",
+      util: "util",
+      assert: "assert",
+    },
+  },
+  optimizeDeps: {
+    include: [
+      "buffer",
+      "process",
+      "stream-browserify",
+      "crypto-browserify",
+      "util",
+      "assert",
     ],
-    // resolve: {
-    //   alias: {
-    //     buffer: 'buffer',
-    //   },
-    //},
-    base: "/",
+  },
+  plugins: [react()],
 });
