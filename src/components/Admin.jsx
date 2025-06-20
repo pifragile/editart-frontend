@@ -186,7 +186,7 @@ function Admin() {
                                     </td>
                                     <td>
                                         <a
-                                            href={`${APP_URL}series_submission/${item.uid}`}
+                                            href={`${APP_URL}series-submission/${item.uid}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
