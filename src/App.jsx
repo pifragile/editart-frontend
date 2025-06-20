@@ -24,6 +24,7 @@ import SeriesValidation from "./components/SeriesValidation";
 import { fetchAllContractData } from "./lib/api";
 import Analytics from "./components/Analytics";
 import IframeGrid from "./components/IFrameGrid";
+import Admin from "./components/Admin";
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
@@ -122,6 +123,7 @@ function App() {
                                     element={<SeriesValidation />}
                                 />
                                 <Route path="/grid/:projecttest" element={<IframeGrid />} />
+                                <Route path="/admin" element={<Admin />} />
                             </Routes>
                         </div>
                     </CacheProvider>
