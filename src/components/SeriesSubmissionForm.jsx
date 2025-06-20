@@ -128,6 +128,16 @@ function SeriesSubmissionForm({ seriesId }) {
         e.preventDefault();
         setError("");
 
+        if (isUpdate && testnetContract) {
+            const confirmMessage =
+                "This series has already been deployed to the testnet. " +
+                "Making changes now will require redeployment to the testnet. " +
+                "Are you sure you want to proceed?";
+            if (!window.confirm(confirmMessage)) {
+                return;
+            }
+        }
+
         // Validate required fields for creation
         if (!isUpdate) {
             const requiredFields = [
