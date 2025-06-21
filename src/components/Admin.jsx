@@ -12,7 +12,9 @@ function Admin() {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const response = await fetch(`${BACKEND_URL}me`, { credentials: "include" });
+                const response = await fetch(`${BACKEND_URL}me`, {
+                    credentials: "include",
+                });
                 if (response.status === 200) {
                     const data = await response.json();
                     setStatus(200);
@@ -67,10 +69,13 @@ function Admin() {
     const handleDelete = async (uid) => {
         if (window.confirm("Are you sure you want to delete this series?")) {
             try {
-                const response = await fetch(`${BACKEND_URL}admin/series/${uid}`, {
-                    method: "DELETE",
-                    credentials: "include",
-                });
+                const response = await fetch(
+                    `${BACKEND_URL}admin/series/${uid}`,
+                    {
+                        method: "DELETE",
+                        credentials: "include",
+                    }
+                );
                 if (response.status === 200) {
                     setSeries(series.filter((item) => item.uid !== uid));
                 }
@@ -81,12 +86,19 @@ function Admin() {
     };
 
     const handleDeployMainnet = async (uid) => {
-        if (window.confirm("Are you sure you want to deploy this series to the mainnet?")) {
+        if (
+            window.confirm(
+                "Are you sure you want to deploy this series to the mainnet?"
+            )
+        ) {
             try {
-                const response = await fetch(`${BACKEND_URL}admin/deploy-mainnet/${uid}`, {
-                    method: "POST",
-                    credentials: "include",
-                });
+                const response = await fetch(
+                    `${BACKEND_URL}admin/deploy-mainnet/${uid}`,
+                    {
+                        method: "POST",
+                        credentials: "include",
+                    }
+                );
                 if (response.status === 200) {
                     alert("Series successfully deployed to the mainnet.");
                 } else {
@@ -101,10 +113,13 @@ function Admin() {
     const handleRestartPreviews = async () => {
         setLoadingRestart(true);
         try {
-            const response = await fetch(`${BACKEND_URL}admin/restart-previews`, {
-                method: "POST",
-                credentials: "include",
-            });
+            const response = await fetch(
+                `${BACKEND_URL}admin/restart-previews`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
+            );
             if (response.status === 200) {
                 alert("Preview server restarted successfully.");
             } else {
@@ -117,11 +132,45 @@ function Admin() {
         }
     };
 
+    const allowedFields = {
+        renderingQueueName: "renderingQueueName",
+        featured: "featured",
+        displayArtifact: "displayArtifact",
+        disableMintingOnMobile: "disableMintingOnMobile",
+        disabled: "disabled",
+    };
+
+    const handleUpdateSeries = async (seriesId, updatedFields) => {
+        try {
+            const response = await fetch(`${BACKEND_URL}admin/series/${seriesId}`, {
+                method: "PATCH",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(updatedFields),
+            });
+            if (response.status === 200) {
+                alert("Series updated successfully.");
+                const updatedSeries = series.map((item) =>
+                    item._id === seriesId ? { ...item, ...updatedFields } : item
+                );
+                setSeries(updatedSeries);
+            } else {
+                alert("Failed to update series.");
+            }
+        } catch (error) {
+            console.error("Failed to update series", error);
+        }
+    };
+
     useEffect(() => {
         const fetchSeriesData = async () => {
             if (status === 200) {
                 try {
-                    const response = await fetch(`${BACKEND_URL}admin/series`, { credentials: "include" });
+                    const response = await fetch(`${BACKEND_URL}admin/series`, {
+                        credentials: "include",
+                    });
                     const data = await response.json();
                     setSeries(data);
                 } catch (error) {
@@ -200,82 +249,260 @@ function Admin() {
                             )}
                         </button>
                     </div>
-                    <h2>Submissions:</h2>
+                    <h2>Series:</h2>
                     <table
                         border="1"
-                        style={{ width: "100%", textAlign: "left" }}
+                        style={{ width: "100%", textAlign: "left", fontSize: "small" }}
                     >
                         <thead>
                             <tr>
-                                <th>UID</th>
                                 <th>Name</th>
                                 <th>Artist Name</th>
-                                <th>Description</th>
                                 <th>Price</th>
-                                <th>Num Editions</th>
-                                <th>Testnet</th>
-                                <th>Mainnet</th>
+                                <th style={{ width: "100px" }}>Editions</th>
                                 <th>Planned Release</th>
-                                <th>Link</th>
+                                <th style={{ width: "150px" }}>Links</th>
+                                <th>Rendering Queue Name</th>
+                                <th style={{ width: "50px" }}>Featured</th>
+                                <th style={{ width: "50px" }}>Display Artifact</th>
+                                <th style={{ width: "50px" }}>Disable Minting on Mobile</th>
+                                <th style={{ width: "50px" }}>Disabled</th>
+                                <th>Update</th>
                                 <th>Delete</th>
                                 <th>Deploy</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {series.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item.uid}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.artistName}</td>
-                                    <td>{item.description}</td>
-                                    <td>{item.price}</td>
-                                    <td>{item.numEditions}</td>
-                                    <td>{item.mainnetContract ? "" : item.testnetContract}</td>
-                                    <td>{item.mainnetContract}</td>
-                                    <td>
-                                        {item.plannedRelease
-                                            ? new Date(
-                                                  item.plannedRelease
-                                              ).toLocaleString()
-                                            : "N/A"}
-                                    </td>
-                                    <td>
-                                        <a
-                                            href={`${APP_URL}series-submission/${item.uid}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            View Submission
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {!item.mainnetContract && (
-                                            <button
-                                                onClick={() =>
-                                                    handleDelete(item.uid)
-                                                }
-                                                className="btn btn-default"
+                            {series
+                                .slice()
+                                .sort((a, b) => {
+                                    const dateA = a.plannedRelease
+                                        ? new Date(a.plannedRelease)
+                                        : null;
+                                    const dateB = b.plannedRelease
+                                        ? new Date(b.plannedRelease)
+                                        : null;
+                                    if (!dateA) return 1; // Place items without plannedRelease at the end
+                                    if (!dateB) return -1;
+                                    return dateB - dateA; // Sort by descending order
+                                })
+                                .map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.name}</td>
+                                        <td>{item.artistName}</td>
+                                        <td>{parseInt(item.contractData.storage.price) / 1000000}</td>
+                                        <td>{parseInt(item.contractData.storage.last_token_id)} / {parseInt(item.contractData.storage.num_tokens)}</td>
+                                        <td>
+                                            {item.plannedRelease
+                                                ? new Date(item.plannedRelease).toLocaleString()
+                                                : "N/A"}
+                                        </td>
+                                        <td>
+                                            <details>
+                                                <summary>Links</summary>
+                                                <div>
+                                                    <a
+                                                        href={`${APP_URL}series-submission/${item.uid}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        Submission
+                                                    </a>
+                                                </div>
+                                                {item.testnetContract && (
+                                                    <div>
+                                                        <a
+                                                            href={`https://testnet.editart.xyz/series/${item.testnetContract}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Testnet
+                                                        </a>
+                                                    </div>
+                                                )}
+                                                {item.mainnetContract && (
+                                                    <div>
+                                                        <a
+                                                            href={`https://editart.xyz/series/${item.mainnetContract}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Mainnet
+                                                        </a>
+                                                    </div>
+                                                )}
+                                                {item.mainnetContract && (
+                                                    <div>
+                                                        <a
+                                                            href={`https://better-call.dev/mainnet/${item.mainnetContract}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Contract
+                                                        </a>
+                                                    </div>
+                                                )}
+                                                {item.testnetContract && (
+                                                    <div>
+                                                        <a
+                                                            href={`https://better-call.dev/ghostnet/${item.testnetContract}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Contract(T)
+                                                        </a>
+                                                    </div>
+                                                )}
+                                            </details>
+                                        </td>
+                                        <td>
+                                            <select
+                                                value={item.renderingQueueName || ""}
+                                                onChange={(e) => {
+                                                    const updatedSeries = series.map((seriesItem) =>
+                                                        seriesItem._id === item._id
+                                                            ? {
+                                                                  ...seriesItem,
+                                                                  renderingQueueName:
+                                                                      e.target.value,
+                                                              }
+                                                            : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
                                             >
-                                                Delete
-                                            </button>
-                                        )}
-                                    </td>
-                                    <td>
-                                        {!item.mainnetContract && (
+                                                <option value="default">default</option>
+                                                <option value="slow">slow</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={item.featured || false}
+                                                onChange={(e) => {
+                                                    const updatedSeries = series.map((seriesItem) =>
+                                                        seriesItem._id === item._id
+                                                            ? {
+                                                                  ...seriesItem,
+                                                                  featured: e.target.checked,
+                                                              }
+                                                            : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={
+                                                    item.displayArtifact ||
+                                                    false
+                                                }
+                                                onChange={(e) => {
+                                                    const updatedSeries = series.map((seriesItem) =>
+                                                        seriesItem._id === item._id
+                                                            ? {
+                                                                  ...seriesItem,
+                                                                  displayArtifact:
+                                                                      e.target.checked,
+                                                              }
+                                                            : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={
+                                                    item.disableMintingOnMobile ||
+                                                    false
+                                                }
+                                                onChange={(e) => {
+                                                    const updatedSeries = series.map((seriesItem) =>
+                                                        seriesItem._id === item._id
+                                                            ? {
+                                                                  ...seriesItem,
+                                                                  disableMintingOnMobile:
+                                                                      e.target.checked,
+                                                              }
+                                                            : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={item.disabled || false}
+                                                onChange={(e) => {
+                                                    const updatedSeries = series.map((seriesItem) =>
+                                                        seriesItem._id === item._id
+                                                            ? {
+                                                                  ...seriesItem,
+                                                                  disabled: e.target.checked,
+                                                              }
+                                                            : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
                                             <button
                                                 onClick={() =>
-                                                    handleDeployMainnet(
-                                                        item.uid
+                                                    handleUpdateSeries(
+                                                        item._id,
+                                                        {
+                                                            renderingQueueName:
+                                                                item.renderingQueueName,
+                                                            featured:
+                                                                item.featured,
+                                                            displayArtifact:
+                                                                item.displayArtifact,
+                                                            disableMintingOnMobile:
+                                                                item.disableMintingOnMobile,
+                                                            disabled:
+                                                                item.disabled,
+                                                        }
                                                     )
                                                 }
                                                 className="btn btn-default"
                                             >
-                                                Deploy
+                                                Update
                                             </button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td>
+                                            {!item.mainnetContract && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleDelete(item.uid)
+                                                    }
+                                                    className="btn btn-default"
+                                                >
+                                                    Delete
+                                                </button>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {!item.mainnetContract && (
+                                                <button
+                                                    onClick={() =>
+                                                        handleDeployMainnet(
+                                                            item.uid
+                                                        )
+                                                    }
+                                                    className="btn btn-default"
+                                                >
+                                                    Deploy
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
