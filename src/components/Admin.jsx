@@ -87,6 +87,26 @@ function Admin() {
         }
     };
 
+    const handleDeployMainnet = (uid) => {
+        if (window.confirm("Are you sure you want to deploy this series to the mainnet?")) {
+            fetch(`${BACKEND_URL}admin/deploy-mainnet/${uid}`, {
+                method: "POST",
+                credentials: "include",
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        alert("Series successfully deployed to the mainnet.");
+                        // Optionally refresh the series data
+                    } else {
+                        alert("Failed to deploy to the mainnet.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Failed to deploy to the mainnet", error);
+                });
+        }
+    };
+
     useEffect(() => {
         if (status === 200) {
             // Fetch series data
@@ -197,6 +217,11 @@ function Admin() {
                                         <button onClick={() => handleDelete(item.uid)} className="btn btn-default">
                                             Delete
                                         </button>
+                                        {!item.mainnetContract && (
+                                            <button onClick={() => handleDeployMainnet(item.uid)} className="btn btn-default">
+                                                Deploy to Mainnet
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
