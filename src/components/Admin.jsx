@@ -249,6 +249,63 @@ function Admin() {
                             )}
                         </button>
                     </div>
+                    <div style={{ marginBottom: "20px", width: "400px" }}>
+                        <h1>Manual Trigger</h1>
+                        <form
+                            onSubmit={async (e) => {
+                                e.preventDefault();
+                                const formData = new FormData(e.target);
+                                const net = formData.get("net");
+                                const contract = formData.get("contract");
+                                const tokenId = formData.get("token_id");
+
+                                try {
+                                    const response = await fetch(
+                                        `${BACKEND_URL}admin/manual-trigger`,
+                                        {
+                                            method: "POST",
+                                            credentials: "include",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                            },
+                                            body: JSON.stringify({
+                                                net,
+                                                contract,
+                                                token_id: tokenId,
+                                            }),
+                                        }
+                                    );
+                                    if (response.status === 200) {
+                                        alert("Manual trigger successful.");
+                                    } else {
+                                        alert("Failed to trigger manually.");
+                                    }
+                                } catch (error) {
+                                    console.error("Failed to trigger manually", error);
+                                }
+                            }}
+                        >
+                            <input
+                                type="text"
+                                name="contract"
+                                placeholder="Contract"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="token_id"
+                                placeholder="Token ID"
+                                required
+                            />
+                            <select name="net" required>
+                                <option value="mainnet">Mainnet</option>
+                                <option value="ghostnet">Ghostnet</option>
+                            </select>
+                            <button type="submit" className="btn btn-default">
+                                Trigger
+                            </button>
+                        </form>
+                    </div>
                     <h2>Series:</h2>
                     <table
                         border="1"
