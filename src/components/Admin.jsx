@@ -8,6 +8,7 @@ function Admin() {
     const [series, setSeries] = useState([]);
     const [loginData, setLoginData] = useState({ username: "", password: "" });
     const [loadingRestart, setLoadingRestart] = useState(false);
+    const [viewType, setViewType] = useState("submissions");
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -142,14 +143,17 @@ function Admin() {
 
     const handleUpdateSeries = async (seriesId, updatedFields) => {
         try {
-            const response = await fetch(`${BACKEND_URL}admin/series/${seriesId}`, {
-                method: "PATCH",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedFields),
-            });
+            const response = await fetch(
+                `${BACKEND_URL}admin/series/${seriesId}`,
+                {
+                    method: "PATCH",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updatedFields),
+                }
+            );
             if (response.status === 200) {
                 alert("Series updated successfully.");
                 const updatedSeries = series.map((item) =>
@@ -227,7 +231,7 @@ function Admin() {
     if (status === 200) {
         return (
             <LayoutAdmin>
-                <div>
+                <div style={{ fontSize: "small" }}>
                     <h1>Welcome, {username}</h1>
                     <div style={{ marginBottom: "20px" }}>
                         <button
@@ -266,7 +270,8 @@ function Admin() {
                                             method: "POST",
                                             credentials: "include",
                                             headers: {
-                                                "Content-Type": "application/json",
+                                                "Content-Type":
+                                                    "application/json",
                                             },
                                             body: JSON.stringify({
                                                 net,
@@ -281,7 +286,10 @@ function Admin() {
                                         alert("Failed to trigger manually.");
                                     }
                                 } catch (error) {
-                                    console.error("Failed to trigger manually", error);
+                                    console.error(
+                                        "Failed to trigger manually",
+                                        error
+                                    );
                                 }
                             }}
                         >
@@ -307,9 +315,22 @@ function Admin() {
                         </form>
                     </div>
                     <h2>Series:</h2>
+                    <div style={{ marginBottom: "20px", width: "200px" }}>
+                        <select
+                            onChange={(e) => setViewType(e.target.value)}
+                            value={viewType}
+                        >
+                            <option value="submissions">Submissions</option>
+                            <option value="series">Series</option>
+                        </select>
+                    </div>
                     <table
                         border="1"
-                        style={{ width: "100%", textAlign: "left", fontSize: "small" }}
+                        style={{
+                            width: "100%",
+                            textAlign: "left",
+                            fontSize: "small",
+                        }}
                     >
                         <thead>
                             <tr>
@@ -321,8 +342,12 @@ function Admin() {
                                 <th style={{ width: "150px" }}>Links</th>
                                 <th>Rendering Queue Name</th>
                                 <th style={{ width: "50px" }}>Featured</th>
-                                <th style={{ width: "50px" }}>Display Artifact</th>
-                                <th style={{ width: "50px" }}>Disable Minting on Mobile</th>
+                                <th style={{ width: "50px" }}>
+                                    Display Artifact
+                                </th>
+                                <th style={{ width: "50px" }}>
+                                    Disable Minting on Mobile
+                                </th>
                                 <th style={{ width: "50px" }}>Disabled</th>
                                 <th>Update</th>
                                 <th>Delete</th>
@@ -331,6 +356,11 @@ function Admin() {
                         </thead>
                         <tbody>
                             {series
+                                .filter((item) =>
+                                    viewType === "series"
+                                        ? item.mainnetContract
+                                        : !item.mainnetContract
+                                )
                                 .slice()
                                 .sort((a, b) => {
                                     const dateA = a.plannedRelease
@@ -347,11 +377,27 @@ function Admin() {
                                     <tr key={index}>
                                         <td>{item.name}</td>
                                         <td>{item.artistName}</td>
-                                        <td>{parseInt(item.contractData.storage.price) / 1000000}</td>
-                                        <td>{parseInt(item.contractData.storage.last_token_id)} / {parseInt(item.contractData.storage.num_tokens)}</td>
+                                        <td>
+                                            {parseInt(
+                                                item.contractData.storage.price
+                                            ) / 1000000}
+                                        </td>
+                                        <td>
+                                            {parseInt(
+                                                item.contractData.storage
+                                                    .last_token_id
+                                            )}{" "}
+                                            /{" "}
+                                            {parseInt(
+                                                item.contractData.storage
+                                                    .num_tokens
+                                            )}
+                                        </td>
                                         <td>
                                             {item.plannedRelease
-                                                ? new Date(item.plannedRelease).toLocaleString()
+                                                ? new Date(
+                                                      item.plannedRelease
+                                                  ).toLocaleString()
                                                 : "N/A"}
                                         </td>
                                         <td>
@@ -414,22 +460,34 @@ function Admin() {
                                         </td>
                                         <td>
                                             <select
-                                                value={item.renderingQueueName || ""}
+                                                value={
+                                                    item.renderingQueueName ||
+                                                    ""
+                                                }
                                                 onChange={(e) => {
-                                                    const updatedSeries = series.map((seriesItem) =>
-                                                        seriesItem._id === item._id
-                                                            ? {
-                                                                  ...seriesItem,
-                                                                  renderingQueueName:
-                                                                      e.target.value,
-                                                              }
-                                                            : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          renderingQueueName:
+                                                                              e
+                                                                                  .target
+                                                                                  .value,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                             >
-                                                <option value="default">default</option>
-                                                <option value="slow">slow</option>
+                                                <option value="default">
+                                                    default
+                                                </option>
+                                                <option value="slow">
+                                                    slow
+                                                </option>
                                             </select>
                                         </td>
                                         <td>
@@ -437,14 +495,20 @@ function Admin() {
                                                 type="checkbox"
                                                 checked={item.featured || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries = series.map((seriesItem) =>
-                                                        seriesItem._id === item._id
-                                                            ? {
-                                                                  ...seriesItem,
-                                                                  featured: e.target.checked,
-                                                              }
-                                                            : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          featured:
+                                                                              e
+                                                                                  .target
+                                                                                  .checked,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                             />
@@ -457,15 +521,20 @@ function Admin() {
                                                     false
                                                 }
                                                 onChange={(e) => {
-                                                    const updatedSeries = series.map((seriesItem) =>
-                                                        seriesItem._id === item._id
-                                                            ? {
-                                                                  ...seriesItem,
-                                                                  displayArtifact:
-                                                                      e.target.checked,
-                                                              }
-                                                            : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          displayArtifact:
+                                                                              e
+                                                                                  .target
+                                                                                  .checked,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                             />
@@ -478,15 +547,20 @@ function Admin() {
                                                     false
                                                 }
                                                 onChange={(e) => {
-                                                    const updatedSeries = series.map((seriesItem) =>
-                                                        seriesItem._id === item._id
-                                                            ? {
-                                                                  ...seriesItem,
-                                                                  disableMintingOnMobile:
-                                                                      e.target.checked,
-                                                              }
-                                                            : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          disableMintingOnMobile:
+                                                                              e
+                                                                                  .target
+                                                                                  .checked,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                             />
@@ -496,14 +570,20 @@ function Admin() {
                                                 type="checkbox"
                                                 checked={item.disabled || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries = series.map((seriesItem) =>
-                                                        seriesItem._id === item._id
-                                                            ? {
-                                                                  ...seriesItem,
-                                                                  disabled: e.target.checked,
-                                                              }
-                                                            : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          disabled:
+                                                                              e
+                                                                                  .target
+                                                                                  .checked,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                             />
