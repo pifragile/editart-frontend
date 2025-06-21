@@ -49,6 +49,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [testDirKey, setTestDirKey] = useState(null);
     const [testnetContract, setTestnetContract] = useState(null);
     const [showTestnetAddress, setShowTestnetAddress] = useState(false);
+    const [mainnetContract, setMainnetContract] = useState(false);
 
     useEffect(() => {
         if (!seriesId) {
@@ -88,6 +89,10 @@ function SeriesSubmissionForm({ seriesId }) {
                     var formattedRelease = "";
                 }
 
+                if (data.mainnetContract) {
+                    setMainnetContract(data.mainnetContract);
+                    return;
+                }
                 setFormData({
                     artistName: data.artistName || "",
                     artistAddress: data.artistAddress || "",
@@ -226,6 +231,32 @@ function SeriesSubmissionForm({ seriesId }) {
         }
     };
 
+    if (mainnetContract) {
+        return (
+            <div>
+                <p>
+                    This series has already been deployed to the mainnet.
+                    <br />
+                    <a
+                        href={`https://editart.xyz/series/${mainnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Series
+                    </a>
+                    <br />
+                    <a
+                        href={`https://editart.xyz/artist-panel/${mainnetContract}`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Artist Panel
+                    </a>
+                    <br />
+                </p>
+            </div>
+        );
+    }
     if (createdId) {
         const seriesLink = `${APP_URL}series-submission/${createdId}`;
         return (
