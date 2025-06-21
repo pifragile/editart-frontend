@@ -7,121 +7,129 @@ function Admin() {
     const [username, setUsername] = useState("");
     const [series, setSeries] = useState([]);
     const [loginData, setLoginData] = useState({ username: "", password: "" });
+    const [loadingRestart, setLoadingRestart] = useState(false);
 
     useEffect(() => {
-        // Check authentication status
-        fetch(`${BACKEND_URL}me`, { credentials: "include" }) // Updated endpoint to "/auth"
-            .then((response) => {
+        const checkAuthStatus = async () => {
+            try {
+                const response = await fetch(`${BACKEND_URL}me`, { credentials: "include" });
                 if (response.status === 200) {
-                    return response.json().then((data) => {
-                        setStatus(200);
-                        setUsername(data.username);
-                    });
+                    const data = await response.json();
+                    setStatus(200);
+                    setUsername(data.username);
                 } else if (response.status === 403) {
                     setStatus(403);
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error("Failed to check authentication status", error);
-            });
+            }
+        };
+        checkAuthStatus();
     }, []);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // Perform login
-        fetch(`${BACKEND_URL}login`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(loginData),
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json().then((data) => {
-                        setStatus(200);
-                        setUsername(data.username);
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error("Login failed", error);
-            });
-    };
-
-    const handleLogout = () => {
-        // Perform logout
-        fetch(`${BACKEND_URL}logout`, {
-            method: "POST",
-            credentials: "include",
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    setStatus(null);
-                    setUsername("");
-                    setSeries([]);
-                }
-            })
-            .catch((error) => {
-                console.error("Logout failed", error);
-            });
-    };
-
-    const handleDelete = (uid) => {
-        if (window.confirm("Are you sure you want to delete this series?")) {
-            // Perform delete
-            fetch(`${BACKEND_URL}admin/series/${uid}`, {
-                method: "DELETE",
+        try {
+            const response = await fetch(`${BACKEND_URL}login`, {
+                method: "POST",
                 credentials: "include",
-            })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setSeries(series.filter((item) => item.uid !== uid));
-                    }
-                })
-                .catch((error) => {
-                    console.error("Failed to delete series", error);
-                });
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(loginData),
+            });
+            if (response.status === 200) {
+                const data = await response.json();
+                setStatus(200);
+                setUsername(data.username);
+            }
+        } catch (error) {
+            console.error("Login failed", error);
         }
     };
 
-    const handleDeployMainnet = (uid) => {
-        if (
-            window.confirm(
-                "Are you sure you want to deploy this series to the mainnet?"
-            )
-        ) {
-            fetch(`${BACKEND_URL}admin/deploy-mainnet/${uid}`, {
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${BACKEND_URL}logout`, {
                 method: "POST",
                 credentials: "include",
-            })
-                .then((response) => {
-                    if (response.status === 200) {
-                        alert("Series successfully deployed to the mainnet.");
-                        // Optionally refresh the series data
-                    } else {
-                        alert("Failed to deploy to the mainnet.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Failed to deploy to the mainnet", error);
+            });
+            if (response.status === 200) {
+                setStatus(null);
+                setUsername("");
+                setSeries([]);
+            }
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    };
+
+    const handleDelete = async (uid) => {
+        if (window.confirm("Are you sure you want to delete this series?")) {
+            try {
+                const response = await fetch(`${BACKEND_URL}admin/series/${uid}`, {
+                    method: "DELETE",
+                    credentials: "include",
                 });
+                if (response.status === 200) {
+                    setSeries(series.filter((item) => item.uid !== uid));
+                }
+            } catch (error) {
+                console.error("Failed to delete series", error);
+            }
+        }
+    };
+
+    const handleDeployMainnet = async (uid) => {
+        if (window.confirm("Are you sure you want to deploy this series to the mainnet?")) {
+            try {
+                const response = await fetch(`${BACKEND_URL}admin/deploy-mainnet/${uid}`, {
+                    method: "POST",
+                    credentials: "include",
+                });
+                if (response.status === 200) {
+                    alert("Series successfully deployed to the mainnet.");
+                } else {
+                    alert("Failed to deploy to the mainnet.");
+                }
+            } catch (error) {
+                console.error("Failed to deploy to the mainnet", error);
+            }
+        }
+    };
+
+    const handleRestartPreviews = async () => {
+        setLoadingRestart(true);
+        try {
+            const response = await fetch(`${BACKEND_URL}admin/restart-previews`, {
+                method: "POST",
+                credentials: "include",
+            });
+            if (response.status === 200) {
+                alert("Preview server restarted successfully.");
+            } else {
+                alert("Failed to restart preview server.");
+            }
+        } catch (error) {
+            console.error("Failed to restart preview server", error);
+        } finally {
+            setLoadingRestart(false);
         }
     };
 
     useEffect(() => {
-        if (status === 200) {
-            // Fetch series data
-            fetch(`${BACKEND_URL}admin/series`, { credentials: "include" })
-                .then((response) => response.json())
-                .then((data) => {
+        const fetchSeriesData = async () => {
+            if (status === 200) {
+                try {
+                    const response = await fetch(`${BACKEND_URL}admin/series`, { credentials: "include" });
+                    const data = await response.json();
                     setSeries(data);
-                })
-                .catch((error) => {
+                } catch (error) {
                     console.error("Failed to fetch series", error);
-                });
-        }
+                }
+            }
+        };
+        fetchSeriesData();
     }, [status]);
 
     if (status === 403) {
@@ -172,13 +180,26 @@ function Admin() {
             <LayoutAdmin>
                 <div>
                     <h1>Welcome, {username}</h1>
-                    <button
-                        onClick={handleLogout}
-                        className="btn btn-default"
-                        style={{ marginBottom: "20px" }}
-                    >
-                        Logout
-                    </button>
+                    <div style={{ marginBottom: "20px" }}>
+                        <button
+                            onClick={handleLogout}
+                            className="btn btn-default"
+                            style={{ marginRight: "10px" }}
+                        >
+                            Logout
+                        </button>
+                        <button
+                            onClick={handleRestartPreviews}
+                            className="btn btn-default"
+                            disabled={loadingRestart}
+                        >
+                            {loadingRestart ? (
+                                <div className="spinner" />
+                            ) : (
+                                "Restart Preview Server"
+                            )}
+                        </button>
+                    </div>
                     <h2>Submissions:</h2>
                     <table
                         border="1"
@@ -228,14 +249,16 @@ function Admin() {
                                         </a>
                                     </td>
                                     <td>
-                                        <button
-                                            onClick={() =>
-                                                handleDelete(item.uid)
-                                            }
-                                            className="btn btn-default"
-                                        >
-                                            Delete
-                                        </button>
+                                        {!item.mainnetContract && (
+                                            <button
+                                                onClick={() =>
+                                                    handleDelete(item.uid)
+                                                }
+                                                className="btn btn-default"
+                                            >
+                                                Delete
+                                            </button>
+                                        )}
                                     </td>
                                     <td>
                                         {!item.mainnetContract && (
