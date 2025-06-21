@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BACKEND_URL, APP_URL } from "../consts";
 import LayoutAdmin from "./LayoutAdmin";
 
-
 function Admin() {
     const [status, setStatus] = useState(null);
     const [username, setUsername] = useState("");
@@ -88,7 +87,11 @@ function Admin() {
     };
 
     const handleDeployMainnet = (uid) => {
-        if (window.confirm("Are you sure you want to deploy this series to the mainnet?")) {
+        if (
+            window.confirm(
+                "Are you sure you want to deploy this series to the mainnet?"
+            )
+        ) {
             fetch(`${BACKEND_URL}admin/deploy-mainnet/${uid}`, {
                 method: "POST",
                 credentials: "include",
@@ -155,7 +158,9 @@ function Admin() {
                                 })
                             }
                         />
-                        <button type="submit" className="btn btn-default">Login</button>
+                        <button type="submit" className="btn btn-default">
+                            Login
+                        </button>
                     </form>
                 </div>
             </LayoutAdmin>
@@ -167,7 +172,11 @@ function Admin() {
             <LayoutAdmin>
                 <div>
                     <h1>Welcome, {username}</h1>
-                    <button onClick={handleLogout} className="btn btn-default" style={{ marginBottom: "20px" }}>
+                    <button
+                        onClick={handleLogout}
+                        className="btn btn-default"
+                        style={{ marginBottom: "20px" }}
+                    >
                         Logout
                     </button>
                     <h2>Submissions:</h2>
@@ -184,9 +193,11 @@ function Admin() {
                                 <th>Price</th>
                                 <th>Num Editions</th>
                                 <th>Testnet</th>
+                                <th>Mainnet</th>
                                 <th>Planned Release</th>
                                 <th>Link</th>
-                                <th>Actions</th>
+                                <th>Delete</th>
+                                <th>Deploy</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -198,10 +209,13 @@ function Admin() {
                                     <td>{item.description}</td>
                                     <td>{item.price}</td>
                                     <td>{item.numEditions}</td>
-                                    <td>{item.testnetContract}</td>
+                                    <td>{item.mainnetContract ? "" : item.testnetContract}</td>
+                                    <td>{item.mainnetContract}</td>
                                     <td>
                                         {item.plannedRelease
-                                            ? new Date(item.plannedRelease).toLocaleString()
+                                            ? new Date(
+                                                  item.plannedRelease
+                                              ).toLocaleString()
                                             : "N/A"}
                                     </td>
                                     <td>
@@ -214,12 +228,26 @@ function Admin() {
                                         </a>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleDelete(item.uid)} className="btn btn-default">
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(item.uid)
+                                            }
+                                            className="btn btn-default"
+                                        >
                                             Delete
                                         </button>
+                                    </td>
+                                    <td>
                                         {!item.mainnetContract && (
-                                            <button onClick={() => handleDeployMainnet(item.uid)} className="btn btn-default">
-                                                Deploy to Mainnet
+                                            <button
+                                                onClick={() =>
+                                                    handleDeployMainnet(
+                                                        item.uid
+                                                    )
+                                                }
+                                                className="btn btn-default"
+                                            >
+                                                Deploy
                                             </button>
                                         )}
                                     </td>
