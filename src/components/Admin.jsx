@@ -9,6 +9,7 @@ function Admin() {
     const [loginData, setLoginData] = useState({ username: "", password: "" });
     const [loadingRestart, setLoadingRestart] = useState(false);
     const [viewType, setViewType] = useState("submissions");
+    const [restartPreviewOutput, setRestartPreviewOutput] = useState("");
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -114,31 +115,51 @@ function Admin() {
     const handleRestartPreviews = async () => {
         setLoadingRestart(true);
         try {
-            const response = await fetch(
-                `${BACKEND_URL}admin/restart-previews`,
-                {
-                    method: "POST",
-                    credentials: "include",
+            let polling = true;
+            setRestartPreviewOutput(""); // Clear previous output
+            fetch(`${BACKEND_URL}admin/restart-previews`, {
+                method: "POST",
+                credentials: "include",
+            }).then((response) => {
+                polling = false; // Stop polling after the request
+                if (response.status === 200) {
+                    alert("Preview server restarted successfully.");
+                    setLoadingRestart(false);
+                } else {
+                    alert("Failed to restart preview server.");
                 }
-            );
-            if (response.status === 200) {
-                alert("Preview server restarted successfully.");
-            } else {
-                alert("Failed to restart preview server.");
-            }
+            });
+            // Poll for output
+            const pollOutput = async () => {
+                while (polling) {
+                    try {
+                        const res = await fetch(
+                            `${BACKEND_URL}admin/restart-previews-output`,
+                            {
+                                credentials: "include",
+                            }
+                        );
+                        if (res.status === 200) {
+                            const data = await res.json();
+                            // Clean output to remove unwanted ANSI codes and cron lines
+                            let cleanedOutput = data.output
+                                .replace(/\u001b\[[0-9;]*m/g, "") // Remove ANSI color codes
+                                .replace(/\u001b\[\?25[hl]/g, "") // Remove cursor show/hide
+                                .replace(/\u001b\[[0-9]*[A-G]/g, ""); // Remove cursor movement
+
+                            setRestartPreviewOutput(cleanedOutput);
+                        }
+                    } catch (err) {
+                        console.error("Failed to fetch restart output", err);
+                    }
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                }
+            };
+            pollOutput();
         } catch (error) {
             console.error("Failed to restart preview server", error);
         } finally {
-            setLoadingRestart(false);
         }
-    };
-
-    const allowedFields = {
-        renderingQueueName: "renderingQueueName",
-        featured: "featured",
-        displayArtifact: "displayArtifact",
-        disableMintingOnMobile: "disableMintingOnMobile",
-        disabled: "disabled",
     };
 
     const handleUpdateSeries = async (seriesId, updatedFields) => {
@@ -252,6 +273,9 @@ function Admin() {
                                 "Restart Preview Server"
                             )}
                         </button>
+                    </div>
+                    <div style={{ whiteSpace: "pre-line" }}>
+                        {restartPreviewOutput}
                     </div>
                     <div style={{ marginBottom: "20px", width: "400px" }}>
                         <h1>Manual Trigger</h1>

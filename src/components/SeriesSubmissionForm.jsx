@@ -51,6 +51,62 @@ function SeriesSubmissionForm({ seriesId }) {
     const [showTestnetAddress, setShowTestnetAddress] = useState(false);
     const [mainnetContract, setMainnetContract] = useState(false);
 
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const res = await fetch(`${BACKEND_URL}series/${seriesId}`);
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || "Failed to fetch series.");
+            }
+
+            const data = await res.json();
+
+            // Convert ISO datetime to "YYYY-MM-DD HH:MM"
+            if (data.plannedRelease) {
+                const dt = new Date(data.plannedRelease);
+
+                // Extract local date and time components
+                const year = dt.getFullYear().toString().padStart(4, "0");
+                const month = (dt.getMonth() + 1).toString().padStart(2, "0");
+                const day = dt.getDate().toString().padStart(2, "0");
+                const hours = dt.getHours().toString().padStart(2, "0");
+                const mins = dt.getMinutes().toString().padStart(2, "0");
+
+                var formattedRelease = `${year}-${month}-${day} ${hours}:${mins}`;
+            } else {
+                var formattedRelease = "";
+            }
+
+            if (data.mainnetContract) {
+                setMainnetContract(data.mainnetContract);
+                return;
+            }
+            setFormData({
+                artistName: data.artistName || "",
+                artistAddress: data.artistAddress || "",
+                artistAddressTestnet: data.artistAddressTestnet || "",
+                name: data.name || "",
+                description: data.description || "",
+                plannedRelease: formattedRelease,
+                numEditions: data.numEditions
+                    ? data.numEditions.toString()
+                    : "",
+                price: data.price !== null ? data.price.toString() : "",
+                zipfile: null, // never prefilled
+            });
+            setPreviewKeys(data.previewKeys);
+            setTestDirKey(data.testDirKey);
+            setTestnetContract(data.testnetContract);
+            setShowTestnetAddress(data.artistAddressTestnet !== "");
+            console.log("Data fetched.")
+        } catch (e) {
+            setError(e.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (!seriesId) {
             setFormData({
@@ -59,63 +115,6 @@ function SeriesSubmissionForm({ seriesId }) {
             });
             return;
         }
-
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const res = await fetch(`${BACKEND_URL}series/${seriesId}`);
-                if (!res.ok) {
-                    const data = await res.json();
-                    throw new Error(data.error || "Failed to fetch series.");
-                }
-
-                const data = await res.json();
-
-                // Convert ISO datetime to "YYYY-MM-DD HH:MM"
-                if (data.plannedRelease) {
-                    const dt = new Date(data.plannedRelease);
-
-                    // Extract local date and time components
-                    const year = dt.getFullYear().toString().padStart(4, "0");
-                    const month = (dt.getMonth() + 1)
-                        .toString()
-                        .padStart(2, "0");
-                    const day = dt.getDate().toString().padStart(2, "0");
-                    const hours = dt.getHours().toString().padStart(2, "0");
-                    const mins = dt.getMinutes().toString().padStart(2, "0");
-
-                    var formattedRelease = `${year}-${month}-${day} ${hours}:${mins}`;
-                } else {
-                    var formattedRelease = "";
-                }
-
-                if (data.mainnetContract) {
-                    setMainnetContract(data.mainnetContract);
-                    return;
-                }
-                setFormData({
-                    artistName: data.artistName || "",
-                    artistAddress: data.artistAddress || "",
-                    artistAddressTestnet: data.artistAddressTestnet || "",
-                    name: data.name || "",
-                    description: data.description || "",
-                    plannedRelease: formattedRelease,
-                    numEditions: data.numEditions
-                        ? data.numEditions.toString()
-                        : "",
-                    price: data.price !== null ? data.price.toString() : "",
-                    zipfile: null, // never prefilled
-                });
-                setPreviewKeys(data.previewKeys);
-                setTestDirKey(data.testDirKey);
-                setTestnetContract(data.testnetContract);
-                setShowTestnetAddress(data.artistAddressTestnet !== "");
-            } catch (e) {
-                setError(e.message);
-            } finally {
-                setLoading(false);
-            }
-        };
 
         fetchData();
     }, [seriesId]);
@@ -209,7 +208,7 @@ function SeriesSubmissionForm({ seriesId }) {
         } catch (e) {
             setError(e.message);
         } finally {
-            setLoading(false);
+            await fetchData();
         }
     };
 
@@ -227,7 +226,7 @@ function SeriesSubmissionForm({ seriesId }) {
             console.log(e.message);
             setError(e.message);
         } finally {
-            setLoading(false);
+            await fetchData();
         }
     };
 
@@ -425,7 +424,8 @@ function SeriesSubmissionForm({ seriesId }) {
             </form>
             <br />
             {testnetContract && (
-                <>
+                <div style={{border: "1px solid #ccc", padding: "10px", "marginTop": "20px", width: "500px"}}>
+                    <h1>You are live on Testnet</h1>
                     <a
                         href={`https://testnet.editart.xyz/series/${testnetContract}`}
                         target="_blank"
@@ -441,7 +441,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     >
                         Open Artist Panel
                     </a>
-                </>
+                </div>
             )}
             <br />
             {testDirKey && (
