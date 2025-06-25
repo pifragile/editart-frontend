@@ -77,54 +77,54 @@ export default function IframeGrid() {
                 return;
             }
 
-            // if (event.data?.type === "sketch-loaded") {
-            //     try {
-            //         const canvas =
-            //             iframe.contentDocument?.querySelector("canvas");
-            //         if (canvas) {
-            //             const dataUrl = canvas.toDataURL();
-            //             elementsRef.current = elementsRef.current.map((el) =>
-            //                 el.id === iframeElement.id
-            //                     ? { ...el, type: "image", src: dataUrl }
-            //                     : el
-            //             ); // Update the ref
-            //             setElements([...elementsRef.current]); // Update the state from the ref
+            if (event.data?.type === "sketch-loaded") {
+                try {
+                    const canvas =
+                        iframe.contentDocument?.querySelector("canvas");
+                    if (canvas) {
+                        const dataUrl = canvas.toDataURL();
+                        elementsRef.current = elementsRef.current.map((el) =>
+                            el.id === iframeElement.id
+                                ? { ...el, type: "image", src: dataUrl }
+                                : el
+                        ); // Update the ref
+                        setElements([...elementsRef.current]); // Update the state from the ref
 
-            //             // Check if all elements are images
+                        // Check if all elements are images
 
-            //             addBatch();
-            //         }
-            //     } catch (err) {
-            //         console.error("Error accessing canvas", err);
-            //     }
+                        addBatch();
+                    }
+                } catch (err) {
+                    console.error("Error accessing canvas", err);
+                }
+            }
+
+            // if (
+            //     event.data &&
+            //     event.data.type === "preview-image" &&
+            //     event.data.dataUrl
+            // ) {
+            //     elementsRef.current = elementsRef.current.map((el) =>
+            //         el.id === iframeElement.id
+            //             ? { ...el, type: "image", src: event.data.dataUrl }
+            //             : el
+            //     ); // Update the ref
+            //     setElements([...elementsRef.current]); // Update the state from the ref
+
+            //     // Check if all elements are images
+
+            //     addBatch();
+            //     return;
             // }
 
-            if (
-                event.data &&
-                event.data.type === "preview-image" &&
-                event.data.dataUrl
-            ) {
-                elementsRef.current = elementsRef.current.map((el) =>
-                    el.id === iframeElement.id
-                        ? { ...el, type: "image", src: event.data.dataUrl }
-                        : el
-                ); // Update the ref
-                setElements([...elementsRef.current]); // Update the state from the ref
-
-                // Check if all elements are images
-
-                addBatch();
-                return;
-            }
-
-            if (event.data && event.data.type === "sketch-loaded") {
-                iframe.contentWindow.postMessage(
-                    {
-                        type: "send-preview",
-                    },
-                    "*"
-                );
-            }
+            // if (event.data && event.data.type === "sketch-loaded") {
+            //     iframe.contentWindow.postMessage(
+            //         {
+            //             type: "send-preview",
+            //         },
+            //         "*"
+            //     );
+            // }
         }
 
         window.addEventListener("message", handleMessage);
