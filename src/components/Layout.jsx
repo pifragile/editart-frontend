@@ -104,6 +104,7 @@ function Layout({ children, favicon = "/favicon.png" }) {
                             border: "none",
                             fontSize: "2rem",
                             cursor: "pointer",
+                            color: "#000000",
                         }}
                     >
                         &#9776;
@@ -177,28 +178,6 @@ function Layout({ children, favicon = "/favicon.png" }) {
                     TzKT API
                 </a>
             </footer>
-            <style>{`
-                @media (max-width: 768px) {
-                    .terminal-menu {
-                        display: none;
-                    }
-                    .terminal-menu.open {
-                        display: block;
-                    }
-                    .hamburger {
-                        display: block !important;
-                        position: absolute;
-                        right: 60px;
-                        top: 12px;
-                    }
-
-                }
-                @media (min-width: 769px) {
-                    .hamburger {
-                        display: none !important;
-                    }
-                }
-            `}</style>
         </div>
     );
 }

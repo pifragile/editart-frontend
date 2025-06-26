@@ -187,3 +187,24 @@
 }
 
 }
+
+@media (max-width: 768px) {
+    .terminal-menu {
+        display: none;
+    }
+    .terminal-menu.open {
+        display: block;
+    }
+    .hamburger {
+        display: block !important;
+        position: absolute;
+        right: 20px;
+        top: 12px;
+    }
+
+}
+@media (min-width: 769px) {
+    .hamburger {
+        display: none !important;
+    }
+}

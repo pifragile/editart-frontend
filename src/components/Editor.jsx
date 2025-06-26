@@ -129,7 +129,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                     <LiveViewIFrame url={baseUrl} />
                 </div>
                 {width < 768 && (
-                    <div onClick={handleRandomize} style={{cursor: "pointer"}}>
+                    <div onClick={handleRandomize} style={{cursor: "pointer", marginBottom: "15px"}}>
                         <small>&#x1F500;randomize</small>
                     </div>
                 )}
