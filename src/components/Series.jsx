@@ -39,7 +39,7 @@ function Series() {
     const [width, setWidth] = useState(window.innerWidth);
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
     const [releaseDate, setReleaseDate] = useState(true);
-    const [showGrid, setShowGrid] = useState(true);
+    const [showGrid, setShowGrid] = useState(false);
 
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
@@ -125,7 +125,7 @@ function Series() {
                             soldOut,
                             price,
                             releaseDate,
-                            showGrid
+                            showGrid,
                         }}
                     />
                 )}
