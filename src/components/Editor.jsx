@@ -14,6 +14,16 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const [isLoading, setIsLoading] = useState(1);
     const [templateVersion, setTemplateVersion] = useState(0);
     const [error, setError] = useState(null);
+    const [width, setWidth] = useState(window.innerWidth);
+    function handleWindowSizeChange() {
+        setWidth(window.innerWidth);
+    }
+    useEffect(() => {
+        window.addEventListener("resize", handleWindowSizeChange);
+        return () => {
+            window.removeEventListener("resize", handleWindowSizeChange);
+        };
+    }, []);
 
     const passedValues = searchParams.get("values");
     const initialQueryString = passedValues
@@ -23,6 +33,18 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const [history, setHistory] = useState([
         valuesFromQueryString(initialQueryString),
     ]);
+
+    let handleRandomize = (e) => {
+        e.preventDefault();
+        const newM0 = Math.random().toFixed(3);
+        const newM1 = Math.random().toFixed(3);
+        const newM2 = Math.random().toFixed(3);
+        const newM3 = Math.random().toFixed(3);
+        const newM4 = Math.random().toFixed(3);
+
+        onMintFormSubmit(newM0, newM1, newM2, newM3, newM4);
+    };
+
     const [historyIndex, setHistoryIndex] = useState(0);
     baseUrl = baseUrl ? baseUrl + "?" + initialQueryString : "";
 
@@ -106,6 +128,12 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                 <div className="editor-iframe-container">
                     <LiveViewIFrame url={baseUrl} />
                 </div>
+                {width < 768 && (
+                    <div onClick={handleRandomize} style={{cursor: "pointer"}}>
+                        <small>&#x1F500;randomize</small>
+                    </div>
+                )}
+
                 <div className="editor-mint-form-container">
                     <table style={{ padding: "0px", margin: "0px" }}>
                         <tr className="no-border">
@@ -155,6 +183,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                         // isLoading={templateVersion > 0 ? isLoading > 0 : false}
                         isLoading={false}
                         values={history[historyIndex]}
+                        handleRandomize={handleRandomize}
                         error={error}
                     />
                 </div>

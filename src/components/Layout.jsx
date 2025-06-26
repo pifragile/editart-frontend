@@ -18,10 +18,16 @@ function Layout({ children, favicon = "/favicon.png" }) {
         func();
     }, [client]);
 
-    const tiggerMode = i => [triggerLightMode, triggerDarkMode][i]();
+    const tiggerMode = (i) => [triggerLightMode, triggerDarkMode][i]();
 
     useEffect(() => {
-        const savedMode = parseInt(document.cookie.replace(/(?:(?:^|.*;\s*)mode\s*=\s*([^;]*).*$)|^.*$/, "$1"), 10);
+        const savedMode = parseInt(
+            document.cookie.replace(
+                /(?:(?:^|.*;\s*)mode\s*=\s*([^;]*).*$)|^.*$/,
+                "$1"
+            ),
+            10
+        );
         if (!isNaN(savedMode)) {
             setMode(savedMode);
             tiggerMode(savedMode);
@@ -31,14 +37,13 @@ function Layout({ children, favicon = "/favicon.png" }) {
     useEffect(() => {
         document.cookie = `mode=${mode}; path=/; max-age=31536000`; // Store mode in a cookie for 1 year
     }, [mode]);
-    
 
     const toggleMode = () => {
         const newMode = (mode + 1) % 2;
         setMode(newMode);
         tiggerMode(newMode);
     };
-    
+
     const triggerDarkMode = () => {
         document.body.style.setProperty("--background-color", "#1C1B1C");
         document.body.style.setProperty("--font-color", "#e8e9ed");
@@ -65,17 +70,21 @@ function Layout({ children, favicon = "/favicon.png" }) {
         document.body.style.setProperty("--code-bg-color", "#e8eff2");
     };
 
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Close menu when route changes or on desktop resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) setMenuOpen(false);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const toggleMenu = () => setMenuOpen(!menuOpen);
+
     return (
-        <div
-            style={{
-                paddingLeft: "10vw",
-                paddingRight: "10vw",
-                minHeight: "100vh",
-                margin: 0,
-                display: "grid",
-                gridTemplateRows: "auto 1fr auto",
-            }}
-        >
+        <div className="main-div">
             <header>
                 <div className="terminal-nav">
                     <div className="terminal-logo">
@@ -85,52 +94,82 @@ function Layout({ children, favicon = "/favicon.png" }) {
                             </span>
                         </div>
                     </div>
-                    <nav className="terminal-menu">
+                    <button
+                        className="hamburger"
+                        aria-label="Toggle menu"
+                        onClick={toggleMenu}
+                        style={{
+                            display: "block",
+                            background: "none",
+                            border: "none",
+                            fontSize: "2rem",
+                            cursor: "pointer",
+                        }}
+                    >
+                        &#9776;
+                    </button>
+                    <nav className={`terminal-menu${menuOpen ? " open" : ""}`}>
                         <ul>
                             <li key="Series">
                                 <span className="menu-item">
-                                    <Link to="/series-overview">Series</Link>
+                                    <Link
+                                        to="/series-overview"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Series
+                                    </Link>
                                 </span>
                             </li>
                             <li key="Feed">
                                 <span className="menu-item">
-                                    <Link to="/feed">Feed</Link>
+                                    <Link
+                                        to="/feed"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Feed
+                                    </Link>
                                 </span>
                             </li>
                             <li key="MyCollection">
                                 <span className="menu-item">
-                                    <Link to={`/user/${activeAccount}`}>
+                                    <Link
+                                        to={`/user/${activeAccount}`}
+                                        onClick={() => setMenuOpen(false)}
+                                    >
                                         My collection
                                     </Link>
                                 </span>
                             </li>
-
                             <li key="About">
                                 <span className="menu-item">
-                                    <Link to="/about">About</Link>
+                                    <Link
+                                        to="/about"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        About
+                                    </Link>
                                 </span>
                             </li>
                             <li key="Mode">
                                 <span
                                     className="menu-item"
-                                    onClick={toggleMode}
+                                    onClick={() => {
+                                        toggleMode();
+                                        setMenuOpen(false);
+                                    }}
                                 >
                                     <Link>Dark/Light</Link>
                                 </span>
                             </li>
+                            <li>
+                                {" "}
+                                <SyncButton />
+                            </li>
                         </ul>
                     </nav>
-                    <SyncButton />
                 </div>
             </header>
-            <div
-                className="content"
-                style={{
-                    marginTop: "5vh",
-                }}
-            >
-                {children}
-            </div>
+            <div className="content">{children}</div>
             <footer>
                 <br />
                 Built with{" "}
@@ -138,6 +177,28 @@ function Layout({ children, favicon = "/favicon.png" }) {
                     TzKT API
                 </a>
             </footer>
+            <style>{`
+                @media (max-width: 768px) {
+                    .terminal-menu {
+                        display: none;
+                    }
+                    .terminal-menu.open {
+                        display: block;
+                    }
+                    .hamburger {
+                        display: block !important;
+                        position: absolute;
+                        right: 60px;
+                        top: 12px;
+                    }
+
+                }
+                @media (min-width: 769px) {
+                    .hamburger {
+                        display: none !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 }

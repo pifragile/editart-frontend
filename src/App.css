@@ -123,7 +123,7 @@
 
 .editor-iframe-container {
   border: none;
-  width: min(70%, 85vh);
+  width: min(100%, 85vh);
   aspect-ratio: 1 / 1;
   margin-right: 2vw;
 }
@@ -142,11 +142,12 @@
 
 @media (max-width: 1137px) {
   .editor-iframe-container {
-    width: 80%
+    width: 95%;
+      margin-right: 0vw;
   }
   .editor-mint-form-container {
     margin-top: 1vh;
-    width: 80%;
+    width: 95%;
   }
 }
 
@@ -160,4 +161,29 @@
   .terminal-nav {
       flex-direction: column;
   }
+}
+
+.main-div {
+  padding-left: 10vw;
+  padding-right: 10vw;
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.content{
+  margin-top: 5vh;
+}
+
+@media (max-width: 750px) {
+  .main-div {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .content{
+  margin-top: 0;
+}
+
 }
