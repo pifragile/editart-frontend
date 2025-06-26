@@ -114,7 +114,7 @@ function MintForm({
                         </button>
                         {showGrid && (
                             <a
-                                href={`${window.location.href}/grid`}
+                                href={`${window.location.href.split("?")[0]}/grid`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ textDecoration: "none" }}
