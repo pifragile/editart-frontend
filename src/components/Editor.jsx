@@ -185,6 +185,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                         values={history[historyIndex]}
                         handleRandomize={handleRandomize}
                         error={error}
+                        showGrid={seriesData.showGrid}
                     />
                 </div>
             </div>

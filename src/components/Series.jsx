@@ -39,6 +39,7 @@ function Series() {
     const [width, setWidth] = useState(window.innerWidth);
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
     const [releaseDate, setReleaseDate] = useState(true);
+    const [showGrid, setShowGrid] = useState(true);
 
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
@@ -72,6 +73,11 @@ function Series() {
             let date =
                 series.find((e) => e.contract === contract)?.plannedRelease ||
                 contractData.firstActivityTime;
+
+            let showGrid =
+                series.find((e) => e.contract === contract)?.showGrid || false;
+
+            setShowGrid(showGrid);
             date = new Date(date);
 
             setReleaseDate(
@@ -119,6 +125,7 @@ function Series() {
                             soldOut,
                             price,
                             releaseDate,
+                            showGrid
                         }}
                     />
                 )}
@@ -134,14 +141,13 @@ function Series() {
                     </div>
                 )}
                 {activeAccount === artist && (
-
                     <Link to={`/artist-panel/${contract}`}>
-                    <button
-                        className="btn btn-default"
-                        style={{ marginTop: "5vh" }}
-                    >
-                        Artist Panel
-                    </button>
+                        <button
+                            className="btn btn-default"
+                            style={{ marginTop: "5vh" }}
+                        >
+                            Artist Panel
+                        </button>
                     </Link>
                 )}
                 <div style={{ marginTop: "5vh" }}>

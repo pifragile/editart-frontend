@@ -12,6 +12,7 @@ function MintForm({
     values,
     handleRandomize,
     error = null,
+    showGrid = false,
 }) {
     const [localValues, setLocalValues] = useState(values);
 
@@ -111,6 +112,23 @@ function MintForm({
                         >
                             Copy
                         </button>
+                        {showGrid && (
+                            <a
+                                href={`${window.location.href}/grid`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ textDecoration: "none" }}
+                            >
+                                <button
+                                    className="btn btn-default"
+                                    name="exploreGrid"
+                                    id="exploreGrid"
+                                    type="button"
+                                >
+                                    Explore Grid
+                                </button>
+                            </a>
+                        )}
                         {showButton && (
                             <MintButton
                                 price={price}
