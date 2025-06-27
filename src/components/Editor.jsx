@@ -128,9 +128,27 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                 <div className="editor-iframe-container">
                     <LiveViewIFrame url={baseUrl} />
                 </div>
-                {width < 768 && (
-                    <div onClick={handleRandomize} style={{cursor: "pointer", marginBottom: "15px"}}>
-                        <small>&#x1F500;randomize</small>
+                {width < 1137 && (
+                    <div
+                        style={{
+                            display: "flex",
+                            width: "95%",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <div
+                            onClick={handleRandomize}
+                            style={{ cursor: "pointer", marginBottom: "15px" }}
+                        >
+                            <small>	&#8635; randomize</small>
+                        </div>
+                        <div
+                            onClick={handleMint}
+                            style={{ cursor: "pointer", marginBottom: "15px" }}
+                        >
+                            <small>&#10003; mint</small>
+                        </div>
                     </div>
                 )}
 
