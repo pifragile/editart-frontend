@@ -373,6 +373,7 @@ function Admin() {
                                     Disable Minting on Mobile
                                 </th>
                                 <th style={{ width: "50px" }}>Disabled</th>
+                                <th style={{ width: "50px" }}>Show Grid</th>
                                 <th>Update</th>
                                 <th>Delete</th>
                                 <th>Deploy</th>
@@ -613,6 +614,29 @@ function Admin() {
                                             />
                                         </td>
                                         <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={item.showGrid || false}
+                                                onChange={(e) => {
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          showGrid:
+                                                                              e
+                                                                                  .target
+                                                                                  .checked,
+                                                                      }
+                                                                    : seriesItem
+                                                        );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
                                             <button
                                                 onClick={() =>
                                                     handleUpdateSeries(
@@ -628,6 +652,8 @@ function Admin() {
                                                                 item.disableMintingOnMobile,
                                                             disabled:
                                                                 item.disabled,
+                                                            showGrid:
+                                                                item.showGrid,
                                                         }
                                                     )
                                                 }
