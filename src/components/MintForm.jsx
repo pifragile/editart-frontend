@@ -25,9 +25,9 @@ function MintForm({
         onMint();
     };
 
-    let keyUpFun = () => {
+    let keyUpFun = (e) => {
         if ([37, 39].includes(e.keyCode)) {
-            handleChange(i)(e);
+            handleChange();
         }
     };
 
