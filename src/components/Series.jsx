@@ -56,7 +56,6 @@ function Series() {
         const fetchStorage = async () => {
             if (contract === null || contract === "null") return;
             const storage = await getContractStorageFull(contract);
-            console.log("Storage", storage);
             setNumTokens(storage.num_tokens);
             setPrice(storage.price);
             setNumTokensMinted(storage.last_token_id);
