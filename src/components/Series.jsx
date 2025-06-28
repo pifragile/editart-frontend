@@ -9,6 +9,7 @@ import {
     getContractMetadata,
     getFloorPrice,
     getContract,
+    getContractStorageFull,
 } from "../lib/api";
 import UserDetail from "./UserDetail";
 import MarketPlace from "./Marketplace";
@@ -54,21 +55,18 @@ function Series() {
     useEffect(() => {
         const fetchStorage = async () => {
             if (contract === null || contract === "null") return;
-            const numTokensRes = await getContractStorage(
-                contract,
-                "num_tokens"
-            );
-            const numTokensMintedRes = await getContractStorage(
-                contract,
-                "last_token_id"
-            );
-            setNumTokens(numTokensRes);
-            setPrice(await getContractStorage(contract, "price"));
-            setNumTokensMinted(numTokensMintedRes);
-            if (numTokensRes === numTokensMintedRes) setSoldOut(true);
-            setArtist(await getContractStorage(contract, "artist_address"));
+            const storage = await getContractStorageFull(contract);
+            console.log("Storage", storage);
+            setNumTokens(storage.num_tokens);
+            setPrice(storage.price);
+            setNumTokensMinted(storage.last_token_id);
+            if (storage.num_tokens === storage.last_token_id) setSoldOut(true);
+            setArtist(storage.artist_address);
+
+            setBaseUrl(bytes2Char(storage.base_url));
+
             setMetadata(await getContractMetadata(contract));
-            setPaused(await getContractStorage(contract, "paused"));
+            setPaused(storage.paused);
             const contractData = await getContract(contract);
             let date =
                 series.find((e) => e.contract === contract)?.plannedRelease ||
@@ -84,10 +82,6 @@ function Series() {
                 date < new Date()
                     ? date.toLocaleDateString()
                     : date.toLocaleString()
-            );
-
-            setBaseUrl(
-                bytes2Char(await getContractStorage(contract, "base_url"))
             );
 
             const account = await wallet.client.getActiveAccount();
