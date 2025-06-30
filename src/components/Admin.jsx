@@ -419,11 +419,58 @@ function Admin() {
                                             )}
                                         </td>
                                         <td>
-                                            {item.plannedRelease
-                                                ? new Date(
-                                                      item.plannedRelease
-                                                  ).toLocaleString()
-                                                : "N/A"}
+                                            <input
+                                                type="datetime-local"
+                                                value={
+                                                    item.plannedRelease
+                                                        ? (() => {
+                                                              const d = new Date(
+                                                                  item.plannedRelease
+                                                              );
+                                                              if (!isNaN(d.getTime())) {
+                                                                  const tzOffset =
+                                                                      d.getTimezoneOffset() *
+                                                                      60000;
+                                                                  const localISO =
+                                                                      new Date(
+                                                                          d.getTime() -
+                                                                              tzOffset
+                                                                      )
+                                                                          .toISOString()
+                                                                          .slice(0, 16);
+                                                                  return localISO;
+                                                              }
+                                                              return "";
+                                                          })()
+                                                        : ""
+                                                }
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    const updatedSeries = series.map(
+                                                        (seriesItem) =>
+                                                            seriesItem._id ===
+                                                            item._id
+                                                                ? {
+                                                                      ...seriesItem,
+                                                                      plannedRelease: val
+                                                                          ? new Date(val).toISOString()
+                                                                          : "",
+                                                                  }
+                                                                : seriesItem
+                                                    );
+                                                    setSeries(updatedSeries);
+                                                }}
+                                                style={{ width: "180px" }}
+                                                onKeyDown={(e) => e.preventDefault()} // Prevent manual typing
+                                                inputMode="none" // Mobile: disables keyboard
+                                                pattern="" // Prevents some browsers from allowing text
+                                                readOnly
+                                                onFocus={(e) =>
+                                                    e.target.removeAttribute(
+                                                        "readonly"
+                                                    ) // Allow picker on focus
+                                                }
+                                            />
                                         </td>
                                         <td>
                                             <details>
@@ -654,6 +701,8 @@ function Admin() {
                                                                 item.disabled,
                                                             showGrid:
                                                                 item.showGrid,
+                                                            plannedRelease:
+                                                                item.plannedRelease,
                                                         }
                                                     )
                                                 }
