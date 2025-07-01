@@ -10,6 +10,7 @@ function Admin() {
     const [loadingRestart, setLoadingRestart] = useState(false);
     const [viewType, setViewType] = useState("submissions");
     const [restartPreviewOutput, setRestartPreviewOutput] = useState("");
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -277,6 +278,8 @@ function Admin() {
                     <div style={{ whiteSpace: "pre-line" }}>
                         {restartPreviewOutput}
                     </div>
+
+                    <div style={{ whiteSpace: "pre-line" }}>{message}</div>
                     <div style={{ marginBottom: "20px", width: "400px" }}>
                         <h1>Manual Trigger</h1>
                         <form
@@ -400,7 +403,21 @@ function Admin() {
                                 })
                                 .map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.name}</td>
+                                        <td
+                                            onClick={() =>
+                                                item.mainnetContract &&
+                                                item.contractData
+                                                    .last_token_id === "0" &&
+                                                setMessage(`the project is live on mainnet🥳
+series: https://editart.xyz/series/${item.mainnetContract}
+artist-panel: https://editart.xyz/artist-panel/${item.mainnetContract}
+the final steps are described here:
+https://www.editart.xyz/artist-docs#deployment-to-mainnet
+let me know if you need any help :)`)
+                                            }
+                                        >
+                                            {item.name}
+                                        </td>
                                         <td>{item.artistName}</td>
                                         <td>
                                             {parseInt(
@@ -424,10 +441,15 @@ function Admin() {
                                                 value={
                                                     item.plannedRelease
                                                         ? (() => {
-                                                              const d = new Date(
-                                                                  item.plannedRelease
-                                                              );
-                                                              if (!isNaN(d.getTime())) {
+                                                              const d =
+                                                                  new Date(
+                                                                      item.plannedRelease
+                                                                  );
+                                                              if (
+                                                                  !isNaN(
+                                                                      d.getTime()
+                                                                  )
+                                                              ) {
                                                                   const tzOffset =
                                                                       d.getTimezoneOffset() *
                                                                       60000;
@@ -437,7 +459,10 @@ function Admin() {
                                                                               tzOffset
                                                                       )
                                                                           .toISOString()
-                                                                          .slice(0, 16);
+                                                                          .slice(
+                                                                              0,
+                                                                              16
+                                                                          );
                                                                   return localISO;
                                                               }
                                                               return "";
@@ -446,29 +471,36 @@ function Admin() {
                                                 }
                                                 onChange={(e) => {
                                                     const val = e.target.value;
-                                                    const updatedSeries = series.map(
-                                                        (seriesItem) =>
-                                                            seriesItem._id ===
-                                                            item._id
-                                                                ? {
-                                                                      ...seriesItem,
-                                                                      plannedRelease: val
-                                                                          ? new Date(val).toISOString()
-                                                                          : "",
-                                                                  }
-                                                                : seriesItem
-                                                    );
+                                                    const updatedSeries =
+                                                        series.map(
+                                                            (seriesItem) =>
+                                                                seriesItem._id ===
+                                                                item._id
+                                                                    ? {
+                                                                          ...seriesItem,
+                                                                          plannedRelease:
+                                                                              val
+                                                                                  ? new Date(
+                                                                                        val
+                                                                                    ).toISOString()
+                                                                                  : "",
+                                                                      }
+                                                                    : seriesItem
+                                                        );
                                                     setSeries(updatedSeries);
                                                 }}
                                                 style={{ width: "180px" }}
-                                                onKeyDown={(e) => e.preventDefault()} // Prevent manual typing
+                                                onKeyDown={(e) =>
+                                                    e.preventDefault()
+                                                } // Prevent manual typing
                                                 inputMode="none" // Mobile: disables keyboard
                                                 pattern="" // Prevents some browsers from allowing text
                                                 readOnly
-                                                onFocus={(e) =>
-                                                    e.target.removeAttribute(
-                                                        "readonly"
-                                                    ) // Allow picker on focus
+                                                onFocus={
+                                                    (e) =>
+                                                        e.target.removeAttribute(
+                                                            "readonly"
+                                                        ) // Allow picker on focus
                                                 }
                                             />
                                         </td>
