@@ -406,8 +406,6 @@ function Admin() {
                                         <td
                                             onClick={() =>
                                                 item.mainnetContract &&
-                                                item.contractData
-                                                    .last_token_id === "0" &&
                                                 setMessage(`the project is live on mainnet🥳
 series: https://editart.xyz/series/${item.mainnetContract}
 artist-panel: https://editart.xyz/artist-panel/${item.mainnetContract}
