@@ -155,6 +155,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 "zipfile",
             ];
 
+
             for (const field of requiredFields) {
                 if (!formData[field] || formData[field] === "") {
                     setError(`Missing required field: ${field}`);
@@ -163,6 +164,11 @@ function SeriesSubmissionForm({ seriesId }) {
             }
         }
 
+        const plannedReleaseRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+        if (!plannedReleaseRegex.test(formData.plannedRelease)) {
+            setError("Planned Release must be in format YYYY-MM-DD HH:MM");
+            return;
+        }
         setLoading(true);
 
         try {
