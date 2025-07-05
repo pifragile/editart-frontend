@@ -53,6 +53,7 @@ function SeriesSubmissionForm({ seriesId }) {
 
     const fetchData = async () => {
         try {
+            if(!seriesId) return;
             setLoading(true);
             const res = await fetch(`${BACKEND_URL}series/${seriesId}`);
             if (!res.ok) {
