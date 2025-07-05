@@ -8,7 +8,8 @@ function MintButton({ price, onClick, isLoading }) {
             id="mint"
             onClick={isLoading ? (e) => e.preventDefault() : onClick}
         >
-            {`Mint for ${formatMutez(price)}`}
+            {/* {`Mint for ${formatMutez(price)}`} */}
+            {`Mint`}
         </button>
     );
 }

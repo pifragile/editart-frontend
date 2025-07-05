@@ -37,6 +37,7 @@ function MintForm({
         href = href.split("?")[0];
         href = href + "?values=" + btoa(queryStringFromValues(...values));
         navigator.clipboard.writeText(href);
+        alert("Url copied to clipboard.");
     };
 
     let handleChange = () => {
@@ -101,20 +102,31 @@ function MintForm({
                             flex: "row",
                             display: "flex",
                             flexWrap: "wrap",
+                            justifyContent: "center",
+                            alignItems: "center",
                         }}
                     >
                         <RandomizeButton handleRandomize={handleRandomize} />
+                        {showButton && (
+                            <MintButton
+                                price={price}
+                                onClick={handleMint}
+                                isLoading={isLoading}
+                            />
+                        )}
                         <button
                             className="btn btn-default"
                             name="copyUrl"
                             id="copyUrl"
                             onClick={copyUrlToClipBoard}
                         >
-                            Copy
+                            Share
                         </button>
                         {showGrid && (
                             <a
-                                href={`${window.location.href.split("?")[0]}/grid`}
+                                href={`${
+                                    window.location.href.split("?")[0]
+                                }/grid`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ textDecoration: "none" }}
@@ -125,16 +137,9 @@ function MintForm({
                                     id="exploreGrid"
                                     type="button"
                                 >
-                                    Explore Grid
+                                    Grid
                                 </button>
                             </a>
-                        )}
-                        {showButton && (
-                            <MintButton
-                                price={price}
-                                onClick={handleMint}
-                                isLoading={isLoading}
-                            />
                         )}
                     </div>
                     {error && <span style={{ color: "red" }}>{error}</span>}
