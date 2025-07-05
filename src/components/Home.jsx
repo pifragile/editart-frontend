@@ -6,9 +6,10 @@ import SeriesOverviewComponent from "./SeriesOverviewComponent";
 function Home() {
     return (
         <Layout>
-            <div className="main" >
+            <div className="main">
                 <span style={{ marginTop: "5vh" }}>
-                    Welcome to <b>EditArt</b>! Co-create a piece of generative art using 5 sliders.
+                    Welcome to <b>EditArt</b>! Co-create a piece of generative
+                    art using 5 sliders.
                 </span>
                 {/* <br />
                 <br />
@@ -31,12 +32,12 @@ function Home() {
                 <div>❤️ , Piero</div>
                 <TokenOverview query={query}></TokenOverview> */}
             </div>
-            <Dashboard />
-
             <div style={{ marginTop: "5vh" }}>
                 <h1>Featured Series</h1>
-                <SeriesOverviewComponent seriesFilter={s => s.featured} />
+                <SeriesOverviewComponent seriesFilter={(s) => s.featured} />
             </div>
+
+            <Dashboard />
 
             {/* <div style={{ marginTop: "5vh" }}>
                 <h1>Series</h1>
