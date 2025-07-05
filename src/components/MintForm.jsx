@@ -104,7 +104,6 @@ function MintForm({
                             flexWrap: "wrap",
                             justifyContent: "center",
                             alignItems: "flex-start",
-
                         }}
                     >
                         <RandomizeButton handleRandomize={handleRandomize} />
@@ -116,7 +115,7 @@ function MintForm({
                             />
                         )}
                         <button
-                            className="btn btn-default"
+                            className="btn btn-default btn-form"
                             name="copyUrl"
                             id="copyUrl"
                             onClick={copyUrlToClipBoard}
@@ -130,20 +129,20 @@ function MintForm({
                                 }/grid`}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                className="btn-form"
                                 style={{ textDecoration: "none" }}
                             >
                                 <button
-                                    className="btn btn-default"
+                                    className="btn btn-default btn-form"
                                     name="exploreGrid"
                                     id="exploreGrid"
                                     type="button"
+                                    style={{ width: "100%" }}
                                 >
                                     Grid
                                 </button>
                             </a>
                         )}
-                        {/* this is a hack to have proper button grid when odd amount of btns */}
-                        <div style={{width: "180px"}}></div>
                     </div>
                     {error && <span style={{ color: "red" }}>{error}</span>}
                 </fieldset>

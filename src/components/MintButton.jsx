@@ -3,7 +3,7 @@ import { formatMutez } from "../lib/utils";
 function MintButton({ price, onClick, isLoading }) {
     return (
         <button
-            className="btn btn-default"
+            className="btn btn-default btn-form"
             name="mint"
             id="mint"
             onClick={isLoading ? (e) => e.preventDefault() : onClick}
