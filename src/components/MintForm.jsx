@@ -103,7 +103,8 @@ function MintForm({
                             display: "flex",
                             flexWrap: "wrap",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
+
                         }}
                     >
                         <RandomizeButton handleRandomize={handleRandomize} />
@@ -141,6 +142,8 @@ function MintForm({
                                 </button>
                             </a>
                         )}
+                        {/* this is a hack to have proper button grid when odd amount of btns */}
+                        <div style={{width: "180px"}}></div>
                     </div>
                     {error && <span style={{ color: "red" }}>{error}</span>}
                 </fieldset>
