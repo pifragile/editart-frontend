@@ -498,7 +498,15 @@ function SeriesSubmissionForm({ seriesId }) {
                     <h1>Test Previews</h1>
                     <p>
                         Please make sure that the test previews match the
-                        sketch.
+                        sketch. You can find help in the{" "}
+                        <a
+                            href={`${APP_URL}artist-docs#troubleshooting`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            troubleshooting section
+                        </a>
+                        .
                     </p>
                     {previewKeys.map((previewKey, idx) => (
                         <div key={idx}>

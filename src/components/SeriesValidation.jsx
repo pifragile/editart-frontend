@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import Layout from "./Layout";
 import { useState } from "react";
 import { queryStringFromValues } from "../lib/utils";
+import { APP_URL } from "../consts";
 
 function IFrameView({ testDirKey, params, idx }) {
     const [error, setError] = useState(false);
@@ -92,6 +93,17 @@ function SeriesValidation() {
                         Step through the different configurations and make sure
                         that all the outputs end up looking identical for each
                         config.
+                    </p>
+                    <p>
+                        You can find help in the{" "}
+                        <a
+                            href={`${APP_URL}artist-docs#troubleshooting`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            troubleshooting section
+                        </a>
+                        .
                     </p>
                     <button
                         className="btn btn-default"

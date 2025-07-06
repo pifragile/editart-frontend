@@ -94,6 +94,44 @@ function ArtistDocs() {
                     please update the series in the submission tool and redeploy
                     to testnet.
                 </p>
+                <u id="troubleshooting">
+                    <a className="simple-link" href="troubleshooting">
+                        Troubleshooting
+                    </a>
+                </u>
+                <br />
+                <br />
+                The series validation tool does not show consistent outputs?
+                <ul>
+                    <li>
+                        Are you only using the random functions
+                        randomM0...randomM4 and randomFull to generate
+                        randomness?
+                    </li>
+                    <li>
+                        If you are using noise, did you seed the noise with one
+                        of the slider values? E.g. noiseSeed(m2 * 999999999999)
+                    </li>
+                    <li>
+                        Do you reinitialize all state at the beginning of the
+                        drawArt() function? Any setup code outside of drawArt
+                        will not be called on slider movement.
+                    </li>
+                </ul>
+                <br />
+                You dont get any previews or the previews are inconsistent?
+                <ul>
+                    <li>Do you call triggerPreview()?</li>
+                    <li>
+                        Is your code independent of window size? Does window
+                        resizing work properly?
+                    </li>
+                    <li>
+                        Is your code platform independent? The previews are
+                        rendered on Ubuntu in Google Chrome.
+                    </li>
+                </ul>
+                <p></p>
                 <h1 id="testing-on-testnet">
                     <a className="simple-link" href="#testing-on-testnet">
                         3. Testing on Testnet
