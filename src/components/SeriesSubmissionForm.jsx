@@ -53,7 +53,7 @@ function SeriesSubmissionForm({ seriesId }) {
 
     const fetchData = async () => {
         try {
-            if(!seriesId) return;
+            if (!seriesId) return;
             setLoading(true);
             const res = await fetch(`${BACKEND_URL}series/${seriesId}`);
             if (!res.ok) {
@@ -100,7 +100,7 @@ function SeriesSubmissionForm({ seriesId }) {
             setTestDirKey(data.testDirKey);
             setTestnetContract(data.testnetContract);
             setShowTestnetAddress(data.artistAddressTestnet !== "");
-            console.log("Data fetched.")
+            console.log("Data fetched.");
         } catch (e) {
             setError(e.message);
         } finally {
@@ -155,7 +155,6 @@ function SeriesSubmissionForm({ seriesId }) {
                 "price",
                 "zipfile",
             ];
-
 
             for (const field of requiredFields) {
                 if (!formData[field] || formData[field] === "") {
@@ -431,7 +430,14 @@ function SeriesSubmissionForm({ seriesId }) {
             </form>
             <br />
             {testnetContract && (
-                <div style={{border: "1px solid #ccc", padding: "10px", "marginTop": "20px", width: "500px"}}>
+                <div
+                    style={{
+                        border: "1px solid #ccc",
+                        padding: "10px",
+                        marginTop: "20px",
+                        width: "500px",
+                    }}
+                >
                     <h1>You are live on Testnet</h1>
                     <a
                         href={`https://testnet.editart.xyz/series/${testnetContract}`}
@@ -576,13 +582,19 @@ function SeriesSubmissionForm({ seriesId }) {
             )}
 
             {previewKeys && !testnetContract && (
-                <button
-                    type="submit"
-                    className="btn btn-default"
-                    onClick={handleDeployTestnet}
-                >
-                    Deploy to Testnet
-                </button>
+                <>
+                    <p>
+                        If you get consistent outputs, the grid view works and
+                        the previews render properly, you can deploy to testnet
+                    </p>
+                    <button
+                        type="submit"
+                        className="btn btn-default"
+                        onClick={handleDeployTestnet}
+                    >
+                        Deploy to Testnet
+                    </button>
+                </>
             )}
         </>
     );
