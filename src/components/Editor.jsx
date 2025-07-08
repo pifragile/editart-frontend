@@ -141,7 +141,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                             onClick={handleRandomize}
                             style={{ cursor: "pointer", marginBottom: "15px" }}
                         >
-                            <small>	&#8635; randomize</small>
+                            <small> &#8635; randomize</small>
                         </div>
                         <div
                             onClick={handleMint}
