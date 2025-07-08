@@ -102,11 +102,12 @@ export function fetchRetry(url, fetchOptions = {}, tries = 1) {
 }
 
 export function queryStringFromValues(m0, m1, m2, m3, m4) {
-    m0 = m0.toFixed(3);
-    m1 = m1.toFixed(3);
-    m2 = m2.toFixed(3);
-    m3 = m3.toFixed(3);
-    m4 = m4.toFixed(3);
+    if (typeof m0 === "number") m0 = m0.toFixed(3);
+    if (typeof m1 === "number") m1 = m1.toFixed(3);
+    if (typeof m2 === "number") m2 = m2.toFixed(3);
+    if (typeof m3 === "number") m3 = m3.toFixed(3);
+    if (typeof m4 === "number") m4 = m4.toFixed(3);
+
     return `m0=${m0}&m1=${m1}&m2=${m2}&m3=${m3}&m4=${m4}`;
 }
 
