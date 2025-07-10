@@ -4,6 +4,7 @@ import LoadMoreButton from "./LoadMoreButton";
 import { useContext } from "react";
 import { SeriesContext } from "../App";
 import { ENV } from "../consts";
+import { formatMutez } from "../lib/utils";
 
 function SeriesOverviewComponent({ seriesFilter = null, showSearch = false }) {
     let series = useContext(SeriesContext);
@@ -150,6 +151,14 @@ function SeriesOverviewComponent({ seriesFilter = null, showSearch = false }) {
                                 contract={c.contract}
                                 author={c.artistName}
                                 key={c.contract}
+                                price={
+                                    c.contractData.storage.num_tokens !==
+                                    c.contractData.storage.last_token_id
+                                        ? formatMutez(
+                                              c.contractData.storage.price
+                                          )
+                                        : null
+                                }
                                 //name={c.genuary2025 ? `Genuary ${c.genuary2025}: ${c.name}` : c.name}
                                 name={c.name}
                             />

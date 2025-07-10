@@ -4,7 +4,7 @@ import { getToken } from "../lib/api";
 
 import Box from "./Box";
 
-function SeriesBox({ contract, author, name }) {
+function SeriesBox({ contract, author, name, price=null }) {
     const [artifactUri, setArtifactUri] = useState(null);
     const [displayUri, setDisplayUri] = useState(null);
 
@@ -29,6 +29,7 @@ function SeriesBox({ contract, author, name }) {
                 link={`/series/${contract}`}
                 line1={name}
                 line2={`by ${author}`}
+                topRight={price}
             />
         );
     }
