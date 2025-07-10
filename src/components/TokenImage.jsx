@@ -35,7 +35,13 @@ function TokenImage({ displayUrl, url, isBig, showArtifact, strictlyDisplay }) {
                     ? "full-size"
                     : "standard-width standard-height"
             }
-            style={{ position: "relative" }}
+            style={{
+                position: "relative",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
         >
             {displayArtifact && <LiveViewIFrame url={url} />}
 
@@ -57,6 +63,23 @@ function TokenImage({ displayUrl, url, isBig, showArtifact, strictlyDisplay }) {
                 <img
                     alt="token"
                     src={resolveIpfsCdn("png", displayUrl)}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        objectPosition: "center",
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        display: "block",
+                    }}
+                    onLoad={e => {
+                        const img = e.currentTarget;
+                        if (img.naturalWidth === img.naturalHeight) {
+                            img.style.objectFit = "cover";
+                        } else {
+                            img.style.objectFit = "contain";
+                        }
+                    }}
                     onError={({ currentTarget }) => {
                         console.log("Image not found in CDN");
                         currentTarget.onerror = null; // prevents looping
