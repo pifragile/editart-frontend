@@ -44,8 +44,8 @@ export function resolveIpfs(address) {
 }
 
 export function formatMutez(mutez) {
-    //return `${mutez / 1000000} tez`;
-    return `${mutez / 1000000} ꜩ`;
+    return `${mutez / 1000000} tez`;
+    //return `${mutez / 1000000} ꜩ`;
 }
 async function addCreators(data) {
     const creators = {};
