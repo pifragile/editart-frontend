@@ -15,7 +15,7 @@ function IFrameView({ testDirKey, params, idx }) {
         if (iframe && iframe.contentWindow) {
             let numChanges = Math.ceil(Math.random() * 5);
             for (let i = 0; i < numChanges; i++) {
-                const r = () => Math.random().toFixed(3);
+                const r = () => Math.random().toFixed(3); // TODO fix 1.000
                 let qs = queryStringFromValues(r(), r(), r(), r(), r());
                 iframe.contentWindow.postMessage(
                     { editartQueryString: qs },
