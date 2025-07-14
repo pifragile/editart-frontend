@@ -77,7 +77,7 @@ function MintForm({
                                 className="mint-slider"
                                 type="range"
                                 min="0"
-                                max="1"
+                                max="0.999"
                                 value={localValues[i]}
                                 step="0.001"
                                 id={`value${i}`}
@@ -88,7 +88,9 @@ function MintForm({
                                 onChange={(e) =>
                                     setLocalValues((prev) => {
                                         const newValues = [...prev];
-                                        newValues[i] = e.target.value;
+                                        newValues[i] = Number.parseFloat(
+                                            e.target.value
+                                        ).toFixed(3);
                                         return newValues;
                                     })
                                 }
