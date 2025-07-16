@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { BACKEND_URL, APP_URL } from "../consts";
 import LayoutAdmin from "./LayoutAdmin";
 
+const TEZ_ADDRESS = "tz1YysPgZN7fjGbCLYN5SLSZDXCi78zoeyrY";
+const TZKT_MAINNET = "https://api.tzkt.io/v1/accounts/";
+const TZKT_GHOSTNET = "https://api.ghostnet.tzkt.io/v1/accounts/";
+
 
 function Admin() {
     const [status, setStatus] = useState(null);
@@ -13,6 +17,32 @@ function Admin() {
     const [viewType, setViewType] = useState("submissions");
     const [restartPreviewOutput, setRestartPreviewOutput] = useState("");
     const [message, setMessage] = useState("");
+
+    const [mainnetBalance, setMainnetBalance] = useState(null);
+    const [ghostnetBalance, setGhostnetBalance] = useState(null);
+
+    // Fetch balances on mount
+    useEffect(() => {
+        const fetchBalances = async () => {
+            try {
+                const [mainnetRes, ghostnetRes] = await Promise.all([
+                    fetch(`${TZKT_MAINNET}${TEZ_ADDRESS}`),
+                    fetch(`${TZKT_GHOSTNET}${TEZ_ADDRESS}`),
+                ]);
+                if (mainnetRes.ok) {
+                    const data = await mainnetRes.json();
+                    setMainnetBalance(data.balance / 1_000_000);
+                }
+                if (ghostnetRes.ok) {
+                    const data = await ghostnetRes.json();
+                    setGhostnetBalance(data.balance / 1_000_000);
+                }
+            } catch (err) {
+                console.error("Failed to fetch balances", err);
+            }
+        };
+        fetchBalances();
+    }, []);
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -290,6 +320,11 @@ function Admin() {
                                 "Restart Preview Server"
                             )}
                         </button>
+                    </div>
+                    <div style={{ marginBottom: "20px" }}>
+                        <strong>Tez Balances for {TEZ_ADDRESS}:</strong>
+                        <div>Mainnet: {mainnetBalance === null ? "..." : `${mainnetBalance} ꜩ`}</div>
+                        <div>Ghostnet: {ghostnetBalance === null ? "..." : `${ghostnetBalance} ꜩ`}</div>
                     </div>
                     <div style={{ whiteSpace: "pre-line" }}>
                         {restartPreviewOutput}
