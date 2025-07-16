@@ -41,7 +41,7 @@ function ArtistDocs() {
                             name="template"
                             id="template"
                         >
-                            Vanilla js template
+                            Simple template
                         </button>
                     </a>
                     <br />
@@ -86,13 +86,43 @@ function ArtistDocs() {
                         rel="noreferrer"
                     >
                         here
-                    </a>{" "}
-                    and follow the steps to check the preview rendering and
-                    wether your series creates consistent outputs. When
-                    everything works, you can deploy the series to testnet and
-                    play around with it. Should you require to make changes,
-                    please update the series in the submission tool and redeploy
-                    to testnet.
+                    </a>
+                    .
+                    <br />
+                    After submitting, you will have access to the following
+                    tools to check if your series works as expected:{" "}
+                    <ul>
+                        <li>
+                            <b>Series validation tool</b>
+                            <br />
+                            To make sure that your series created consistent
+                            outputs.
+                        </li>
+                        <li>
+                            <b>Grid view</b>
+                            <br />
+                            To check if the grid view works properly.
+                        </li>
+                        <li>
+                            <b>Preview images</b>
+                            <br />
+                            You will see 4 preview images of your sketch
+                            renderes alongside with the actual sketch. Make sure
+                            the previews match the sketch exactly.
+                        </li>
+                    </ul>
+                    <br />
+                    <br />
+                    <b>
+                        Only when everything works well in the above mentioned
+                        tools
+                    </b>
+                    , you can deploy the series to testnet and play around with
+                    it.
+                    <br />
+                    <br />
+                    Once everything works, we will set a release date with you
+                    and deploy to mainnet.
                 </p>
                 <u id="troubleshooting">
                     <a className="simple-link" href="troubleshooting">
@@ -129,6 +159,20 @@ function ArtistDocs() {
                     <li>
                         Is your code platform independent? The previews are
                         rendered on Ubuntu in Google Chrome.
+                    </li>
+                </ul>
+                <br />
+                The grid view does not work?
+                <ul>
+                    <li>
+                        What happens under the hood is that 8 sketched are
+                        loaded and once triggerPreview() is called a snapshot is
+                        taken of the canvas and converted to an image. After that
+                        8 more sketches are loaded, and so on.
+                    </li>
+                    <li>
+                        If it is not possible to make it work, we can disable
+                        the grid view for your project.
                     </li>
                 </ul>
                 <p></p>
