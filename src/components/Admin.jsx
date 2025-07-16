@@ -6,7 +6,6 @@ const TEZ_ADDRESS = "tz1YysPgZN7fjGbCLYN5SLSZDXCi78zoeyrY";
 const TZKT_MAINNET = "https://api.tzkt.io/v1/accounts/";
 const TZKT_GHOSTNET = "https://api.ghostnet.tzkt.io/v1/accounts/";
 
-
 function Admin() {
     const [status, setStatus] = useState(null);
     const [username, setUsername] = useState("");
@@ -236,10 +235,12 @@ function Admin() {
                     data.forEach((item) => {
                         initialEdited[item._id] = {
                             plannedRelease: item.plannedRelease || "",
-                            renderingQueueName: item.renderingQueueName || "default",
+                            renderingQueueName:
+                                item.renderingQueueName || "default",
                             featured: item.featured || false,
                             displayArtifact: item.displayArtifact || false,
-                            disableMintingOnMobile: item.disableMintingOnMobile || false,
+                            disableMintingOnMobile:
+                                item.disableMintingOnMobile || false,
                             disabled: item.disabled || false,
                             showGrid: item.showGrid || false,
                         };
@@ -323,8 +324,18 @@ function Admin() {
                     </div>
                     <div style={{ marginBottom: "20px" }}>
                         <strong>Tez Balances for {TEZ_ADDRESS}:</strong>
-                        <div>Mainnet: {mainnetBalance === null ? "..." : `${mainnetBalance} ꜩ`}</div>
-                        <div>Ghostnet: {ghostnetBalance === null ? "..." : `${ghostnetBalance} ꜩ`}</div>
+                        <div>
+                            Mainnet:{" "}
+                            {mainnetBalance === null
+                                ? "..."
+                                : `${mainnetBalance} ꜩ`}
+                        </div>
+                        <div>
+                            Ghostnet:{" "}
+                            {ghostnetBalance === null
+                                ? "..."
+                                : `${ghostnetBalance} ꜩ`}
+                        </div>
                     </div>
                     <div style={{ whiteSpace: "pre-line" }}>
                         {restartPreviewOutput}
@@ -470,9 +481,12 @@ let me know if you need any help :)`)
                                         </td>
                                         <td>{item.artistName}</td>
                                         <td>
-                                            {parseInt(
-                                                item.contractData.storage.price
-                                            ) / 1000000}
+                                            {item.contractData.storage.price
+                                                ? parseInt(
+                                                      item.contractData.storage
+                                                          .price
+                                                  ) / 1000000
+                                                : item.price}
                                         </td>
                                         <td>
                                             {parseInt(
@@ -489,14 +503,22 @@ let me know if you need any help :)`)
                                             <input
                                                 type="datetime-local"
                                                 value={(() => {
-                                                    const val = editedSeries[item._id]?.plannedRelease;
+                                                    const val =
+                                                        editedSeries[item._id]
+                                                            ?.plannedRelease;
                                                     if (!val) return "";
                                                     const d = new Date(val);
                                                     if (!isNaN(d.getTime())) {
-                                                        const tzOffset = d.getTimezoneOffset() * 60000;
-                                                        const localISO = new Date(d.getTime() - tzOffset)
-                                                            .toISOString()
-                                                            .slice(0, 16);
+                                                        const tzOffset =
+                                                            d.getTimezoneOffset() *
+                                                            60000;
+                                                        const localISO =
+                                                            new Date(
+                                                                d.getTime() -
+                                                                    tzOffset
+                                                            )
+                                                                .toISOString()
+                                                                .slice(0, 16);
                                                         return localISO;
                                                     }
                                                     return "";
@@ -507,16 +529,26 @@ let me know if you need any help :)`)
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            plannedRelease: val ? new Date(val).toISOString() : "",
+                                                            plannedRelease: val
+                                                                ? new Date(
+                                                                      val
+                                                                  ).toISOString()
+                                                                : "",
                                                         },
                                                     }));
                                                 }}
                                                 style={{ width: "180px" }}
-                                                onKeyDown={(e) => e.preventDefault()}
+                                                onKeyDown={(e) =>
+                                                    e.preventDefault()
+                                                }
                                                 inputMode="none"
                                                 pattern=""
                                                 readOnly
-                                                onFocus={(e) => e.target.removeAttribute("readonly")}
+                                                onFocus={(e) =>
+                                                    e.target.removeAttribute(
+                                                        "readonly"
+                                                    )
+                                                }
                                             />
                                         </td>
                                         <td>
@@ -579,31 +611,45 @@ let me know if you need any help :)`)
                                         </td>
                                         <td>
                                             <select
-                                                value={editedSeries[item._id]?.renderingQueueName || "default"}
+                                                value={
+                                                    editedSeries[item._id]
+                                                        ?.renderingQueueName ||
+                                                    "default"
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            renderingQueueName: e.target.value,
+                                                            renderingQueueName:
+                                                                e.target.value,
                                                         },
                                                     }));
                                                 }}
                                             >
-                                                <option value="default">default</option>
-                                                <option value="slow">slow</option>
+                                                <option value="default">
+                                                    default
+                                                </option>
+                                                <option value="slow">
+                                                    slow
+                                                </option>
                                             </select>
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={editedSeries[item._id]?.featured || false}
+                                                checked={
+                                                    editedSeries[item._id]
+                                                        ?.featured || false
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            featured: e.target.checked,
+                                                            featured:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -612,13 +658,19 @@ let me know if you need any help :)`)
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={editedSeries[item._id]?.displayArtifact || false}
+                                                checked={
+                                                    editedSeries[item._id]
+                                                        ?.displayArtifact ||
+                                                    false
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            displayArtifact: e.target.checked,
+                                                            displayArtifact:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -627,13 +679,19 @@ let me know if you need any help :)`)
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={editedSeries[item._id]?.disableMintingOnMobile || false}
+                                                checked={
+                                                    editedSeries[item._id]
+                                                        ?.disableMintingOnMobile ||
+                                                    false
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            disableMintingOnMobile: e.target.checked,
+                                                            disableMintingOnMobile:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -642,13 +700,18 @@ let me know if you need any help :)`)
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={editedSeries[item._id]?.disabled || false}
+                                                checked={
+                                                    editedSeries[item._id]
+                                                        ?.disabled || false
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            disabled: e.target.checked,
+                                                            disabled:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -657,13 +720,18 @@ let me know if you need any help :)`)
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={editedSeries[item._id]?.showGrid || false}
+                                                checked={
+                                                    editedSeries[item._id]
+                                                        ?.showGrid || false
+                                                }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            showGrid: e.target.checked,
+                                                            showGrid:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
