@@ -35,7 +35,7 @@ function SeriesSubmissionForm({ seriesId }) {
         artistAddressTestnet: "",
         name: "",
         description: "",
-        plannedRelease: "", // "YYYY-MM-DD HH:MM" format
+        //plannedRelease: "", // "YYYY-MM-DD HH:MM" format
         numEditions: "",
         price: "",
         zipfile: null,
@@ -50,6 +50,7 @@ function SeriesSubmissionForm({ seriesId }) {
     const [testnetContract, setTestnetContract] = useState(null);
     const [showTestnetAddress, setShowTestnetAddress] = useState(false);
     const [mainnetContract, setMainnetContract] = useState(false);
+    const [plannedRelease, setPlannedRelease] = useState("");
 
     const fetchData = async () => {
         try {
@@ -79,6 +80,8 @@ function SeriesSubmissionForm({ seriesId }) {
                 var formattedRelease = "";
             }
 
+            setPlannedRelease(formattedRelease);
+
             if (data.mainnetContract) {
                 setMainnetContract(data.mainnetContract);
                 return;
@@ -89,7 +92,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 artistAddressTestnet: data.artistAddressTestnet || "",
                 name: data.name || "",
                 description: data.description || "",
-                plannedRelease: formattedRelease,
+                // plannedRelease: formattedRelease,
                 numEditions: data.numEditions
                     ? data.numEditions.toString()
                     : "",
@@ -150,7 +153,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 "artistAddress",
                 "name",
                 "description",
-                "plannedRelease",
+                //"plannedRelease",
                 "numEditions",
                 "price",
                 "zipfile",
@@ -164,11 +167,11 @@ function SeriesSubmissionForm({ seriesId }) {
             }
         }
 
-        const plannedReleaseRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
-        if (!plannedReleaseRegex.test(formData.plannedRelease)) {
-            setError("Planned Release must be in format YYYY-MM-DD HH:MM");
-            return;
-        }
+        // const plannedReleaseRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
+        // if (!plannedReleaseRegex.test(formData.plannedRelease)) {
+        //     setError("Planned Release must be in format YYYY-MM-DD HH:MM");
+        //     return;
+        // }
         setLoading(true);
 
         try {
@@ -181,10 +184,10 @@ function SeriesSubmissionForm({ seriesId }) {
             );
             form.append("name", formData.name);
             form.append("description", formData.description);
-            form.append(
-                "plannedRelease",
-                localToUTCString(formData.plannedRelease)
-            );
+            // form.append(
+            //     "plannedRelease",
+            //     localToUTCString(formData.plannedRelease)
+            // );
             form.append("numEditions", formData.numEditions);
             form.append("price", formData.price);
 
@@ -377,7 +380,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     ></textarea>
                 </div>
 
-                <div className="form-element">
+                {/* <div className="form-element">
                     <label>Planned Release (YYYY-MM-DD HH:MM):</label>
                     <input
                         type="text"
@@ -386,7 +389,7 @@ function SeriesSubmissionForm({ seriesId }) {
                         onChange={handleChange}
                         className="form-control"
                     />
-                </div>
+                </div> */}
 
                 <div className="form-element">
                     <label>Number of Tokens:</label>
@@ -429,6 +432,15 @@ function SeriesSubmissionForm({ seriesId }) {
                 </button>
             </form>
             <br />
+            <br />
+            <br />
+            {plannedRelease !== "" && (
+                <div>
+                    <h1>Planned Release</h1>
+                    <p>{plannedRelease}</p>
+                </div>
+            )}
+
             {testnetContract && (
                 <div
                     style={{

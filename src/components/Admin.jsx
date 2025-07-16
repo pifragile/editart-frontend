@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { BACKEND_URL, APP_URL } from "../consts";
 import LayoutAdmin from "./LayoutAdmin";
 
+
 function Admin() {
     const [status, setStatus] = useState(null);
     const [username, setUsername] = useState("");
     const [series, setSeries] = useState([]);
+    const [editedSeries, setEditedSeries] = useState({});
     const [loginData, setLoginData] = useState({ username: "", password: "" });
     const [loadingRestart, setLoadingRestart] = useState(false);
     const [viewType, setViewType] = useState("submissions");
@@ -199,6 +201,20 @@ function Admin() {
                     });
                     const data = await response.json();
                     setSeries(data);
+                    // Initialize editedSeries with a shallow copy of editable fields
+                    const initialEdited = {};
+                    data.forEach((item) => {
+                        initialEdited[item._id] = {
+                            plannedRelease: item.plannedRelease || "",
+                            renderingQueueName: item.renderingQueueName || "default",
+                            featured: item.featured || false,
+                            displayArtifact: item.displayArtifact || false,
+                            disableMintingOnMobile: item.disableMintingOnMobile || false,
+                            disabled: item.disabled || false,
+                            showGrid: item.showGrid || false,
+                        };
+                    });
+                    setEditedSeries(initialEdited);
                 } catch (error) {
                     console.error("Failed to fetch series", error);
                 }
@@ -391,15 +407,16 @@ function Admin() {
                                 )
                                 .slice()
                                 .sort((a, b) => {
+                                    // Use original series plannedRelease for sorting, not edited value
                                     const dateA = a.plannedRelease
                                         ? new Date(a.plannedRelease)
                                         : null;
                                     const dateB = b.plannedRelease
                                         ? new Date(b.plannedRelease)
                                         : null;
-                                    if (!dateA) return 1; // Place items without plannedRelease at the end
+                                    if (!dateA) return 1;
                                     if (!dateB) return -1;
-                                    return dateB - dateA; // Sort by descending order
+                                    return dateB - dateA;
                                 })
                                 .map((item, index) => (
                                     <tr key={index}>
@@ -436,70 +453,35 @@ let me know if you need any help :)`)
                                         <td>
                                             <input
                                                 type="datetime-local"
-                                                value={
-                                                    item.plannedRelease
-                                                        ? (() => {
-                                                              const d =
-                                                                  new Date(
-                                                                      item.plannedRelease
-                                                                  );
-                                                              if (
-                                                                  !isNaN(
-                                                                      d.getTime()
-                                                                  )
-                                                              ) {
-                                                                  const tzOffset =
-                                                                      d.getTimezoneOffset() *
-                                                                      60000;
-                                                                  const localISO =
-                                                                      new Date(
-                                                                          d.getTime() -
-                                                                              tzOffset
-                                                                      )
-                                                                          .toISOString()
-                                                                          .slice(
-                                                                              0,
-                                                                              16
-                                                                          );
-                                                                  return localISO;
-                                                              }
-                                                              return "";
-                                                          })()
-                                                        : ""
-                                                }
+                                                value={(() => {
+                                                    const val = editedSeries[item._id]?.plannedRelease;
+                                                    if (!val) return "";
+                                                    const d = new Date(val);
+                                                    if (!isNaN(d.getTime())) {
+                                                        const tzOffset = d.getTimezoneOffset() * 60000;
+                                                        const localISO = new Date(d.getTime() - tzOffset)
+                                                            .toISOString()
+                                                            .slice(0, 16);
+                                                        return localISO;
+                                                    }
+                                                    return "";
+                                                })()}
                                                 onChange={(e) => {
                                                     const val = e.target.value;
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          plannedRelease:
-                                                                              val
-                                                                                  ? new Date(
-                                                                                        val
-                                                                                    ).toISOString()
-                                                                                  : "",
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            plannedRelease: val ? new Date(val).toISOString() : "",
+                                                        },
+                                                    }));
                                                 }}
                                                 style={{ width: "180px" }}
-                                                onKeyDown={(e) =>
-                                                    e.preventDefault()
-                                                } // Prevent manual typing
-                                                inputMode="none" // Mobile: disables keyboard
-                                                pattern="" // Prevents some browsers from allowing text
+                                                onKeyDown={(e) => e.preventDefault()}
+                                                inputMode="none"
+                                                pattern=""
                                                 readOnly
-                                                onFocus={
-                                                    (e) =>
-                                                        e.target.removeAttribute(
-                                                            "readonly"
-                                                        ) // Allow picker on focus
-                                                }
+                                                onFocus={(e) => e.target.removeAttribute("readonly")}
                                             />
                                         </td>
                                         <td>
@@ -562,154 +544,93 @@ let me know if you need any help :)`)
                                         </td>
                                         <td>
                                             <select
-                                                value={
-                                                    item.renderingQueueName ||
-                                                    ""
-                                                }
+                                                value={editedSeries[item._id]?.renderingQueueName || "default"}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          renderingQueueName:
-                                                                              e
-                                                                                  .target
-                                                                                  .value,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            renderingQueueName: e.target.value,
+                                                        },
+                                                    }));
                                                 }}
                                             >
-                                                <option value="default">
-                                                    default
-                                                </option>
-                                                <option value="slow">
-                                                    slow
-                                                </option>
+                                                <option value="default">default</option>
+                                                <option value="slow">slow</option>
                                             </select>
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={item.featured || false}
+                                                checked={editedSeries[item._id]?.featured || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          featured:
-                                                                              e
-                                                                                  .target
-                                                                                  .checked,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            featured: e.target.checked,
+                                                        },
+                                                    }));
                                                 }}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={
-                                                    item.displayArtifact ||
-                                                    false
-                                                }
+                                                checked={editedSeries[item._id]?.displayArtifact || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          displayArtifact:
-                                                                              e
-                                                                                  .target
-                                                                                  .checked,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            displayArtifact: e.target.checked,
+                                                        },
+                                                    }));
                                                 }}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={
-                                                    item.disableMintingOnMobile ||
-                                                    false
-                                                }
+                                                checked={editedSeries[item._id]?.disableMintingOnMobile || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          disableMintingOnMobile:
-                                                                              e
-                                                                                  .target
-                                                                                  .checked,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            disableMintingOnMobile: e.target.checked,
+                                                        },
+                                                    }));
                                                 }}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={item.disabled || false}
+                                                checked={editedSeries[item._id]?.disabled || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          disabled:
-                                                                              e
-                                                                                  .target
-                                                                                  .checked,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            disabled: e.target.checked,
+                                                        },
+                                                    }));
                                                 }}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="checkbox"
-                                                checked={item.showGrid || false}
+                                                checked={editedSeries[item._id]?.showGrid || false}
                                                 onChange={(e) => {
-                                                    const updatedSeries =
-                                                        series.map(
-                                                            (seriesItem) =>
-                                                                seriesItem._id ===
-                                                                item._id
-                                                                    ? {
-                                                                          ...seriesItem,
-                                                                          showGrid:
-                                                                              e
-                                                                                  .target
-                                                                                  .checked,
-                                                                      }
-                                                                    : seriesItem
-                                                        );
-                                                    setSeries(updatedSeries);
+                                                    setEditedSeries((prev) => ({
+                                                        ...prev,
+                                                        [item._id]: {
+                                                            ...prev[item._id],
+                                                            showGrid: e.target.checked,
+                                                        },
+                                                    }));
                                                 }}
                                             />
                                         </td>
@@ -718,22 +639,7 @@ let me know if you need any help :)`)
                                                 onClick={() =>
                                                     handleUpdateSeries(
                                                         item._id,
-                                                        {
-                                                            renderingQueueName:
-                                                                item.renderingQueueName,
-                                                            featured:
-                                                                item.featured,
-                                                            displayArtifact:
-                                                                item.displayArtifact,
-                                                            disableMintingOnMobile:
-                                                                item.disableMintingOnMobile,
-                                                            disabled:
-                                                                item.disabled,
-                                                            showGrid:
-                                                                item.showGrid,
-                                                            plannedRelease:
-                                                                item.plannedRelease,
-                                                        }
+                                                        editedSeries[item._id]
                                                     )
                                                 }
                                                 className="btn btn-default"
