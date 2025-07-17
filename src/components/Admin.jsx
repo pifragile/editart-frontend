@@ -243,7 +243,8 @@ function Admin() {
                                 item.disableMintingOnMobile || false,
                             disabled: item.disabled || false,
                             showGrid: item.showGrid || false,
-                            renderingTestnetActive: item.renderingTestnetActive || false,
+                            renderingTestnetActive:
+                                item.renderingTestnetActive || false,
                         };
                     });
                     setEditedSeries(initialEdited);
@@ -373,7 +374,7 @@ function Admin() {
                                     if (response.status === 200) {
                                         alert("Manual trigger successful.");
                                     } else {
-                                        console.log(response.status)
+                                        console.log(response.status);
                                         alert("Failed to trigger manually.");
                                     }
                                 } catch (error) {
@@ -428,9 +429,9 @@ function Admin() {
                                 <th>Name</th>
                                 <th>Artist Name</th>
                                 <th>Price</th>
-                                <th style={{ width: "100px" }}>Editions</th>
+                                <th>Editions</th>
                                 <th>Planned Release</th>
-                                <th style={{ width: "150px" }}>Links</th>
+                                <th>Links</th>
                                 <th>Rendering Queue Name</th>
                                 <th style={{ width: "50px" }}>Featured</th>
                                 <th style={{ width: "50px" }}>
@@ -441,10 +442,12 @@ function Admin() {
                                 </th>
                                 <th style={{ width: "50px" }}>Disabled</th>
                                 <th style={{ width: "50px" }}>Show Grid</th>
-                                <th style={{ width: "50px" }}>Rendering Testnet Active</th>
+                                <th style={{ width: "50px" }}>
+                                    Rendering Testnet Active
+                                </th>
                                 <th>Update</th>
                                 <th>Delete</th>
-                                <th>Deploy</th>
+                                <th>Go Live</th>
                                 <th>Retrigger Test Previews</th>
                                 <th>Deploy Testnet</th>
                             </tr>
@@ -493,7 +496,7 @@ let me know if you need any help :)`)
                                                   ) / 1000000
                                                 : item.price}
                                         </td>
-                                        <td>
+                                        <td style={{ width: "120px" }}>
                                             {parseInt(
                                                 item.contractData.storage
                                                     .last_token_id
@@ -556,7 +559,7 @@ let me know if you need any help :)`)
                                                 }
                                             />
                                         </td>
-                                        <td>
+                                        <td style={{ width: "150px" }}>
                                             <details>
                                                 <summary>Links</summary>
                                                 <div>
@@ -631,12 +634,19 @@ let me know if you need any help :)`)
                                                         },
                                                     }));
                                                 }}
+                                                style={{ width: "170px" }}
                                             >
                                                 <option value="default">
                                                     default
                                                 </option>
                                                 <option value="slow">
                                                     slow
+                                                </option>
+                                                <option value="default-testnet">
+                                                    default-testnet
+                                                </option>
+                                                <option value="slow-testnet">
+                                                    slow-testnet
                                                 </option>
                                             </select>
                                         </td>
@@ -726,14 +736,17 @@ let me know if you need any help :)`)
                                             <input
                                                 type="checkbox"
                                                 checked={
-                                                    editedSeries[item._id]?.showGrid || false
+                                                    editedSeries[item._id]
+                                                        ?.showGrid || false
                                                 }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            showGrid: e.target.checked,
+                                                            showGrid:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -743,14 +756,18 @@ let me know if you need any help :)`)
                                             <input
                                                 type="checkbox"
                                                 checked={
-                                                    editedSeries[item._id]?.renderingTestnetActive || false
+                                                    editedSeries[item._id]
+                                                        ?.renderingTestnetActive ||
+                                                    false
                                                 }
                                                 onChange={(e) => {
                                                     setEditedSeries((prev) => ({
                                                         ...prev,
                                                         [item._id]: {
                                                             ...prev[item._id],
-                                                            renderingTestnetActive: e.target.checked,
+                                                            renderingTestnetActive:
+                                                                e.target
+                                                                    .checked,
                                                         },
                                                     }));
                                                 }}
@@ -764,7 +781,7 @@ let me know if you need any help :)`)
                                                         editedSeries[item._id]
                                                     )
                                                 }
-                                                className="btn btn-default"
+                                                className="btn btn-default btn-admin"
                                             >
                                                 Update
                                             </button>
@@ -772,7 +789,9 @@ let me know if you need any help :)`)
                                         <td>
                                             {!item.mainnetContract && (
                                                 <button
-                                                    onClick={() => handleDelete(item.uid)}
+                                                    onClick={() =>
+                                                        handleDelete(item.uid)
+                                                    }
                                                     className="btn btn-default"
                                                 >
                                                     Delete
@@ -782,56 +801,93 @@ let me know if you need any help :)`)
                                         <td>
                                             {!item.mainnetContract && (
                                                 <button
-                                                    onClick={() => handleDeployMainnet(item.uid)}
+                                                    onClick={() =>
+                                                        handleDeployMainnet(
+                                                            item.uid
+                                                        )
+                                                    }
                                                     className="btn btn-default"
+                                                    style={{ backgroundColor: '#e53935', color: 'white', border: '1px solid #b71c1c' }}
                                                 >
-                                                    Deploy
+                                                    GoLive
                                                 </button>
                                             )}
                                         </td>
                                         <td>
-                                            <button
-                                                onClick={async () => {
-                                                    try {
-                                                        const response = await fetch(`${BACKEND_URL}series/${item.uid}/retrigger-previews`, {
-                                                            method: "GET",
-                                                            credentials: "include",
-                                                        });
-                                                        if (response.status === 200) {
-                                                            alert("Retrigger previews successful.");
-                                                        } else {
-                                                            alert("Failed to retrigger previews.");
+                                            {!item.mainnetContract && (
+                                                <button
+                                                    onClick={async () => {
+                                                        try {
+                                                            const response =
+                                                                await fetch(
+                                                                    `${BACKEND_URL}series/${item.uid}/retrigger-previews`,
+                                                                    {
+                                                                        method: "GET",
+                                                                        credentials:
+                                                                            "include",
+                                                                    }
+                                                                );
+                                                            if (
+                                                                response.status ===
+                                                                200
+                                                            ) {
+                                                                alert(
+                                                                    "Retrigger previews successful."
+                                                                );
+                                                            } else {
+                                                                alert(
+                                                                    "Failed to retrigger previews."
+                                                                );
+                                                            }
+                                                        } catch (error) {
+                                                            alert(
+                                                                "Error retriggering previews."
+                                                            );
                                                         }
-                                                    } catch (error) {
-                                                        alert("Error retriggering previews.");
-                                                    }
-                                                }}
-                                                className="btn btn-default"
-                                            >
-                                                Retrigger Previews
-                                            </button>
+                                                    }}
+                                                    className="btn btn-default"
+                                                >
+                                                    Retrigger
+                                                </button>
+                                            )}
                                         </td>
                                         <td>
-                                            <button
-                                                onClick={async () => {
-                                                    try {
-                                                        const response = await fetch(`${BACKEND_URL}series/${item.uid}/deploy-testnet`, {
-                                                            method: "GET",
-                                                            credentials: "include",
-                                                        });
-                                                        if (response.status === 200) {
-                                                            alert("Deploy to testnet successful.");
-                                                        } else {
-                                                            alert("Failed to deploy to testnet.");
+                                            {!item.mainnetContract && (
+                                                <button
+                                                    onClick={async () => {
+                                                        try {
+                                                            const response =
+                                                                await fetch(
+                                                                    `${BACKEND_URL}series/${item.uid}/deploy-testnet`,
+                                                                    {
+                                                                        method: "GET",
+                                                                        credentials:
+                                                                            "include",
+                                                                    }
+                                                                );
+                                                            if (
+                                                                response.status ===
+                                                                200
+                                                            ) {
+                                                                alert(
+                                                                    "Deploy to testnet successful."
+                                                                );
+                                                            } else {
+                                                                alert(
+                                                                    "Failed to deploy to testnet."
+                                                                );
+                                                            }
+                                                        } catch (error) {
+                                                            alert(
+                                                                "Error deploying to testnet."
+                                                            );
                                                         }
-                                                    } catch (error) {
-                                                        alert("Error deploying to testnet.");
-                                                    }
-                                                }}
-                                                className="btn btn-default"
-                                            >
-                                                Deploy Testnet
-                                            </button>
+                                                    }}
+                                                    className="btn btn-default"
+                                                >
+                                                    Testnet
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

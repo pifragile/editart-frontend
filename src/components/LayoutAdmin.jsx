@@ -5,8 +5,8 @@ function LayoutAdmin({ children, favicon = "/favicon.png" }) {
     return (
         <div
             style={{
-                paddingLeft: "10vw",
-                paddingRight: "10vw",
+                paddingLeft: "5vw",
+                paddingRight: "5vw",
                 minHeight: "100vh",
                 margin: 0,
                 display: "grid",
