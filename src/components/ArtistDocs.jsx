@@ -114,11 +114,10 @@ function ArtistDocs() {
                     <br />
                     <br />
                     <b>
-                        Only when everything works well in the above mentioned
-                        tools
+                        When everything works well in the above mentioned tools
                     </b>
-                    , you can deploy the series to testnet and play around with
-                    it.
+                    , contact us and we will deploy to testnet for you. After
+                    that please follow step 3.
                     <br />
                     <br />
                     Once everything works, we will set a release date with you
@@ -167,8 +166,8 @@ function ArtistDocs() {
                     <li>
                         What happens under the hood is that 8 sketched are
                         loaded and once triggerPreview() is called a snapshot is
-                        taken of the canvas and converted to an image. After that
-                        8 more sketches are loaded, and so on.
+                        taken of the canvas and converted to an image. After
+                        that 8 more sketches are loaded, and so on.
                     </li>
                     <li>
                         If it is not possible to make it work, we can disable

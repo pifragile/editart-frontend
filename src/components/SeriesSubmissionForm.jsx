@@ -601,7 +601,7 @@ function SeriesSubmissionForm({ seriesId }) {
                 </>
             )}
 
-            {previewKeys && !testnetContract && (
+            {/* {previewKeys && !testnetContract && (
                 <>
                     <p>
                         If you get consistent outputs, the grid view works and
@@ -615,7 +615,7 @@ function SeriesSubmissionForm({ seriesId }) {
                         Deploy to Testnet
                     </button>
                 </>
-            )}
+            )} */}
         </>
     );
 }
