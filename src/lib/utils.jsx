@@ -43,7 +43,19 @@ export function resolveIpfs(address) {
     }
 }
 
-export function formatMutez(mutez) {
+export function formatMutez(mutez, exchangeRate=null) {
+    if (exchangeRate) {
+        const tezValue = mutez / 1000000;
+        const usdValue = tezValue * exchangeRate;
+        return (
+            <span>
+            {tezValue}
+            {/* <span className="tz-symbol"> ꜩ </span> */}
+            <span> tez </span>
+            <small>(${usdValue.toFixed(2)})</small>
+            </span>
+        );
+    }
     return `${mutez / 1000000} tez`;
     //return `${mutez / 1000000} ꜩ`;
 }

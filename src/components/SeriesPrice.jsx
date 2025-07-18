@@ -1,11 +1,14 @@
+import { TezosUsdContext } from "../App";
 import { formatMutez } from "../lib/utils";
+import { useContext } from "react";
 
 function SeriesPrice({ soldOut, price, floorPrice }) {
+    const tezosUsd = useContext(TezosUsdContext);
     if (soldOut) {
-        if (floorPrice !== Infinity) return `floor: ${formatMutez(floorPrice)}`;
+        if (floorPrice !== Infinity) return `floor: ${formatMutez(floorPrice, tezosUsd.rate)}`;
         else return "";
     } else {
-        return formatMutez(price);
+        return formatMutez(price, tezosUsd.rate);
     }
 }
 

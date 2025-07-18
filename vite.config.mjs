@@ -26,5 +26,14 @@ export default defineConfig({
       "assert",
     ],
   },
+  server: {
+    host: true, // ← important: allows external access
+    strictPort: true, // optional, ensures consistent port
+    port: 5173, // or whatever you use
+    hmr: {
+      host: '63395d688f5a.ngrok-free.app',
+    },
+    cors: true,
+  },
   plugins: [react()],
 });

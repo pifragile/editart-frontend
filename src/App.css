@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.tz-symbol {
+  font-family: "Gentium Plus", serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: large;
+}
+
 .mint-slider {
     -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
