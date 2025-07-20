@@ -452,6 +452,15 @@ function SeriesSubmissionForm({ seriesId }) {
                 >
                     <h1>You are live on Testnet</h1>
                     <a
+                        href={`${APP_URL}artist-docs#testing-on-testnet`}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Instructions
+                    </a>
+                    <br />
+                    <br />
+                    <a
                         href={`https://testnet.editart.xyz/series/${testnetContract}`}
                         target="_blank"
                         rel="noreferrer"
