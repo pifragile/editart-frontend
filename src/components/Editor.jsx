@@ -7,6 +7,7 @@ import LiveViewIFrame from "./LiveViewIFrame";
 import { queryStringFromValues, valuesFromQueryString } from "../lib/utils";
 import UserDetail from "./UserDetail";
 import SeriesPrice from "./SeriesPrice";
+import MintFormMinimal from "./MintFormMinimal";
 
 function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const wallet = useContext(WalletContext);
@@ -33,6 +34,10 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
     const [history, setHistory] = useState([
         valuesFromQueryString(initialQueryString),
     ]);
+
+    const sliderLessParam = searchParams.get("sliderLess");
+    const sliderLess =
+        sliderLessParam === "true" || seriesData.config?.sliderLess;
 
     let handleRandomize = (e) => {
         e.preventDefault();
@@ -128,7 +133,7 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                 <div className="editor-iframe-container">
                     <LiveViewIFrame url={baseUrl} />
                 </div>
-                {width < 1137 && (
+                {width < 1375 && (
                     <div
                         style={{
                             display: "flex",
@@ -187,24 +192,48 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                     </table>
                     <br />
                     <br />
-                    <MintForm
-                        onSubmitForm={onMintFormSubmit}
-                        onMint={
-                            contract
-                                ? handleMint
-                                : () => {
-                                      console.log("MINT");
-                                  }
-                        }
-                        price={price}
-                        showButton={showButton}
-                        // isLoading={templateVersion > 0 ? isLoading > 0 : false}
-                        isLoading={false}
-                        values={history[historyIndex]}
-                        handleRandomize={handleRandomize}
-                        error={error}
-                        showGrid={seriesData.showGrid}
-                    />
+                    {sliderLess && (
+                        <MintFormMinimal
+                            onSubmitForm={onMintFormSubmit}
+                            onMint={
+                                contract
+                                    ? handleMint
+                                    : () => {
+                                          console.log("MINT");
+                                      }
+                            }
+                            handleBack={handleBack}
+                            handleForward={handleForward}
+                            price={price}
+                            showButton={showButton}
+                            // isLoading={templateVersion > 0 ? isLoading > 0 : false}
+                            isLoading={false}
+                            values={history[historyIndex]}
+                            handleRandomize={handleRandomize}
+                            error={error}
+                            showGrid={seriesData.showGrid}
+                        />
+                    )}
+                    {!sliderLess && (
+                        <MintForm
+                            onSubmitForm={onMintFormSubmit}
+                            onMint={
+                                contract
+                                    ? handleMint
+                                    : () => {
+                                          console.log("MINT");
+                                      }
+                            }
+                            price={price}
+                            showButton={showButton}
+                            // isLoading={templateVersion > 0 ? isLoading > 0 : false}
+                            isLoading={false}
+                            values={history[historyIndex]}
+                            handleRandomize={handleRandomize}
+                            error={error}
+                            showGrid={seriesData.showGrid}
+                        />
+                    )}
                 </div>
             </div>
             <div style={{ marginTop: "3vh", whiteSpace: "pre-wrap" }}>

@@ -142,14 +142,14 @@
   padding: 0;
 }
 
-@media (max-width: 1137px) {
+@media (max-width: 1375px) {
   .editor-container {
     justify-content: center;
   }
 }
 
 
-@media (max-width: 1137px) {
+@media (max-width: 1375px) {
   .editor-iframe-container {
     width: 95%;
       margin-right: 0vw;
@@ -222,4 +222,16 @@
   height: 31px;
   width: 48%;
   padding: 0px
+}
+
+.btn-small {
+  height: 31px;
+  padding: 0px;
+}
+
+
+.btn-center {
+  height: 31px;
+  padding: 0px;
+  width: 150px;
 }

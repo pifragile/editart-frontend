@@ -41,6 +41,7 @@ function Series() {
     const [disableMintOnMobile, setDisableMintOnMobile] = useState(true);
     const [releaseDate, setReleaseDate] = useState(true);
     const [showGrid, setShowGrid] = useState(false);
+    const [config, setConfig] = useState({});
 
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
@@ -75,6 +76,9 @@ function Series() {
                 series.find((e) => e.contract === contract)?.showGrid || false;
 
             setShowGrid(showGrid);
+
+            let config = series.find((e) => e.contract === contract)?.config || {};
+            setConfig(config)
             date = new Date(date);
 
             setReleaseDate(
@@ -119,6 +123,7 @@ function Series() {
                             price,
                             releaseDate,
                             showGrid,
+                            config
                         }}
                     />
                 )}
