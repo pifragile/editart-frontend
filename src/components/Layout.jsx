@@ -104,7 +104,7 @@ function Layout({ children, favicon = "/favicon.png" }) {
                             border: "none",
                             fontSize: "2rem",
                             cursor: "pointer",
-                            color: "#000000",
+                            color: "var(--primary-color)",
                         }}
                     >
                         &#9776;
