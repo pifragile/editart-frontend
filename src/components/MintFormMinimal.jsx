@@ -50,7 +50,8 @@ function MintFormMinimal({
     return (
         <div>
             <form>
-                <fieldset style={{ position: "relative", border: "none" }}>
+                <fieldset style={{ position: "relative", paddingBottom: "25px"
+                 }}>
                     <div
                         style={{
                             position: "absolute",
@@ -62,7 +63,9 @@ function MintFormMinimal({
                     >
                         {isLoading && <small>loading...</small>}
                     </div>
-                    {/* <legend>Mint Variables</legend> */}
+                    <legend>
+                        <small>Choose your output</small>
+                    </legend>
 
                     <div
                         className="form-group"
@@ -160,6 +163,36 @@ function MintFormMinimal({
                                 {`Mint`}
                             </button>
                         )}
+                    </div>
+                    {/* SVG in bottom right corner */}
+                    <div
+                        style={{
+                            position: "absolute",
+                            bottom: "-2px",
+                            right: "2px",
+                            cursor: "pointer"
+                        }}
+                        onClick={copyUrlToClipBoard}
+                    >
+                        <svg
+                            fill="var(--font-color)"
+                            viewBox="0 0 50 50"
+                            width="24"
+                            height="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                            <g
+                                id="SVGRepo_tracerCarrier"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M30.3 13.7L25 8.4l-5.3 5.3-1.4-1.4L25 5.6l6.7 6.7z"></path>
+                                <path d="M24 7h2v21h-2z"></path>
+                                <path d="M35 40H15c-1.7 0-3-1.3-3-3V19c0-1.7 1.3-3 3-3h7v2h-7c-.6 0-1 .4-1 1v18c0 .6.4 1 1 1h20c.6 0 1-.4 1-1V19c0-.6-.4-1-1-1h-7v-2h7c1.7 0 3 1.3 3 3v18c0 1.7-1.3 3-3 3z"></path>
+                            </g>
+                        </svg>
                     </div>
                     {error && <span style={{ color: "red" }}>{error}</span>}
                 </fieldset>

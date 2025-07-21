@@ -235,3 +235,24 @@
   padding: 0px;
   width: 150px;
 }
+
+/* Fix all buttons: prevent focus from sticking after click */
+.terminal .btn-default:focus:not(:hover):not(:focus-visible),
+.terminal .btn-default:active:not(:hover) {
+  background-color: var(--font-color) !important;
+  color: var(--background-color) !important;
+  border-color: inherit !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Fix all buttons: prevent focus from sticking after click */
+.terminal .btn-ghost:focus:not(:hover):not(:focus-visible),
+.terminal .btn-ghost:active:not(:hover) {
+  background-color: var(--background-color) !important;
+  color: var(--font-color) !important;
+  border-color: inherit !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
