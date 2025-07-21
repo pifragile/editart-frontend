@@ -5,7 +5,10 @@ import { useContext } from "react";
 function SeriesPrice({ soldOut, price, floorPrice }) {
     const tezosUsd = useContext(TezosUsdContext);
     if (soldOut) {
-        if (floorPrice !== Infinity) return `floor: ${formatMutez(floorPrice, tezosUsd.rate)}`;
+        if (floorPrice !== Infinity)
+            return (
+                <span>floor: ${formatMutez(floorPrice, tezosUsd.rate)}</span>
+            );
         else return "";
     } else {
         return formatMutez(price, tezosUsd.rate);
