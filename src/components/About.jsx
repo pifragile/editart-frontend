@@ -13,7 +13,7 @@ function About() {
                 </p>
                 <h1>For artists</h1>
                 <p>
-                    EditArt is open to submissions form all generative artists.
+                    EditArt is open to submissions from all generative artists.
                     If you would like to create a project on EditArt you can
                     find a template with all the instructions for development,
                     testing and submission below.
