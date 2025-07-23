@@ -7,7 +7,7 @@ function SeriesPrice({ soldOut, price, floorPrice }) {
     if (soldOut) {
         if (floorPrice !== Infinity)
             return (
-                <span>floor: ${formatMutez(floorPrice, tezosUsd.rate)}</span>
+                <span>floor: {formatMutez(floorPrice, tezosUsd.rate)}</span>
             );
         else return "";
     } else {
