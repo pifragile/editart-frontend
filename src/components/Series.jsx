@@ -21,6 +21,7 @@ import { WalletContext } from "../lib/wallet";
 import Editor from "./Editor";
 import { SeriesContext } from "../App";
 import SeriesPrice from "./SeriesPrice";
+import { ENV } from "../consts";
 
 function Series() {
     const series = useContext(SeriesContext);
@@ -55,7 +56,8 @@ function Series() {
 
     useEffect(() => {
         const fetchStorage = async () => {
-            const theSeries = series.find((e) => e.contract === contract);
+            let theSeries = series.find((e) => e.contract === contract);
+            if (ENV !== "prod") theSeries = {}
             if (
                 contract === null ||
                 contract === "null" ||
@@ -106,7 +108,7 @@ function Series() {
         fetchStorage().catch(console.error);
     }, [contract, wallet, series]);
 
-    if (numTokens && metadata && releaseDate) {
+    if ((numTokens && metadata && releaseDate) || (metadata && ENV !== "prod")) {
         return (
             <Layout>
                 {(width >= 768 || !disableMintOnMobile) && (
