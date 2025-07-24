@@ -137,58 +137,74 @@ function Editor({ contract, baseUrl, price, showButton, seriesData }) {
                     <div
                         style={{
                             display: "flex",
-                            width: "95%",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
+                            width: "100%",
+                            justifyContent: "center",
                         }}
                     >
                         <div
-                            onClick={handleRandomize}
-                            style={{ cursor: "pointer", marginBottom: "15px" }}
+                            style={{
+                                display: "flex",
+                                width: "min(95%, 70vh)",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                            }}
                         >
-                            <small> &#8635; randomize</small>
-                        </div>
-                        <div
-                            onClick={handleMint}
-                            style={{ cursor: "pointer", marginBottom: "15px" }}
-                        >
-                            <small>&#10003; mint</small>
+                            <div
+                                onClick={handleRandomize}
+                                style={{
+                                    cursor: "pointer",
+                                    marginBottom: "15px",
+                                }}
+                            >
+                                <small> &#8635; randomize</small>
+                            </div>
+                            <div
+                                onClick={handleMint}
+                                style={{
+                                    cursor: "pointer",
+                                    marginBottom: "15px",
+                                }}
+                            >
+                                <small>&#10003; mint</small>
+                            </div>
                         </div>
                     </div>
                 )}
 
                 <div className="editor-mint-form-container">
                     <table style={{ padding: "0px", margin: "0px" }}>
-                        <tr className="no-border">
-                            <td className="no-border">
-                                <b>{seriesData.metadata.name}</b>
-                            </td>
-                            <td className="no-border">
-                                by{" "}
-                                <UserDetail
-                                    address={seriesData.artist}
-                                    isLink={true}
-                                />
-                            </td>
-                            {/* <td className="no-border"></td> */}
-                        </tr>
-                        <tr className="no-border">
-                            <td className="no-border">
-                                {" "}
-                                <SeriesPrice
-                                    soldOut={seriesData.soldOut}
-                                    price={seriesData.price}
-                                    floorPrice={seriesData.floorPrice}
-                                />
-                            </td>
-                            <td className="no-border">
-                                {seriesData.numTokensMinted} /{" "}
-                                {seriesData.numTokens}
-                            </td>
-                            {/* <td className="no-border">
-                                {seriesData.releaseDate}
-                            </td> */}
-                        </tr>
+                        <tbody>
+                            <tr className="no-border">
+                                <td className="no-border">
+                                    <b>{seriesData.metadata.name}</b>
+                                </td>
+                                <td className="no-border">
+                                    by{" "}
+                                    <UserDetail
+                                        address={seriesData.artist}
+                                        isLink={true}
+                                    />
+                                </td>
+                                {/* <td className="no-border"></td> */}
+                            </tr>
+                            <tr className="no-border">
+                                <td className="no-border">
+                                    {" "}
+                                    <SeriesPrice
+                                        soldOut={seriesData.soldOut}
+                                        price={seriesData.price}
+                                        floorPrice={seriesData.floorPrice}
+                                    />
+                                </td>
+                                <td className="no-border">
+                                    {seriesData.numTokensMinted} /{" "}
+                                    {seriesData.numTokens}
+                                </td>
+                                {/* <td className="no-border">
+                                    {seriesData.releaseDate}
+                                </td> */}
+                            </tr>
+                        </tbody>
                     </table>
                     <br />
                     <br />

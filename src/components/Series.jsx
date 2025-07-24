@@ -55,50 +55,55 @@ function Series() {
 
     useEffect(() => {
         const fetchStorage = async () => {
-            if (contract === null || contract === "null") return;
-            const storage = await getContractStorageFull(contract);
+            const theSeries = series.find((e) => e.contract === contract);
+            if (
+                contract === null ||
+                contract === "null" ||
+                !theSeries ||
+                theSeries === undefined
+            )
+                return;
+
+            // Batch async calls
+            const [storage, metadata, contractData, account, floorPrice] =
+                await Promise.all([
+                    getContractStorageFull(contract),
+                    getContractMetadata(contract),
+                    getContract(contract),
+                    wallet.client.getActiveAccount(),
+                    getFloorPrice(contract),
+                ]);
+
             setNumTokens(storage.num_tokens);
             setPrice(storage.price);
             setNumTokensMinted(storage.last_token_id);
             if (storage.num_tokens === storage.last_token_id) setSoldOut(true);
             setArtist(storage.artist_address);
-
             setBaseUrl(bytes2Char(storage.base_url));
-
-            setMetadata(await getContractMetadata(contract));
+            setMetadata(metadata);
             setPaused(storage.paused);
-            const contractData = await getContract(contract);
+
+            // Use theSeries for all lookups
             let date =
-                series.find((e) => e.contract === contract)?.plannedRelease ||
-                contractData.firstActivityTime;
-
-            let showGrid =
-                series.find((e) => e.contract === contract)?.showGrid || false;
-
+                theSeries.plannedRelease || contractData.firstActivityTime;
+            let showGrid = theSeries.showGrid || false;
             setShowGrid(showGrid);
-
-            let config = series.find((e) => e.contract === contract)?.config || {};
-            setConfig(config)
+            let config = theSeries.config || {};
+            setConfig(config);
             date = new Date(date);
-
             setReleaseDate(
                 date < new Date()
                     ? date.toLocaleDateString()
                     : date.toLocaleString()
             );
-
-            const account = await wallet.client.getActiveAccount();
             if (account) {
                 setActiveAccount(account.address);
             }
-            setFloorPrice(await getFloorPrice(contract));
+            setFloorPrice(floorPrice);
+            setDisableMintOnMobile(theSeries?.disableMintingOnMobile || false);
         };
 
         fetchStorage().catch(console.error);
-        setDisableMintOnMobile(
-            series.find((e) => e.contract === contract)
-                ?.disableMintingOnMobile || false
-        );
     }, [contract, wallet, series]);
 
     if (numTokens && metadata && releaseDate) {
@@ -123,7 +128,7 @@ function Series() {
                             price,
                             releaseDate,
                             showGrid,
-                            config
+                            config,
                         }}
                     />
                 )}

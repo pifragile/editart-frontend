@@ -151,12 +151,12 @@
 
 @media (max-width: 1375px) {
   .editor-iframe-container {
-    width: 95%;
+     width: min(95%, 70vh);
       margin-right: 0vw;
   }
   .editor-mint-form-container {
     margin-top: 1vh;
-    width: 95%;
+    width: min(95%, 70vh);
   }
 }
 
