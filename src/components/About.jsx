@@ -174,7 +174,7 @@ function About() {
             <h1>5. Intellectual Property</h1>
             <p>
                 All content on EditArt, excluding user submissions, is the
-                property of Solidbit GmbH or its licensors and is protected by
+                property of EditArt or its licensors and is protected by
                 intellectual property laws.
             </p>
 
