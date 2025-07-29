@@ -125,14 +125,6 @@ function About() {
 
             <hr />
             <h1>Terms of Use</h1>
-            <p>
-                <strong>EditArt</strong> (editart.xyz) is a service operated by{" "}
-                <strong>Solidbit GmbH</strong>, a company incorporated in
-                Switzerland under company number CHE-267.620.734 (“we,” “us,” or
-                “our”). These Terms of Use govern your access to and use of the
-                EditArt website and services (the “Service”).
-            </p>
-
             <h1>1. Acceptance of Terms</h1>
             <p>
                 By accessing or using the Service, you agree to be bound by
