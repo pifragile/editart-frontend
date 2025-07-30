@@ -1,6 +1,7 @@
 export const tweets = [
     // 'https://x.com/tezos/status/1923397338879639769',
     //'https://x.com/kevinabosch/status/1884950003141009739?s=46&t=6U_gGeDuevYiLBQ-UCHFTA',
+    'https://x.com/sutanz/status/1950280035279012143',
     'https://x.com/TenebrisVia/status/1948647793276715389',
     'https://x.com/etsuranpazz/status/1948270457645670744?s=46&t=6U_gGeDuevYiLBQ-UCHFTA',
     'https://x.com/nicoarbogast/status/1946508249907224848?s=46&t=6U_gGeDuevYiLBQ-UCHFTA',
