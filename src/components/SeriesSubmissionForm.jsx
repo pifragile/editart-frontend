@@ -581,7 +581,9 @@ function SeriesSubmissionForm({ seriesId }) {
                                         className="standard-width standard-height"
                                         src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey.key}`}
                                         style={{
-                                            opacity: 0,
+                                            objectFit: "contain",
+                                            objectPosition: "center",
+                                            display: "block",
                                         }}
                                         onLoad={(e) =>
                                             (e.target.style.opacity = 1)
