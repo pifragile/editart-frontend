@@ -21,9 +21,9 @@ export async function getContract(contract) {
     return data;
 }
 
-export async function getContractStorage(contract, key) {
+export async function getContractStorage(contract, key, api=TZKT_API) {
     let query = `v1/contracts/${contract}/storage?path=${key}`;
-    let res = await fetch(TZKT_API + query);
+    let res = await fetch(api + query);
     let data = await res.json();
     return data;
 }

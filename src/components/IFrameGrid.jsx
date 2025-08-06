@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { randomValueQueryString } from "../lib/utils";
 import { useParams, Link } from "react-router-dom";
-import { APP_URL } from "../consts";
+import { APP_URL, TZKT_API } from "../consts";
 import { getContractStorage } from "../lib/api";
 import { bytes2Char } from "@taquito/utils";
 import "./IFrameGrid.css"; // Import external CSS
-
 
 export default function IframeGrid() {
     const isMobile = window.innerWidth <= 768;
@@ -14,6 +13,7 @@ export default function IframeGrid() {
     const [url, setUrl] = useState(null);
     const [elements, setElements] = useState([]);
     const elementsRef = useRef([]); // Ref to store the current state of elements
+    const { net } = useParams();
     useEffect(() => {
         async function fetchBaseUrl() {
             if (!contract && !projecttest) return;
@@ -21,8 +21,12 @@ export default function IframeGrid() {
             if (projecttest) {
                 url = `${APP_URL}cdn/project_tests/${projecttest}/index.html`;
             } else {
+                let api =
+                    net === "testnet"
+                        ? "https://api.ghostnet.tzkt.io/"
+                        : TZKT_API;
                 const baseUrl = bytes2Char(
-                    await getContractStorage(contract, "base_url")
+                    await getContractStorage(contract, "base_url", api)
                 );
                 url = `${APP_URL}cdn/sketches/${
                     baseUrl.split("ipfs://")[1]
