@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MintButton from "./MintButton";
 import RandomizeButton from "./RandomizeButton";
 import { queryStringFromValues } from "../lib/utils";
+import { ENV } from "../consts";
 
 function MintForm({
     onSubmitForm,
