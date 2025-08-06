@@ -126,9 +126,11 @@ function MintForm({
                         </button>
                         {showGrid && (
                             <a
-                                href={`${
-                                    window.location.href.split("?")[0]
-                                }/grid`}
+                                href={`https://grid.editart.xyz${
+                                    window.location.pathname
+                                }/grid?net=${
+                                    ENV === "prod" ? "mainnet" : "testnet"
+                                }`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-form"

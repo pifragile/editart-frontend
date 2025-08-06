@@ -501,7 +501,7 @@ function SeriesSubmissionForm({ seriesId }) {
                     <br />
                     <br /> Make sure that the Grid view works:{" "}
                     <Link
-                        to={`/grid/${testDirKey.split("project_tests/")[1]}`}
+                        to={`https://grid.editart.xyz/grid/${testDirKey.split("project_tests/")[1]}`}
                         target="_blank"
                         rel="noreferrer"
                     >

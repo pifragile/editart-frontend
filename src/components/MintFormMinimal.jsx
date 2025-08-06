@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MintButton from "./MintButton";
 import RandomizeButton from "./RandomizeButton";
 import { queryStringFromValues } from "../lib/utils";
+import { ENV } from "../consts";
 
 function MintFormMinimal({
     onSubmitForm,
@@ -50,8 +51,9 @@ function MintFormMinimal({
     return (
         <div>
             <form>
-                <fieldset style={{ position: "relative", paddingBottom: "25px"
-                 }}>
+                <fieldset
+                    style={{ position: "relative", paddingBottom: "25px" }}
+                >
                     <div
                         style={{
                             position: "absolute",
@@ -80,9 +82,11 @@ function MintFormMinimal({
                     >
                         {showGrid && (
                             <a
-                                href={`${
-                                    window.location.href.split("?")[0]
-                                }/grid`}
+                                href={`https://grid.editart.xyz${
+                                    window.location.pathname
+                                }/grid?net=${
+                                    ENV === "prod" ? "mainnet" : "testnet"
+                                }`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-center"
@@ -170,7 +174,7 @@ function MintFormMinimal({
                             position: "absolute",
                             bottom: "-2px",
                             right: "2px",
-                            cursor: "pointer"
+                            cursor: "pointer",
                         }}
                         onClick={copyUrlToClipBoard}
                     >
