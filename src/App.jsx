@@ -95,61 +95,10 @@ function App() {
                         <CacheProvider>
                             <div className="App">
                                 <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/about" element={<About />} />
-                                    <Route
-                                        path="/token-detail/:contract/:tokenId"
-                                        element={<TokenDetail />}
-                                    />
-                                    <Route
-                                        path="/user/:address"
-                                        element={<User />}
-                                    />
-                                    <Route
-                                        path="/marketplace"
-                                        element={<MarketPlace />}
-                                    />
-                                    <Route
-                                        path="/series/:contract"
-                                        element={<Series />}
-                                    />
-
                                     <Route
                                         path="/series/:contract/grid"
                                         element={<IframeGrid />}
                                     />
-                                    <Route
-                                        path="/analytics"
-                                        element={<Analytics />}
-                                    />
-                                    <Route
-                                        path="/artist-panel/:contract"
-                                        element={<ArtistPanel />}
-                                    />
-                                    <Route path="/sandbox/" element={<Sandbox />} />
-                                    <Route
-                                        path="/series-overview/"
-                                        element={<SeriesOverview />}
-                                    />
-                                    <Route path="/feed/" element={<Feed />} />
-                                    <Route
-                                        path="/series-submission/"
-                                        element={<SeriesSubmissionCreate />}
-                                    />
-                                    <Route
-                                        path="/series-submission/:seriesId"
-                                        element={<SeriesSubmissionEdit />}
-                                    />
-                                    <Route
-                                        path="/artist-docs"
-                                        element={<ArtistDocs />}
-                                    />
-                                    <Route
-                                        path="/series-validation/:key"
-                                        element={<SeriesValidation />}
-                                    />
-                                    <Route path="/grid/:projecttest" element={<IframeGrid />} />
-                                    <Route path="/admin" element={<Admin />} />
                                 </Routes>
                             </div>
                         </CacheProvider>
