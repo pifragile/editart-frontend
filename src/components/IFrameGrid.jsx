@@ -144,7 +144,11 @@ export default function IframeGrid() {
             {elements.map((el) => (
                 <Link
                     key={el.id}
-                    to={`/series/${contract}?values=${btoa(el.queryString)}`}
+                    to={`${
+                        net === "testnet"
+                            ? "https://testnet.editart.xyz"
+                            : "https://editart.xyz"
+                    }/series/${contract}?values=${btoa(el.queryString)}`}
                     target="_blank"
                     style={{ textDecoration: "none", cursor: "pointer" }}
                 >
