@@ -20,6 +20,19 @@ function Admin() {
     const [mainnetBalance, setMainnetBalance] = useState(null);
     const [ghostnetBalance, setGhostnetBalance] = useState(null);
 
+    // Helper function to call API with JWT
+    const callApi = async (url, options = {}) => {
+        const jwtToken = localStorage.getItem("jwtToken");
+        const headers = {
+            ...(options.headers || {}),
+            ...(jwtToken ? { Authorization: `Bearer ${jwtToken}` } : {}),
+        };
+        return fetch(url, {
+            ...options,
+            headers,
+        });
+    };
+
     // Fetch balances on mount
     useEffect(() => {
         const fetchBalances = async () => {
@@ -46,14 +59,12 @@ function Admin() {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const response = await fetch(`${BACKEND_URL}me`, {
-                    credentials: "include",
-                });
+                const response = await callApi(`${BACKEND_URL}me`);
                 if (response.status === 200) {
                     const data = await response.json();
                     setStatus(200);
                     setUsername(data.username);
-                } else if (response.status === 403) {
+                } else if ([401, 403].includes(response.status)) {
                     setStatus(403);
                 }
             } catch (error) {
@@ -66,9 +77,8 @@ function Admin() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${BACKEND_URL}login`, {
+            const response = await callApi(`${BACKEND_URL}login`, {
                 method: "POST",
-                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -78,6 +88,9 @@ function Admin() {
                 const data = await response.json();
                 setStatus(200);
                 setUsername(data.username);
+                if (data.token) {
+                    localStorage.setItem("jwtToken", data.token);
+                }
             }
         } catch (error) {
             console.error("Login failed", error);
@@ -86,14 +99,14 @@ function Admin() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch(`${BACKEND_URL}logout`, {
+            const response = await callApi(`${BACKEND_URL}logout`, {
                 method: "POST",
-                credentials: "include",
             });
             if (response.status === 200) {
                 setStatus(null);
                 setUsername("");
                 setSeries([]);
+                localStorage.removeItem("jwtToken");
             }
         } catch (error) {
             console.error("Logout failed", error);
@@ -103,11 +116,10 @@ function Admin() {
     const handleDelete = async (uid) => {
         if (window.confirm("Are you sure you want to delete this series?")) {
             try {
-                const response = await fetch(
+                const response = await callApi(
                     `${BACKEND_URL}admin/series/${uid}`,
                     {
                         method: "DELETE",
-                        credentials: "include",
                     }
                 );
                 if (response.status === 200) {
@@ -126,11 +138,10 @@ function Admin() {
             )
         ) {
             try {
-                const response = await fetch(
+                const response = await callApi(
                     `${BACKEND_URL}admin/deploy-mainnet/${uid}`,
                     {
                         method: "POST",
-                        credentials: "include",
                     }
                 );
                 if (response.status === 200) {
@@ -149,9 +160,8 @@ function Admin() {
         try {
             let polling = true;
             setRestartPreviewOutput(""); // Clear previous output
-            fetch(`${BACKEND_URL}admin/restart-previews`, {
+            callApi(`${BACKEND_URL}admin/restart-previews`, {
                 method: "POST",
-                credentials: "include",
             }).then((response) => {
                 polling = false; // Stop polling after the request
                 if (response.status === 200) {
@@ -165,11 +175,8 @@ function Admin() {
             const pollOutput = async () => {
                 while (polling) {
                     try {
-                        const res = await fetch(
-                            `${BACKEND_URL}admin/restart-previews-output`,
-                            {
-                                credentials: "include",
-                            }
+                        const res = await callApi(
+                            `${BACKEND_URL}admin/restart-previews-output`
                         );
                         if (res.status === 200) {
                             const data = await res.json();
@@ -196,11 +203,10 @@ function Admin() {
 
     const handleUpdateSeries = async (seriesId, updatedFields) => {
         try {
-            const response = await fetch(
+            const response = await callApi(
                 `${BACKEND_URL}admin/series/${seriesId}`,
                 {
                     method: "PATCH",
-                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -221,13 +227,82 @@ function Admin() {
         }
     };
 
+    const handleDeployTestnet = async (uid) => {
+        try {
+            const response = await callApi(
+                `${BACKEND_URL}series/${uid}/deploy-testnet`,
+                {
+                    method: "GET",
+                }
+            );
+            if (response.status === 200) {
+                alert("Deploy to testnet successful.");
+            } else {
+                alert("Failed to deploy to testnet.");
+            }
+        } catch (error) {
+            alert("Error deploying to testnet.");
+        }
+    };
+
+    const handleRetriggerTestPreviews = async (uid) => {
+        try {
+            const response = await callApi(
+                `${BACKEND_URL}series/${uid}/retrigger-previews`,
+                {
+                    method: "GET",
+                }
+            );
+            if (response.status === 200) {
+                alert("Retrigger previews successful.");
+            } else {
+                alert("Failed to retrigger previews.");
+            }
+        } catch (error) {
+            alert("Error retriggering previews.");
+        }
+    };
+
+    const handleManualTrigger = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const net = formData.get("net");
+        const contract = formData.get("contract");
+        const tokenId = formData.get("token_id");
+
+        try {
+            const response = await callApi(
+                `${BACKEND_URL}admin/manual-trigger`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        net,
+                        contract,
+                        token_id: tokenId,
+                    }),
+                }
+            );
+            if (response.status === 200) {
+                alert("Manual trigger successful.");
+            } else {
+                console.log(response.status);
+                alert("Failed to trigger manually.");
+            }
+        } catch (error) {
+            console.error("Failed to trigger manually", error);
+        }
+    };
+
     useEffect(() => {
         const fetchSeriesData = async () => {
             if (status === 200) {
                 try {
-                    const response = await fetch(`${BACKEND_URL}admin/series`, {
-                        credentials: "include",
-                    });
+                    const response = await callApi(
+                        `${BACKEND_URL}admin/series`
+                    );
                     const data = await response.json();
                     setSeries(data);
                     // Initialize editedSeries with a shallow copy of editable fields
@@ -346,45 +421,7 @@ function Admin() {
                     <div style={{ whiteSpace: "pre-line" }}>{message}</div>
                     <div style={{ marginBottom: "20px", width: "400px" }}>
                         <h1>Manual Trigger</h1>
-                        <form
-                            onSubmit={async (e) => {
-                                e.preventDefault();
-                                const formData = new FormData(e.target);
-                                const net = formData.get("net");
-                                const contract = formData.get("contract");
-                                const tokenId = formData.get("token_id");
-
-                                try {
-                                    const response = await fetch(
-                                        `${BACKEND_URL}admin/manual-trigger`,
-                                        {
-                                            method: "POST",
-                                            credentials: "include",
-                                            headers: {
-                                                "Content-Type":
-                                                    "application/json",
-                                            },
-                                            body: JSON.stringify({
-                                                net,
-                                                contract,
-                                                token_id: tokenId,
-                                            }),
-                                        }
-                                    );
-                                    if (response.status === 200) {
-                                        alert("Manual trigger successful.");
-                                    } else {
-                                        console.log(response.status);
-                                        alert("Failed to trigger manually.");
-                                    }
-                                } catch (error) {
-                                    console.error(
-                                        "Failed to trigger manually",
-                                        error
-                                    );
-                                }
-                            }}
-                        >
+                        <form onSubmit={handleManualTrigger}>
                             <input
                                 type="text"
                                 name="contract"
@@ -807,7 +844,12 @@ let me know if you need any help :)`)
                                                         )
                                                     }
                                                     className="btn btn-default"
-                                                    style={{ backgroundColor: '#e53935', color: 'white', border: '1px solid #b71c1c' }}
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#e53935",
+                                                        color: "white",
+                                                        border: "1px solid #b71c1c",
+                                                    }}
                                                 >
                                                     GoLive
                                                 </button>
@@ -816,35 +858,11 @@ let me know if you need any help :)`)
                                         <td>
                                             {!item.mainnetContract && (
                                                 <button
-                                                    onClick={async () => {
-                                                        try {
-                                                            const response =
-                                                                await fetch(
-                                                                    `${BACKEND_URL}series/${item.uid}/retrigger-previews`,
-                                                                    {
-                                                                        method: "GET",
-                                                                        credentials:
-                                                                            "include",
-                                                                    }
-                                                                );
-                                                            if (
-                                                                response.status ===
-                                                                200
-                                                            ) {
-                                                                alert(
-                                                                    "Retrigger previews successful."
-                                                                );
-                                                            } else {
-                                                                alert(
-                                                                    "Failed to retrigger previews."
-                                                                );
-                                                            }
-                                                        } catch (error) {
-                                                            alert(
-                                                                "Error retriggering previews."
-                                                            );
-                                                        }
-                                                    }}
+                                                    onClick={() =>
+                                                        handleRetriggerTestPreviews(
+                                                            item.uid
+                                                        )
+                                                    }
                                                     className="btn btn-default"
                                                 >
                                                     Retrigger
@@ -854,35 +872,11 @@ let me know if you need any help :)`)
                                         <td>
                                             {!item.mainnetContract && (
                                                 <button
-                                                    onClick={async () => {
-                                                        try {
-                                                            const response =
-                                                                await fetch(
-                                                                    `${BACKEND_URL}series/${item.uid}/deploy-testnet`,
-                                                                    {
-                                                                        method: "GET",
-                                                                        credentials:
-                                                                            "include",
-                                                                    }
-                                                                );
-                                                            if (
-                                                                response.status ===
-                                                                200
-                                                            ) {
-                                                                alert(
-                                                                    "Deploy to testnet successful."
-                                                                );
-                                                            } else {
-                                                                alert(
-                                                                    "Failed to deploy to testnet."
-                                                                );
-                                                            }
-                                                        } catch (error) {
-                                                            alert(
-                                                                "Error deploying to testnet."
-                                                            );
-                                                        }
-                                                    }}
+                                                    onClick={() =>
+                                                        handleDeployTestnet(
+                                                            item.uid
+                                                        )
+                                                    }
                                                     className="btn btn-default"
                                                 >
                                                     Testnet
