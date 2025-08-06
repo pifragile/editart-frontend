@@ -9,7 +9,6 @@ import MarketPlace from "./components/Marketplace";
 import Series from "./components/Series";
 import About from "./components/About";
 
-
 import { WalletContext, beaconWallet } from "./lib/wallet";
 import ArtistPanel from "./components/ArtistPanel";
 import Sandbox from "./components/Sandbox";
@@ -32,7 +31,6 @@ export const TezosUsdContext = createContext({ rate: null, lastUpdated: null });
 
 export const ModeContext = createContext(0);
 export const SeriesContext = createContext([]);
-
 
 function App() {
     const [wallet] = useState(beaconWallet);
@@ -78,7 +76,10 @@ function App() {
                 );
                 const data = await res.json();
                 if (data && data.tezos && data.tezos.usd) {
-                    setTezosUsd({ rate: data.tezos.usd, lastUpdated: new Date() });
+                    setTezosUsd({
+                        rate: data.tezos.usd,
+                        lastUpdated: new Date(),
+                    });
                 }
             } catch (e) {
                 console.error("Failed to fetch Tezos/USD rate", e);
@@ -97,6 +98,10 @@ function App() {
                                 <Routes>
                                     <Route
                                         path="/series/:contract/grid"
+                                        element={<IframeGrid />}
+                                    />
+                                    <Route
+                                        path="/grid/:projecttest"
                                         element={<IframeGrid />}
                                     />
                                 </Routes>
