@@ -553,7 +553,7 @@ function SeriesSubmissionForm({ seriesId }) {
                                     <p>Live View</p>
                                     <ReloadIframe
                                         idx={idx}
-                                        url={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html${previewKey.query_string}`}
+                                        url={`https://editart-1.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html${previewKey.query_string}`}
                                     />
                                 </div>
                                 <div
@@ -579,7 +579,7 @@ function SeriesSubmissionForm({ seriesId }) {
                                     </div>
                                     <img
                                         className="standard-width standard-height"
-                                        src={`https://editart.fra1.cdn.digitaloceanspaces.com/${previewKey.key}`}
+                                        src={`https://editart-1.fra1.cdn.digitaloceanspaces.com/${previewKey.key}`}
                                         style={{
                                             objectFit: "contain",
                                             objectPosition: "center",
@@ -601,7 +601,7 @@ function SeriesSubmissionForm({ seriesId }) {
             {testDirKey && (
                 <>
                     <a
-                        href={`https://editart.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
+                        href={`https://editart-1.fra1.cdn.digitaloceanspaces.com/${testDirKey}/index.html`}
                         target="_blank"
                         rel="noreferrer"
                     >

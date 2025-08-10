@@ -30,7 +30,7 @@ export default function IframeGrid() {
             }
             // url = "http://localhost:5174/iframe/index.html";
             // url =
-            //     "https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/1748600479-8e3ad8f5-41d0-4efc-9ee9-23f29e30c152/index.html";
+            //     "https://editart-1.fra1.cdn.digitaloceanspaces.com/project_tests/1748600479-8e3ad8f5-41d0-4efc-9ee9-23f29e30c152/index.html";
             setUrl(url);
         }
         fetchBaseUrl();
