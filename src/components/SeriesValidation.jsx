@@ -6,9 +6,9 @@ import { APP_URL } from "../consts";
 
 function IFrameView({ testDirKey, params, idx }) {
     const [error, setError] = useState(false);
-    let url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html?m0=0.500&m1=0.500&m2=0.500&m3=0.500&m4=0.500&cacheBust=${Date.now()}-${idx}`;
+    let url = `https://editart-1.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html?m0=0.500&m1=0.500&m2=0.500&m3=0.500&m4=0.500&cacheBust=${Date.now()}-${idx}`;
     if (idx === 0)
-        url = `https://editart.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html${params}&cacheBust=${Date.now()}-${idx}`;
+        url = `https://editart-1.fra1.cdn.digitaloceanspaces.com/project_tests/${testDirKey}/index.html${params}&cacheBust=${Date.now()}-${idx}`;
     const handleIframeLoad = async () => {
         if (idx === 0) return;
         const iframe = document.getElementById(`validationTokenFrame${idx}`);
